@@ -23,7 +23,7 @@ public class BarPlay extends BarParent{
     private ArrayList<Button> buttonTiles = new ArrayList<>();
     public BarPlay(int x, int y, int h, int w, Edit edit) {
         super(x, y, h, w);
-        this.menu = new Button(10, 810, 64, 128, "/play_button.png", "/play_button_over.png", "/play_button_pressed.png");
+        this.menu = new Button(10, 810, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png");
         this.save = new Button(10, 888, 64, 128, "/save.png", "/save_over.png", "/save_pressed.png");
         this.tile1 = new Button(158, 810, 32, 32, 0, handler.getTileWithId(0).getImage(), handler.getTileWithId(0).getImageOver(), handler.getTileWithId(0).getImagePressed());
         this.tile2 = new Button(158 + 1 * 128, 810, 32, 32, 1, handler.getTileWithId(1).getImage(), handler.getTileWithId(1).getImageOver(), handler.getTileWithId(1).getImagePressed());
