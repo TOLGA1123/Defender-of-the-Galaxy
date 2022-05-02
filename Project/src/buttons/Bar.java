@@ -14,7 +14,7 @@ public class Bar extends BarParent{
     public Bar(int x, int  y, int h, int w, Play play){
         super(x, y, h, w);
         this.barSize = super.barSize;
-        this.menu = new Button(10, 810, 64, 128, "/play_button.png", "/play_button_over.png", "/play_button_pressed.png");
+        this.menu = new Button(10, 810, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png");
         this.playGetHandler = play;
     }
     public void click(int mouseXLoc, int mouseYLoc) {
