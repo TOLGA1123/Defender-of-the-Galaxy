@@ -19,7 +19,7 @@ public class MainMenu extends SceneParent implements SceneInterface{
     private TileHandler handler;
     private Button play = new Button(416, 288, 64, 128, "/play_button.png", "/play_button_over.png", "/play_button_pressed.png");
     private Button edit = new Button(416, 416, 64, 128, "/edit.png", "/edit_over.png", "/edit_pressed.png");
-    private Button quit = new Button(416, 544, 64, 128, "/quit_button.png", "/quit_button.png", "/quit_button.png");
+    private Button quit = new Button(416, 544, 64, 128, "/quit_button.png", "/quit_over.png", "/quit_pressed.png");
     private Button settings = new Button(20, 876, 64, 128, "/settings_button.png", "/settings_button.png", "/settings_button.png");
     private ArrayList<BufferedImage> sprites = new ArrayList<>();
 
