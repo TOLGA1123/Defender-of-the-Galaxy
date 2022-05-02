@@ -8,7 +8,6 @@ import scene.Edit;
 import scene.MainMenu;
 import scene.Play;
 import scene.Settings;
-//publish test
 public class MainGame extends JFrame implements Runnable{
 
     public Render render = new Render(this);
