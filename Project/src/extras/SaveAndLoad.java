@@ -97,7 +97,7 @@ public class SaveAndLoad{
     }
     public static BufferedImage getAllSprites(){
         BufferedImage image = null;
-        InputStream inputStream = SaveAndLoad.class.getClassLoader().getResourceAsStream("space_background.png");
+        InputStream inputStream = SaveAndLoad.class.getClassLoader().getResourceAsStream("sprite_sheet.png");
         try {
             image = ImageIO.read(inputStream);
         } catch (IOException e) {
