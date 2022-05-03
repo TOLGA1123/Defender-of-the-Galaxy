@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import extras.SaveAndLoad;
 
 public class TileHandler {
-    public Tile TILE_1, TILE_2, TILE_3, TILE_4, TILE_5, TILE_6, TILE_7, TILE_8, TILE_9, TILE_10, TILE_11;
+    public Tile TILE_1, TILE_2, TILE_3, TILE_4, TILE_5, TILE_6, TILE_7, TILE_8, TILE_9, TILE_10, TILE_11, TILE_12;
     private BufferedImage allSprites = SaveAndLoad.getAllSprites();
     public ArrayList<Tile> allTiles = new ArrayList<>();
     
@@ -27,7 +27,8 @@ public class TileHandler {
         allTiles.add(TILE_8 = new Tile(allSprites.getSubimage(7*32, 0, 32, 32), "space2", 7));
         allTiles.add(TILE_9 = new Tile(allSprites.getSubimage(8*32, 0, 32, 32), "space3", 8));
         allTiles.add(TILE_10 = new Tile(allSprites.getSubimage(9*32, 0, 32, 32), "space3", 9));
-        allTiles.add(TILE_11= new Tile(allSprites.getSubimage(0, 32, 32, 32), "space4", 10));
+        allTiles.add(TILE_11 = new Tile(allSprites.getSubimage(0, 32, 32, 32), "space4", 10));
+        allTiles.add(TILE_12 = new Tile(allSprites.getSubimage(128, 0, 32, 32), "road5", 11));
     }
     public ArrayList<Tile> getAllTiles() {
         return allTiles;
