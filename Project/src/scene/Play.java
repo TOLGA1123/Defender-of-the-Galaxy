@@ -80,4 +80,7 @@ public class Play extends SceneParent implements SceneInterface{
     public void drag(int mouseXLoc, int mouseYLoc){
         
     }
+    public int getNewPosTileType(int checkX, int checkY){
+        return MainGame.handler.getTileWithId(levelData[checkY / 32][checkX / 32]).getTypeOfTile();
+    }
 }

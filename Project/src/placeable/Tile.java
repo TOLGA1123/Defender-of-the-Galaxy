@@ -5,12 +5,12 @@ public class Tile {
     private BufferedImage image;
     private BufferedImage imageOver;
     private BufferedImage imagePressed;
-    private String name;
+    private int typeOfTile;
     private int id;
-    public Tile(BufferedImage image, String name, int id){
+    public Tile(BufferedImage image, int typeOfTile, int id){
         this.image = image;
-        this.name = name;
         this.id = id;
+        this.typeOfTile = typeOfTile;
         this.imageOver = image.getSubimage(2, 2, 30, 30);
         this.imagePressed = image.getSubimage(4, 4, 28, 28);
     }
@@ -26,7 +26,7 @@ public class Tile {
     public int getId() {
         return id;
     }
-    public String getName() {
-        return name;
+    public int getTypeOfTile() {
+        return typeOfTile;
     }
 }
