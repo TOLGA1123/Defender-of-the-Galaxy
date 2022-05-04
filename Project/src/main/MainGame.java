@@ -90,6 +90,18 @@ public class MainGame extends JFrame implements Runnable{
     private void gameUpdate(){
         lastUpdateTime = System.nanoTime();
         ups++;
+        if(ConstantsForScenes.constantsForScenes == ConstantsForScenes.PLAY){
+            this.play.updateGame();
+        }
+        else if(ConstantsForScenes.constantsForScenes == ConstantsForScenes.MAIN_MENU){
+
+        }
+        else if(ConstantsForScenes.constantsForScenes == ConstantsForScenes.EDIT){
+
+        }
+        else if(ConstantsForScenes.constantsForScenes == ConstantsForScenes.SETTINGS){
+
+        }
     }
     private void gameStart(){
         thread = new Thread(this){};
@@ -98,7 +110,6 @@ public class MainGame extends JFrame implements Runnable{
     public static void main(String[] args) {
         
         MainGame gameStart = new MainGame();
-        
         gameStart.gameStart();
     }
 }

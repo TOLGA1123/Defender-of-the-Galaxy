@@ -3,11 +3,13 @@ import java.awt.Graphics;
 import buttons.Bar;
 import extras.Data;
 import extras.SaveAndLoad;
+import handlers.EnemyHandler;
 import main.MainGame;
 
 public class Play extends SceneParent implements SceneInterface{
     
     private Bar controlBar = new Bar(0, 800, 160, 960, this);
+    private EnemyHandler enemyHandler = new EnemyHandler(this);
     private int mouseLocX;
     private int mouseLocY; 
     private int[][] levelData = Data.data();
@@ -15,6 +17,9 @@ public class Play extends SceneParent implements SceneInterface{
     public Play(MainGame mainGame) {
         super(mainGame);
         levelData = SaveAndLoad.levelData("idle");
+    }
+    public void updateGame(){
+        enemyHandler.updateGame();
     }
     public void currentLevel(int[][] levelData){
         this.levelData = levelData;
@@ -38,11 +43,15 @@ public class Play extends SceneParent implements SceneInterface{
             }
         }
         controlBar.paintBar(g);
+        enemyHandler.render(g);
     }
     @Override
     public void click(int mouseXLoc, int mouseYLoc) {
         if (mouseYLoc >= 800){
             controlBar.click(mouseXLoc, mouseYLoc);
+        }
+        else{
+            enemyHandler.insertNewEnemy(mouseXLoc, mouseYLoc);
         }
     }
     @Override
