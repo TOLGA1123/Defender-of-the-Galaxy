@@ -13,6 +13,8 @@ public class BarPlay extends BarParent{
 
     private Button menu;
     private Button save;
+    private Button enter;
+    private Button exit;
     private Button tile1;
     private Button tile2;
     private Button tile3;
@@ -34,6 +36,8 @@ public class BarPlay extends BarParent{
         super(x, y, h, w);
         this.menu = new Button(10, 810, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png");
         this.save = new Button(10, 888, 64, 128, "/save.png", "/save_over.png", "/save_pressed.png");
+        this.enter = new Button(190 + 6 * 96, 830, 32, 32, 12, handler.getTileWithId(-1).getImage(), handler.getTileWithId(-1).getImageOver(), handler.getTileWithId(-1).getImagePressed());
+        this.exit = new Button(190 + 6 * 96, 894, 32, 32, 13, handler.getTileWithId(-2).getImage(), handler.getTileWithId(-2).getImageOver(), handler.getTileWithId(-2).getImagePressed());
         this.tile1 = new Button(190, 830, 32, 32, 0, handler.getTileWithId(0).getImage(), handler.getTileWithId(0).getImageOver(), handler.getTileWithId(0).getImagePressed());
         this.tile2 = new Button(190, 894, 32, 32, 1, handler.getTileWithId(1).getImage(), handler.getTileWithId(1).getImageOver(), handler.getTileWithId(1).getImagePressed());
         this.tile3 = new Button(190 + 1 * 96, 894, 32, 32, 2, handler.getTileWithId(2).getImage(), handler.getTileWithId(2).getImageOver(), handler.getTileWithId(2).getImagePressed());
@@ -73,6 +77,8 @@ public class BarPlay extends BarParent{
             button.paintButton(g, button.getButtonImage());
         }
         drawSelectedTile(g);
+        enter.paintButton(g, enter.getButtonImage());
+        exit.paintButton(g, exit.getButtonImage());
     }
     private void drawSelectedTile(Graphics g){
         if (selected != null){
@@ -85,6 +91,14 @@ public class BarPlay extends BarParent{
         }
         else if (save.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
             save();
+        }
+        else if (enter.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
+            selected = new Tile(handler.getAllSprites().getSubimage(32, 96, 32, 32), -1, -1);
+            editGetHandler.setSelected(selected);
+        }
+        else if (exit.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
+            selected = new Tile(handler.getAllSprites().getSubimage(64, 96, 32, 32), -2, -2);
+            editGetHandler.setSelected(selected);
         }
         else{
             for(Button button : buttonTiles){
@@ -99,6 +113,8 @@ public class BarPlay extends BarParent{
     public void move(int mouseXLoc, int mouseYLoc) {
         menu.setMouseOver(false);
         save.setMouseOver(false);
+        enter.setMouseOver(false);
+        exit.setMouseOver(false);
         for(Button button : buttonTiles){
             button.setMouseOver(false);
         }
@@ -107,6 +123,12 @@ public class BarPlay extends BarParent{
         }
         else if (save.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
             save.setMouseOver(true);
+        }
+        else if (enter.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
+            enter.setMouseOver(true);
+        }
+        else if (exit.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
+            exit.setMouseOver(true);
         }
         else{
             for(Button button : buttonTiles){
@@ -123,6 +145,12 @@ public class BarPlay extends BarParent{
         }
         else if (save.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
             save.setPressed(true);
+        }
+        else if (enter.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
+            enter.setPressed(true);
+        }
+        else if (exit.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
+            exit.setPressed(true);
         }
         else{
             for(Button button : buttonTiles){
@@ -142,6 +170,8 @@ public class BarPlay extends BarParent{
             button.setMouseOver(false);
             button.setPressed(false);
         }
+        enter.setPressed(false);
+        exit.setPressed(false);
     }
     public void paintBar(Graphics g){
         g.setColor(Color.ORANGE);

@@ -3,6 +3,9 @@ import scene.Play;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import enemy.Enemy;
+import enemy.Enemy_1;
+import enemy.Enemy_2;
+import enemy.Enemy_3;
 import extras.SaveAndLoad;
 import java.awt.image.BufferedImage;
 import static extras.Constant.*;
@@ -15,18 +18,20 @@ public class EnemyHandler {
     private ArrayList<Enemy> enemies = new ArrayList<>();
     public EnemyHandler(Play play){
         this.play = play;
-        this.insertNewEnemy(32 * 3, 32 * 13);
+        this.insertNewEnemy(EnemyConstants.ENEMY_1, 32 * 0, 32 * 13);
+        this.insertNewEnemy(EnemyConstants.ENEMY_2, 32 * 1, 32 * 13);
+        this.insertNewEnemy(EnemyConstants.ENEMY_3, 32 * 2, 32 * 13);
         loadEnemySprites();
     }
     public void updateGame(){
         for(int i = 0; i < enemies.size(); i++){
-            //this.enemies.get(i).changeLoc(0.5, 0);
-            if(isNextRoad(this.enemies.get(i))){
-                
-            }
+            enemyUpdate(this.enemies.get(i));
         } 
     }
-    private boolean isNextRoad(Enemy enemy){
+    private void enemyUpdate(Enemy enemy){
+        if(enemy.getLastDirection() == -1){
+            newDirection(enemy);
+        }
         int checkX = (int)(enemy.getX() + getXChange(enemy.getLastDirection()));
         int checkY = (int)(enemy.getY() + getYChange(enemy.getLastDirection()));
         if(getNewPosTileType(checkX, checkY) == TileCheckConstants.PATH){
@@ -38,7 +43,6 @@ public class EnemyHandler {
         else{
             newDirection(enemy);
         }
-        return false;
     }
     private int getNewPosTileType(int checkX, int checkY) {
         return play.getNewPosTileType(checkX, checkY);
@@ -53,12 +57,6 @@ public class EnemyHandler {
         if(direction == DirectionOfEnemy.RIGHT){
             if(locOfEnemyX < 29) {locOfEnemyX++;}
         }
-        // else if(direction == DirectionOfEnemy.LEFT){
-        //     if(locOfEnemyX > 0) {locOfEnemyX--;}
-        // }
-        // else if(direction == DirectionOfEnemy.UP){
-        //     if(locOfEnemyY > 0) {locOfEnemyY--;}
-        // }
         else if(direction == DirectionOfEnemy.DOWN){
             if(locOfEnemyY < 24) {locOfEnemyY++;}
         }
@@ -113,7 +111,15 @@ public class EnemyHandler {
             g.drawImage(enemyImages.get(enemies.get(i).getTypeOfEnemy()), (int)enemies.get(i).getX(), (int)enemies.get(i).getY(), null);     
         }
     }
-    public void insertNewEnemy(int x, int y){
-        this.enemies.add(new Enemy(x, y, 0, 0));
+    public void insertNewEnemy(int type, int x, int y){
+        if(type == EnemyConstants.ENEMY_1){
+            this.enemies.add(new Enemy_1(x, y, 0));
+        }
+        else if(type == EnemyConstants.ENEMY_2){
+            this.enemies.add(new Enemy_2(x, y, 0));
+        }
+        else if(type == EnemyConstants.ENEMY_3){
+            this.enemies.add(new Enemy_3(x, y, 0));
+        }
     }
 }
