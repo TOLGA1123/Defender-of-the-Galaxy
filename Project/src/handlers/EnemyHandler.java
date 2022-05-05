@@ -3,7 +3,12 @@ import scene.Play;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import enemy.Enemy;
+import enemy.Enemy_1;
+import enemy.Enemy_2;
+import enemy.Enemy_3;
 import extras.SaveAndLoad;
+import placeable.EnterExitLoc;
+
 import java.awt.image.BufferedImage;
 import static extras.Constant.*;
 
@@ -11,46 +16,65 @@ public class EnemyHandler {
 
     private Play play;
     private double enemyChangeSpeed = 0.5;
+    private EnterExitLoc enter;
+    private EnterExitLoc exit;
     private ArrayList<BufferedImage> enemyImages = new ArrayList<>();
     private ArrayList<Enemy> enemies = new ArrayList<>();
-    public EnemyHandler(Play play){
+    public EnemyHandler(Play play, EnterExitLoc enter, EnterExitLoc exit){
         this.play = play;
-        this.insertNewEnemy(32 * 3, 32 * 13);
+        this.enter = enter;
+        this.exit = exit;
+        this.insertNewEnemy(EnemyConstants.ENEMY_1);
+        this.insertNewEnemy(EnemyConstants.ENEMY_2);
+        this.insertNewEnemy(EnemyConstants.ENEMY_3);
         loadEnemySprites();
     }
     public void updateGame(){
         for(int i = 0; i < enemies.size(); i++){
-            //this.enemies.get(i).changeLoc(0.5, 0);
-            if(isNextRoad(this.enemies.get(i))){
-                
-            }
+            enemyUpdate(this.enemies.get(i));
         } 
     }
-    private boolean isNextRoad(Enemy enemy){
+    private void enemyUpdate(Enemy enemy){
+        if(enemy.getLastDirection() == -1){
+            newDirection(enemy);
+        }
         int checkX = (int)(enemy.getX() + getXChange(enemy.getLastDirection()));
         int checkY = (int)(enemy.getY() + getYChange(enemy.getLastDirection()));
         if(getNewPosTileType(checkX, checkY) == TileCheckConstants.PATH){
             enemy.changeLoc(enemyChangeSpeed, enemy.getLastDirection());
         }
         else if(isEnd(enemy)){
-
+            System.out.println("-1 lives");
         }
         else{
             newDirection(enemy);
         }
-        return false;
     }
     private int getNewPosTileType(int checkX, int checkY) {
         return play.getNewPosTileType(checkX, checkY);
     }
     private boolean isEnd(Enemy enemy) {
+        if(enemy.getX() == 32 * exit.getLocX()){
+            if(enemy.getY() == 32 * exit.getLocY()){
+                return true;
+            }
+        }
         return false;
     }
     private void newDirection(Enemy enemy){
         int direction = enemy.getLastDirection();
         int locOfEnemyX = (int)(enemy.getX() / 32);
         int locOfEnemyY = (int)(enemy.getY() / 32);
-
+        if(direction == DirectionOfEnemy.RIGHT){
+            if(locOfEnemyX < 29) {locOfEnemyX++;}
+        }
+        else if(direction == DirectionOfEnemy.DOWN){
+            if(locOfEnemyY < 24) {locOfEnemyY++;}
+        }
+        enemy.initLoc(32 * locOfEnemyX, 32 * locOfEnemyY);
+        if(isEnd(enemy)){
+            return;
+        }
         if(direction == DirectionOfEnemy.RIGHT || direction == DirectionOfEnemy.LEFT){
             int checkY = (int)(enemy.getY() + getYChange(DirectionOfEnemy.UP));
             if(getNewPosTileType((int)enemy.getX(), checkY) == TileCheckConstants.PATH){
@@ -101,7 +125,17 @@ public class EnemyHandler {
             g.drawImage(enemyImages.get(enemies.get(i).getTypeOfEnemy()), (int)enemies.get(i).getX(), (int)enemies.get(i).getY(), null);     
         }
     }
-    public void insertNewEnemy(int x, int y){
-        this.enemies.add(new Enemy(x, y, 0, 0));
+    public void insertNewEnemy(int type){
+        int x = 32 * enter.getLocX();
+        int y = 32 * exit.getLocY();
+        if(type == EnemyConstants.ENEMY_1){
+            this.enemies.add(new Enemy_1(x, y, 0));
+        }
+        else if(type == EnemyConstants.ENEMY_2){
+            this.enemies.add(new Enemy_2(x, y, 0));
+        }
+        else if(type == EnemyConstants.ENEMY_3){
+            this.enemies.add(new Enemy_3(x, y, 0));
+        }
     }
 }

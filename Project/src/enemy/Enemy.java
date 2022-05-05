@@ -17,7 +17,11 @@ public class Enemy{
         this.size = new Rectangle((int)x, (int)y, 32, 32);
         this.typeOfEnemy = typeOfEnemy;
         this.enemyID = enemyID;
-        this.lastDirection = DirectionOfEnemy.RIGHT;
+        this.lastDirection = -1;
+    }
+    public void initLoc(int x, int y){
+        this.x = x;
+        this.y = y;
     }
     public void changeLoc(double changeSpeed, int direction){
         this.lastDirection = direction;

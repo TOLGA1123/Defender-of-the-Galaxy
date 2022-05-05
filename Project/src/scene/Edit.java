@@ -1,15 +1,22 @@
 package scene;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import buttons.BarPlay;
 import extras.Data;
 import extras.SaveAndLoad;
+import extras.Constant.TileCheckConstants;
+import handlers.TileHandler;
 import main.MainGame;
+import placeable.EnterExitLoc;
 import placeable.Tile;
 
 public class Edit extends SceneParent implements SceneInterface{
     private MainGame mainGame;
     private BarPlay controlBar = new BarPlay(0, 800, 160, 960, this);
+    private EnterExitLoc enter;
+    private EnterExitLoc exit;
     private Tile selected;
+    private TileHandler handler = new TileHandler();
     private boolean drawTileChecker = false;
     private int mouseLocX;
     private int mouseLocY; 
@@ -23,17 +30,31 @@ public class Edit extends SceneParent implements SceneInterface{
     }
     public void defaultLevel(){
         levelData = SaveAndLoad.levelData("idle");
+        ArrayList<EnterExitLoc> enterAndExit = SaveAndLoad.levelEnterExitLoc("idle");
+        enter = enterAndExit.get(0);
+        exit = enterAndExit.get(1);
     }
     public void save(){
-        SaveAndLoad.save(levelData, "idle");
+        SaveAndLoad.save(levelData, "idle", enter, exit);
         mainGame.getPlay().currentLevel(levelData);
     }
     private void replace(int mouseLocX2, int mouseLocY2){
-        if(selected != null){
-            int xTile = mouseLocX2 / 32;
-            int yTile = mouseLocY2 / 32;
-
-            levelData[yTile][xTile] = selected.getId();
+        int xTile = mouseLocX2 / 32;
+        int yTile = mouseLocY2 / 32;
+        if(selected.getId() >= 0){
+            if(selected != null){
+                levelData[yTile][xTile] = selected.getId();
+            }    
+        }
+        else{
+            if(MainGame.handler.getTileWithId(levelData[yTile][xTile]).getTypeOfTile() == TileCheckConstants.PATH){
+                if(selected.getId() == -2){
+                    exit = new EnterExitLoc(xTile, yTile);
+                }
+                else if(selected.getId() == -1){
+                    enter = new EnterExitLoc(xTile, yTile);
+                }
+            }
         }
     }
     public void moveMouse(int mouseXLoc, int mouseYLoc) {
@@ -66,7 +87,9 @@ public class Edit extends SceneParent implements SceneInterface{
             }
         }
         controlBar.paintBar(g);
-        drawSelectedTile(g);        
+        drawSelectedTile(g);
+        if(enter != null){g.drawImage(handler.getAllSprites().getSubimage(32, 96, 32, 32), 32 * enter.getLocX(), 32 * enter.getLocY(), 32, 32, null);}
+        if(exit != null){g.drawImage(handler.getAllSprites().getSubimage(64, 96, 32, 32), 32 * exit.getLocX(), 32 * exit.getLocY(), 32, 32, null);}    
     }
 
     @Override

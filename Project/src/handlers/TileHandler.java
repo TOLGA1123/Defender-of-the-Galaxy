@@ -30,6 +30,7 @@ public class TileHandler {
         allTiles.add(TILE_10 = new Tile(allSprites.getSubimage(9*32, 0, 32, 32), TileCheckConstants.STAR, 9));
         allTiles.add(TILE_11 = new Tile(allSprites.getSubimage(0, 32, 32, 32), TileCheckConstants.EMPTY_SPACE, 10));
         allTiles.add(TILE_12 = new Tile(allSprites.getSubimage(128, 0, 32, 32), TileCheckConstants.PATH, 11));
+
     }
     public ArrayList<Tile> getAllTiles() {
         return allTiles;
