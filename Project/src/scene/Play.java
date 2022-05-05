@@ -50,9 +50,9 @@ public class Play extends SceneParent implements SceneInterface{
         if (mouseYLoc >= 800){
             controlBar.click(mouseXLoc, mouseYLoc);
         }
-        else{
-            enemyHandler.insertNewEnemy(mouseXLoc, mouseYLoc);
-        }
+        // else{
+        //     enemyHandler.insertNewEnemy(mouseXLoc, mouseYLoc);
+        // }
     }
     @Override
     public void move(int mouseXLoc, int mouseYLoc) {
@@ -81,6 +81,14 @@ public class Play extends SceneParent implements SceneInterface{
         
     }
     public int getNewPosTileType(int checkX, int checkY){
+        int correctX = checkX / 32;
+        int correctY = checkY / 32;
+        if(correctX > 29 || correctX < 0){
+            return 0;
+        }
+        if(correctY > 24 || correctY < 0){
+            return 0;
+        }
         return MainGame.handler.getTileWithId(levelData[checkY / 32][checkX / 32]).getTypeOfTile();
     }
 }

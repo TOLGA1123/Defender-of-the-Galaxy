@@ -50,7 +50,19 @@ public class EnemyHandler {
         int direction = enemy.getLastDirection();
         int locOfEnemyX = (int)(enemy.getX() / 32);
         int locOfEnemyY = (int)(enemy.getY() / 32);
-
+        if(direction == DirectionOfEnemy.RIGHT){
+            if(locOfEnemyX < 29) {locOfEnemyX++;}
+        }
+        // else if(direction == DirectionOfEnemy.LEFT){
+        //     if(locOfEnemyX > 0) {locOfEnemyX--;}
+        // }
+        // else if(direction == DirectionOfEnemy.UP){
+        //     if(locOfEnemyY > 0) {locOfEnemyY--;}
+        // }
+        else if(direction == DirectionOfEnemy.DOWN){
+            if(locOfEnemyY < 24) {locOfEnemyY++;}
+        }
+        enemy.initLoc(32 * locOfEnemyX, 32 * locOfEnemyY);
         if(direction == DirectionOfEnemy.RIGHT || direction == DirectionOfEnemy.LEFT){
             int checkY = (int)(enemy.getY() + getYChange(DirectionOfEnemy.UP));
             if(getNewPosTileType((int)enemy.getX(), checkY) == TileCheckConstants.PATH){

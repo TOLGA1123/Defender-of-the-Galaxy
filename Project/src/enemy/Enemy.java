@@ -19,6 +19,10 @@ public class Enemy{
         this.enemyID = enemyID;
         this.lastDirection = DirectionOfEnemy.RIGHT;
     }
+    public void initLoc(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
     public void changeLoc(double changeSpeed, int direction){
         this.lastDirection = direction;
         if (direction == DirectionOfEnemy.UP){
