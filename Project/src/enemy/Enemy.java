@@ -20,6 +20,7 @@ public class Enemy{
         this.lastDirection = DirectionOfEnemy.RIGHT;
     }
     public void changeLoc(double changeSpeed, int direction){
+        this.lastDirection = direction;
         if (direction == DirectionOfEnemy.UP){
             this.y -= changeSpeed;
         }

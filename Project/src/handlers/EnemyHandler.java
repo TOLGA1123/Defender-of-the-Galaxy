@@ -32,13 +32,43 @@ public class EnemyHandler {
         if(getNewPosTileType(checkX, checkY) == TileCheckConstants.PATH){
             enemy.changeLoc(enemyChangeSpeed, enemy.getLastDirection());
         }
-        else{
+        else if(isEnd(enemy)){
 
+        }
+        else{
+            newDirection(enemy);
         }
         return false;
     }
     private int getNewPosTileType(int checkX, int checkY) {
         return play.getNewPosTileType(checkX, checkY);
+    }
+    private boolean isEnd(Enemy enemy) {
+        return false;
+    }
+    private void newDirection(Enemy enemy){
+        int direction = enemy.getLastDirection();
+        int locOfEnemyX = (int)(enemy.getX() / 32);
+        int locOfEnemyY = (int)(enemy.getY() / 32);
+
+        if(direction == DirectionOfEnemy.RIGHT || direction == DirectionOfEnemy.LEFT){
+            int checkY = (int)(enemy.getY() + getYChange(DirectionOfEnemy.UP));
+            if(getNewPosTileType((int)enemy.getX(), checkY) == TileCheckConstants.PATH){
+                enemy.changeLoc(enemyChangeSpeed, DirectionOfEnemy.UP);
+            }
+            else{
+                enemy.changeLoc(enemyChangeSpeed, DirectionOfEnemy.DOWN);
+            }
+        }
+        else{
+            int checkX = (int)(enemy.getX() + getXChange(DirectionOfEnemy.RIGHT));
+            if(getNewPosTileType(checkX, (int)enemy.getY()) == TileCheckConstants.PATH){
+                enemy.changeLoc(enemyChangeSpeed, DirectionOfEnemy.RIGHT);
+            }
+            else{
+                enemy.changeLoc(enemyChangeSpeed, DirectionOfEnemy.LEFT);
+            }
+        }
     }
     private double getYChange(int direction) {
         if(direction == DirectionOfEnemy.DOWN){
