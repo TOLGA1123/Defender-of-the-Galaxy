@@ -24,9 +24,9 @@ public class EnemyHandler {
         this.play = play;
         this.enter = enter;
         this.exit = exit;
-        this.insertNewEnemy(EnemyConstants.ENEMY_1);
-        this.insertNewEnemy(EnemyConstants.ENEMY_2);
-        this.insertNewEnemy(EnemyConstants.ENEMY_3);
+        //this.insertNewEnemy(EnemyConstants.ENEMY_1);
+        //this.insertNewEnemy(EnemyConstants.ENEMY_2);
+        //this.insertNewEnemy(EnemyConstants.ENEMY_3);
         loadEnemySprites();
     }
     public void updateGame(){
@@ -35,6 +35,13 @@ public class EnemyHandler {
         } 
     }
     private void enemyUpdate(Enemy enemy){
+
+        play.getWaveHandler().update();
+        
+        if(isTimeForNewEnemy()){
+            spawnEnemy();
+        }
+
         if(enemy.getLastDirection() == -1){
             newDirection(enemy);
         }
@@ -49,6 +56,17 @@ public class EnemyHandler {
         else{
             newDirection(enemy);
         }
+    }
+    private void spawnEnemy() {
+        insertNewEnemy(play.getWaveHandler().getNextEnemy());
+    }
+    private boolean isTimeForNewEnemy() {
+        if(play.getWaveHandler().isTimeForNewEnemy()){
+            if(play.getWaveHandler().isThereMoreEnemiesInWave()){
+                return true;
+            }
+        }
+        return false;
     }
     private int getNewPosTileType(int checkX, int checkY) {
         return play.getNewPosTileType(checkX, checkY);

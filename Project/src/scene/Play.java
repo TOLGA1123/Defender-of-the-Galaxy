@@ -20,7 +20,7 @@ public class Play extends SceneParent implements SceneInterface{
     private int mouseLocY; 
     private int[][] levelData = Data.data();
 
-    private WaveHandler waveManager = new WaveHandler(this);
+    private WaveHandler waveHandler;
 
     public Play(MainGame mainGame) {
         super(mainGame);
@@ -29,6 +29,9 @@ public class Play extends SceneParent implements SceneInterface{
         this.enter = enterAndExit.get(0);
         this.exit = enterAndExit.get(1);
         this.enemyHandler = new EnemyHandler(this, enter, exit);
+
+
+        this.waveHandler = new WaveHandler(this);
     }
     public void updateGame(){
         enemyHandler.updateGame();
@@ -103,7 +106,7 @@ public class Play extends SceneParent implements SceneInterface{
         }
         return MainGame.handler.getTileWithId(levelData[checkY / 32][checkX / 32]).getTypeOfTile();
     }
-    public WaveHandler getWaveManager(){
-        return waveManager;
+    public WaveHandler getWaveHandler(){
+        return waveHandler;
     }
 }
