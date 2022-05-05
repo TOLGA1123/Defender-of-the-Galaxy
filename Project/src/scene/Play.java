@@ -4,6 +4,7 @@ import buttons.Bar;
 import extras.Data;
 import extras.SaveAndLoad;
 import handlers.EnemyHandler;
+import handlers.WaveHandler;
 import main.MainGame;
 
 public class Play extends SceneParent implements SceneInterface{
@@ -13,6 +14,8 @@ public class Play extends SceneParent implements SceneInterface{
     private int mouseLocX;
     private int mouseLocY; 
     private int[][] levelData = Data.data();
+
+    private WaveHandler waveManager = new WaveHandler(this);
 
     public Play(MainGame mainGame) {
         super(mainGame);
@@ -82,5 +85,8 @@ public class Play extends SceneParent implements SceneInterface{
     }
     public int getNewPosTileType(int checkX, int checkY){
         return MainGame.handler.getTileWithId(levelData[checkY / 32][checkX / 32]).getTypeOfTile();
+    }
+    public WaveHandler getWaveManager(){
+        return waveManager;
     }
 }
