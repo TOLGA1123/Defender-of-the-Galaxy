@@ -1,15 +1,20 @@
 package scene;
 import java.awt.Graphics;
+import java.util.ArrayList;
+
 import buttons.Bar;
 import extras.Data;
 import extras.SaveAndLoad;
 import handlers.EnemyHandler;
 import main.MainGame;
+import placeable.EnterExitLoc;
 
 public class Play extends SceneParent implements SceneInterface{
     
     private Bar controlBar = new Bar(0, 800, 160, 960, this);
-    private EnemyHandler enemyHandler = new EnemyHandler(this);
+    private EnemyHandler enemyHandler;
+    private EnterExitLoc enter;
+    private EnterExitLoc exit;
     private int mouseLocX;
     private int mouseLocY; 
     private int[][] levelData = Data.data();
@@ -17,6 +22,10 @@ public class Play extends SceneParent implements SceneInterface{
     public Play(MainGame mainGame) {
         super(mainGame);
         levelData = SaveAndLoad.levelData("idle");
+        ArrayList<EnterExitLoc> enterAndExit = SaveAndLoad.levelEnterExitLoc("idle");
+        this.enter = enterAndExit.get(0);
+        this.exit = enterAndExit.get(1);
+        this.enemyHandler = new EnemyHandler(this, enter, exit);
     }
     public void updateGame(){
         enemyHandler.updateGame();

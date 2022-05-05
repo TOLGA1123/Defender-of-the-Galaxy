@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import placeable.EnterExitLoc;
 
 public class SaveAndLoad{
     public static void initLevel(int[] a, String name){
@@ -22,7 +23,7 @@ public class SaveAndLoad{
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            writeFile(a, levelText);
+            writeFile(a, levelText, new EnterExitLoc(0, 0), new EnterExitLoc(0, 0));
         }
     }
     public static int[][] levelData(String name){
@@ -34,13 +35,25 @@ public class SaveAndLoad{
             return null;
         }
     }
-    public static void save(int[][] level, String name){
+    public static void save(int[][] level, String name, EnterExitLoc enter, EnterExitLoc exit){
         File levelF = new File(name + ".txt");
         if(levelF.exists()){
-            writeFile(twoDimensionTo1D(level), levelF);    
+            writeFile(twoDimensionTo1D(level), levelF, enter, exit);    
         }
         else{
             return;
+        }
+    }
+    public static ArrayList<EnterExitLoc> levelEnterExitLoc(String name){
+        File levelF = new File(name + ".txt");
+        if(levelF.exists()){
+            ArrayList<Integer> levelInfo = readFile(levelF);
+            ArrayList<EnterExitLoc> enterAndExit = new ArrayList<>();
+            enterAndExit.add(new EnterExitLoc(levelInfo.get(750), levelInfo.get(751)));
+            enterAndExit.add(new EnterExitLoc(levelInfo.get(752), levelInfo.get(753)));
+            return enterAndExit;
+        }else{
+            return null;
         }
     }
     public static int[][] ArrayListTo2D(ArrayList<Integer> levelInfo, int xLength, int yLength){
@@ -75,12 +88,16 @@ public class SaveAndLoad{
         }
         return levelInfo;
     }
-    public static void writeFile(int[] a, File file){
+    public static void writeFile(int[] a, File file, EnterExitLoc enter, EnterExitLoc exit){
         try {
             PrintWriter writer = new PrintWriter(file);
             for(int q = 0; q < a.length; q++){
                 writer.println(a[q]);
             }
+            writer.println(enter.getLocX());
+            writer.println(enter.getLocY());
+            writer.println(exit.getLocX());
+            writer.println(exit.getLocY());
             writer.close();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
