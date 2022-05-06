@@ -69,7 +69,7 @@ public class EnemyHandler {
             if(locOfEnemyX < 29) {locOfEnemyX++;}
         }
         else if(direction == DirectionOfEnemy.DOWN){
-            if(locOfEnemyY < 24) {locOfEnemyY++;}
+            if(locOfEnemyY < 29) {locOfEnemyY++;}
         }
         enemy.initLoc(32 * locOfEnemyX, 32 * locOfEnemyY);
         if(isEnd(enemy)){
@@ -127,7 +127,7 @@ public class EnemyHandler {
     }
     public void insertNewEnemy(int type){
         int x = 32 * enter.getLocX();
-        int y = 32 * exit.getLocY();
+        int y = 32 * enter.getLocY();
         if(type == EnemyConstants.ENEMY_1){
             this.enemies.add(new Enemy_1(x, y, 0));
         }
