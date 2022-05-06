@@ -1,5 +1,7 @@
 package handlers;
 import scene.Play;
+
+import java.awt.Component;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import enemy.Enemy;
@@ -23,9 +25,9 @@ public class EnemyHandler {
         this.play = play;
         this.enter = enter;
         this.exit = exit;
-        this.insertNewEnemy(EnemyConstants.ENEMY_1);
-        this.insertNewEnemy(EnemyConstants.ENEMY_2);
-        this.insertNewEnemy(EnemyConstants.ENEMY_3);
+        //this.insertNewEnemy(EnemyConstants.ENEMY_1);
+        //this.insertNewEnemy(EnemyConstants.ENEMY_2);
+        //this.insertNewEnemy(EnemyConstants.ENEMY_3);
         loadEnemySprites();
     }
     public void updateGame(){
@@ -34,6 +36,9 @@ public class EnemyHandler {
         } 
     }
     private void enemyUpdate(Enemy enemy){
+
+        
+
         if(enemy.getLastDirection() == -1){
             newDirection(enemy);
         }
@@ -43,12 +48,14 @@ public class EnemyHandler {
             enemy.changeLoc(enemy.getEnemyChangeSpeed(), enemy.getLastDirection());
         }
         else if(isEnd(enemy)){
+            enemy.kill();
             System.out.println("-1 lives");
         }
         else{
             newDirection(enemy);
         }
     }
+    
     private int getNewPosTileType(int checkX, int checkY) {
         return play.getNewPosTileType(checkX, checkY);
     }
@@ -124,6 +131,9 @@ public class EnemyHandler {
             g.drawImage(enemyImages.get(enemies.get(i).getTypeOfEnemy()), (int)enemies.get(i).getX(), (int)enemies.get(i).getY(), null);     
         }
     }
+    public void spawnEnemy(int nextEnemy){
+        insertNewEnemy(nextEnemy);
+    }
     public void insertNewEnemy(int type){
         int x = 32 * enter.getLocX();
         int y = 32 * enter.getLocY();
@@ -136,5 +146,17 @@ public class EnemyHandler {
         else if(type == EnemyConstants.ENEMY_3){
             this.enemies.add(new Enemy_3(x, y, 0));
         }
+    }
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+    public int getAliveEnemies() {
+        int size = 0;
+        for(Enemy e: enemies){
+            if(e.isAlive()){
+                size++;
+            }
+        }
+        return size;
     }
 }

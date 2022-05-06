@@ -11,6 +11,7 @@ public class Enemy{
     private int enemyID;
     private int lastDirection;
     private Rectangle size;
+    private boolean alive = true;
     public Enemy(double x, double y, int typeOfEnemy, int enemyID){
         this.x = x;
         this.y = y;
@@ -37,6 +38,11 @@ public class Enemy{
         else if (direction == DirectionOfEnemy.LEFT){
             this.x -= changeSpeed;
         }
+    }
+    public void kill(){
+        // killing the enemies that reach end
+        alive = false;
+        hp = 0;
     }
     public double getX() {
         return x;
@@ -69,5 +75,8 @@ public class Enemy{
         else{
             return 0.7;
         }
+    }
+    public boolean isAlive(){
+        return alive;
     }
 }
