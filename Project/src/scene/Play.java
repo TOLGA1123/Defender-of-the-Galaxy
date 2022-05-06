@@ -6,6 +6,7 @@ import buttons.Bar;
 import extras.Data;
 import extras.SaveAndLoad;
 import handlers.EnemyHandler;
+import handlers.WaveHandler;
 import main.MainGame;
 import placeable.EnterExitLoc;
 
@@ -19,6 +20,8 @@ public class Play extends SceneParent implements SceneInterface{
     private int mouseLocY; 
     private int[][] levelData = Data.data();
 
+    private WaveHandler waveHandler;
+
     public Play(MainGame mainGame) {
         super(mainGame);
         levelData = SaveAndLoad.levelData("idle");
@@ -26,9 +29,54 @@ public class Play extends SceneParent implements SceneInterface{
         this.enter = enterAndExit.get(0);
         this.exit = enterAndExit.get(1);
         this.enemyHandler = new EnemyHandler(this, enter, exit);
+
+
+        this.waveHandler = new WaveHandler(this);
     }
     public void updateGame(){
+        waveHandler.updateGame();
+
+        if(allEnemiesDead()){
+            if(isThereMoreWaves()){
+                waveHandler.startWaveTimer();
+                if(isWaveTimerOver()){
+                    waveHandler.increaseWaveIndex();
+                    enemyHandler.getEnemies().clear();
+                    waveHandler.resetEnemyIndex();
+                }
+            }
+        }
+        if(isTimeForNewEnemy()){
+            spawnEnemy();
+        }
+
         enemyHandler.updateGame();
+    }
+    private boolean isWaveTimerOver() {
+        return waveHandler.isWaveTimerOver();
+    }
+    private boolean isThereMoreWaves() {
+        return waveHandler.isThereMoreWaves();
+    }
+    private boolean allEnemiesDead() {
+        if(waveHandler.isThereMoreEnemiesInWave()){ return false; }
+        for(int i = 0; i< enemyHandler.getEnemies().size(); i++ ){
+            if(enemyHandler.getEnemies().get(i).isAlive()){
+                return false;
+            }
+        }
+        return true;
+    }
+    private void spawnEnemy() {
+        enemyHandler.spawnEnemy(this.waveHandler.getNextEnemy());
+    }
+    private boolean isTimeForNewEnemy() {
+        if(this.waveHandler.isTimeForNewEnemy()){
+            if(this.waveHandler.isThereMoreEnemiesInWave()){
+                return true;
+            }
+        }
+        return false;
     }
     public void currentLevel(int[][] levelData){
         this.levelData = levelData;
@@ -53,6 +101,11 @@ public class Play extends SceneParent implements SceneInterface{
         }
         controlBar.paintBar(g);
         enemyHandler.render(g);
+
+        drawWaveInfo(g);
+    }
+    private void drawWaveInfo(Graphics g) {
+        
     }
     @Override
     public void click(int mouseXLoc, int mouseYLoc) {
@@ -99,5 +152,11 @@ public class Play extends SceneParent implements SceneInterface{
             return 0;
         }
         return MainGame.handler.getTileWithId(levelData[checkY / 32][checkX / 32]).getTypeOfTile();
+    }
+    public WaveHandler getWaveHandler(){
+        return waveHandler;
+    }
+    public EnemyHandler getEnemyHandler(){
+        return enemyHandler;
     }
 }
