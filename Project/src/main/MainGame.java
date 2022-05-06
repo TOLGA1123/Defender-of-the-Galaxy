@@ -97,7 +97,7 @@ public class MainGame extends JFrame implements Runnable{
 
         }
         else if(ConstantsForScenes.constantsForScenes == ConstantsForScenes.EDIT){
-
+            
         }
         else if(ConstantsForScenes.constantsForScenes == ConstantsForScenes.SETTINGS){
 
