@@ -69,5 +69,15 @@ public class WaveHandler {
     public void resetEnemyIndex() {
         enemyIndex = 0;
     }
+    public int getWaveIndex(){
+        return waveIndex;
+    }
+    public double getRemainingTime(){
+        double ticksRemaining = waveTickLimit - waveTick;
+        return ticksRemaining/60.0;
+    }
+    public boolean isWaveTimerStarted(){
+        return startWaveTimer;
+    }
 
 }

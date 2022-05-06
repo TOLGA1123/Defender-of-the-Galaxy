@@ -101,6 +101,14 @@ public class Play extends SceneParent implements SceneInterface{
         }
         controlBar.paintBar(g);
         enemyHandler.render(g);
+
+        drawWaveInfo(g);
+    }
+    private void drawWaveInfo(Graphics g) {
+        if(waveHandler.isWaveTimerStarted()){
+            double timeRemaining = waveHandler.getRemainingTime();
+            g.drawString("Time remaining: " + timeRemaining, 300, 800);
+        }
     }
     @Override
     public void click(int mouseXLoc, int mouseYLoc) {
