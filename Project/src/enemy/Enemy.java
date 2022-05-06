@@ -67,13 +67,13 @@ public class Enemy{
     }
     public double getEnemyChangeSpeed(){
         if(this.typeOfEnemy == EnemyConstants.ENEMY_1){
-            return 0.5;
+            return 0.7;
         }
         else if(this.typeOfEnemy == EnemyConstants.ENEMY_2){
             return 0.6;
         }
         else{
-            return 0.7;
+            return 0.5;
         }
     }
     public boolean isAlive(){
