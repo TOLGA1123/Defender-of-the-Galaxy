@@ -166,12 +166,14 @@ public class BarPlay extends BarParent{
         menu.setMouseOver(false);
         save.setPressed(false);
         save.setMouseOver(false);
+        enter.setPressed(false);
+        enter.setMouseOver(false);
+        exit.setPressed(false);
+        exit.setMouseOver(false);
         for(Button button : buttonTiles){
             button.setMouseOver(false);
             button.setPressed(false);
         }
-        enter.setPressed(false);
-        exit.setPressed(false);
     }
     public void paintBar(Graphics g){
         g.setColor(Color.ORANGE);

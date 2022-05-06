@@ -26,7 +26,7 @@ public class Edit extends SceneParent implements SceneInterface{
         super(mainGame);
         this.mainGame = mainGame;
         defaultLevel();
-        levelData = SaveAndLoad.levelData("idle");
+        //levelData = SaveAndLoad.levelData("idle");
     }
     public void defaultLevel(){
         levelData = SaveAndLoad.levelData("idle");
@@ -98,7 +98,7 @@ public class Edit extends SceneParent implements SceneInterface{
             controlBar.click(mouseXLoc, mouseYLoc);
         }
         else{
-            replace(mouseLocX, mouseLocY);
+            replace(mouseXLoc, mouseYLoc);
         }
     }
 
