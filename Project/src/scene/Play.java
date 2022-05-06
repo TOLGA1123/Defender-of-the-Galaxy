@@ -34,7 +34,49 @@ public class Play extends SceneParent implements SceneInterface{
         this.waveHandler = new WaveHandler(this);
     }
     public void updateGame(){
+        waveHandler.updateGame();
+
+        if(allEnemiesDead()){
+            if(isThereMoreWaves()){
+                waveHandler.startWaveTimer();
+                if(isWaveTimerOver()){
+                    waveHandler.increaseWaveIndex();
+                    enemyHandler.getEnemies().clear();
+                    waveHandler.resetEnemyIndex();
+                }
+            }
+        }
+        if(isTimeForNewEnemy()){
+            spawnEnemy();
+        }
+
         enemyHandler.updateGame();
+    }
+    private boolean isWaveTimerOver() {
+        return waveHandler.isWaveTimerOver();
+    }
+    private boolean isThereMoreWaves() {
+        return waveHandler.isThereMoreWaves();
+    }
+    private boolean allEnemiesDead() {
+        if(waveHandler.isThereMoreEnemiesInWave()){ return false; }
+        for(int i = 0; i< enemyHandler.getEnemies().size(); i++ ){
+            if(enemyHandler.getEnemies().get(i).isAlive()){
+                return false;
+            }
+        }
+        return true;
+    }
+    private void spawnEnemy() {
+        enemyHandler.spawnEnemy(this.waveHandler.getNextEnemy());
+    }
+    private boolean isTimeForNewEnemy() {
+        if(this.waveHandler.isTimeForNewEnemy()){
+            if(this.waveHandler.isThereMoreEnemiesInWave()){
+                return true;
+            }
+        }
+        return false;
     }
     public void currentLevel(int[][] levelData){
         this.levelData = levelData;
