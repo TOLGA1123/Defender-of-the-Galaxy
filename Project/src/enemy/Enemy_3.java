@@ -7,5 +7,4 @@ public class Enemy_3 extends Enemy{
         super(x, y, EnemyConstants.ENEMY_3, enemyID);
         //TODO Auto-generated constructor stub
     }
-    
 }

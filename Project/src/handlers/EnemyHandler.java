@@ -15,7 +15,6 @@ import static extras.Constant.*;
 public class EnemyHandler {
 
     private Play play;
-    private double enemyChangeSpeed = 0.5;
     private EnterExitLoc enter;
     private EnterExitLoc exit;
     private ArrayList<BufferedImage> enemyImages = new ArrayList<>();
@@ -38,10 +37,10 @@ public class EnemyHandler {
         if(enemy.getLastDirection() == -1){
             newDirection(enemy);
         }
-        int checkX = (int)(enemy.getX() + getXChange(enemy.getLastDirection()));
-        int checkY = (int)(enemy.getY() + getYChange(enemy.getLastDirection()));
+        int checkX = (int)(enemy.getX() + getXChange(enemy, enemy.getLastDirection()));
+        int checkY = (int)(enemy.getY() + getYChange(enemy, enemy.getLastDirection()));
         if(getNewPosTileType(checkX, checkY) == TileCheckConstants.PATH){
-            enemy.changeLoc(enemyChangeSpeed, enemy.getLastDirection());
+            enemy.changeLoc(enemy.getEnemyChangeSpeed(), enemy.getLastDirection());
         }
         else if(isEnd(enemy)){
             System.out.println("-1 lives");
@@ -76,39 +75,39 @@ public class EnemyHandler {
             return;
         }
         if(direction == DirectionOfEnemy.RIGHT || direction == DirectionOfEnemy.LEFT){
-            int checkY = (int)(enemy.getY() + getYChange(DirectionOfEnemy.UP));
+            int checkY = (int)(enemy.getY() + getYChange(enemy, DirectionOfEnemy.UP));
             if(getNewPosTileType((int)enemy.getX(), checkY) == TileCheckConstants.PATH){
-                enemy.changeLoc(enemyChangeSpeed, DirectionOfEnemy.UP);
+                enemy.changeLoc(enemy.getEnemyChangeSpeed(), DirectionOfEnemy.UP);
             }
             else{
-                enemy.changeLoc(enemyChangeSpeed, DirectionOfEnemy.DOWN);
+                enemy.changeLoc(enemy.getEnemyChangeSpeed(), DirectionOfEnemy.DOWN);
             }
         }
         else{
-            int checkX = (int)(enemy.getX() + getXChange(DirectionOfEnemy.RIGHT));
+            int checkX = (int)(enemy.getX() + getXChange(enemy, DirectionOfEnemy.RIGHT));
             if(getNewPosTileType(checkX, (int)enemy.getY()) == TileCheckConstants.PATH){
-                enemy.changeLoc(enemyChangeSpeed, DirectionOfEnemy.RIGHT);
+                enemy.changeLoc(enemy.getEnemyChangeSpeed(), DirectionOfEnemy.RIGHT);
             }
             else{
-                enemy.changeLoc(enemyChangeSpeed, DirectionOfEnemy.LEFT);
+                enemy.changeLoc(enemy.getEnemyChangeSpeed(), DirectionOfEnemy.LEFT);
             }
         }
     }
-    private double getYChange(int direction) {
+    private double getYChange(Enemy enemy, int direction) {
         if(direction == DirectionOfEnemy.DOWN){
-            return enemyChangeSpeed + 32;
+            return enemy.getEnemyChangeSpeed() + 32;
         }
         else if(direction == DirectionOfEnemy.UP){
-            return -enemyChangeSpeed;
+            return -enemy.getEnemyChangeSpeed();
         }
         return 0;
     }
-    private double getXChange(int direction) {
+    private double getXChange(Enemy enemy, int direction) {
         if(direction == DirectionOfEnemy.RIGHT){
-            return enemyChangeSpeed + 32;
+            return enemy.getEnemyChangeSpeed() + 32;
         }
         else if(direction == DirectionOfEnemy.LEFT){
-            return -enemyChangeSpeed;
+            return -enemy.getEnemyChangeSpeed();
         }
         return 0;
     }

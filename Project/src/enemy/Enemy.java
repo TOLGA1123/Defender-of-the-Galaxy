@@ -59,4 +59,15 @@ public class Enemy{
     public int getTypeOfEnemy() {
         return typeOfEnemy;
     }
+    public double getEnemyChangeSpeed(){
+        if(this.typeOfEnemy == EnemyConstants.ENEMY_1){
+            return 0.5;
+        }
+        else if(this.typeOfEnemy == EnemyConstants.ENEMY_2){
+            return 0.6;
+        }
+        else{
+            return 0.7;
+        }
+    }
 }
