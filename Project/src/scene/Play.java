@@ -105,10 +105,7 @@ public class Play extends SceneParent implements SceneInterface{
         drawWaveInfo(g);
     }
     private void drawWaveInfo(Graphics g) {
-        if(waveHandler.isWaveTimerStarted()){
-            double timeRemaining = waveHandler.getRemainingTime();
-            g.drawString("Time remaining: " + timeRemaining, 300, 800);
-        }
+        
     }
     @Override
     public void click(int mouseXLoc, int mouseYLoc) {
@@ -158,5 +155,8 @@ public class Play extends SceneParent implements SceneInterface{
     }
     public WaveHandler getWaveHandler(){
         return waveHandler;
+    }
+    public EnemyHandler getEnemyHandler(){
+        return enemyHandler;
     }
 }

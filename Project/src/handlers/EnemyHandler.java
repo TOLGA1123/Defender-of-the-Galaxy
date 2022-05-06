@@ -151,4 +151,13 @@ public class EnemyHandler {
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
+    public int getAliveEnemies() {
+        int size = 0;
+        for(Enemy e: enemies){
+            if(e.isAlive()){
+                size++;
+            }
+        }
+        return size;
+    }
 }
