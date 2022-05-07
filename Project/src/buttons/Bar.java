@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import extras.SaveAndLoad;
+import extras.Constant.Defenders;
 import placeable.Defender;
 import scene.Play;
 import java.awt.Point;
@@ -20,6 +21,7 @@ public class Bar extends BarParent{
     private ArrayList<Button> defenderButtons;
     private DecimalFormat format;
     private Defender selectedDefender;
+    private Defender displayedDefender;
     public Bar(int x, int  y, int h, int w, Play play){
         super(x, y, h, w);
         this.barSize = super.barSize;
@@ -96,8 +98,23 @@ public class Bar extends BarParent{
             g.fillRect(button.getX(),button.getY(),button.getW(),button.getH());
             button.paintButton(g,button.getButtonImage());
         }
+        //displayedDefender
+        drawDisplayedDefender(g);
         //wave information
         drawWaveInfo(g);
+    }
+    private void drawDisplayedDefender(Graphics g) {
+        if(displayedDefender != null){
+            g.setColor(Color.GRAY);
+            g.fillRect(600,850,220,85);
+            g.setColor(Color.BLACK);
+            g.drawRect(600,850,220,85);
+            g.drawRect(610,850,50,50);
+            g.drawImage(playGetHandler.getDefenderHandler().getDefenderImages().get(displayedDefender.getDefenderType()), 610, 850, 50, 50, null);
+            g.setFont(new Font("LucidaSans",Font.BOLD, 15));
+            g.drawString("" + Defenders.GetName(displayedDefender.getDefenderType()),660, 870 );
+            g.drawString("ID: " + displayedDefender.getId(),660, 885 );
+        }
     }
     private void drawWaveInfo(Graphics g) {
         g.setFont(new Font("LucidaSans", Font.BOLD,20));
@@ -118,5 +135,8 @@ public class Bar extends BarParent{
             String formatted = format.format(timeRemaining);
             g.drawString("Time remaining: " + formatted, 750, 850);
         }
+    }
+    public void displayDefender(Defender def) {
+        displayedDefender = def;
     }
 }

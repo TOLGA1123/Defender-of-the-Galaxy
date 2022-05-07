@@ -36,5 +36,15 @@ public class DefenderHandler {
     public void addDefender(Defender selectedDefender, int xPos, int yPos) {
         defenders.add(new Defender(xPos,yPos,towerAmount++,selectedDefender.getDefenderType()));
     }
+    public Defender getDefenderAt(int x, int y) {
+        for(Defender def: defenders){
+            if(def.getX() == x){
+                if(def.getY() == y){
+                    return def;
+                }
+            }
+        }
+        return null;
+    }
 }
 

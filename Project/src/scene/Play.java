@@ -128,12 +128,21 @@ public class Play extends SceneParent implements SceneInterface{
         else{
             if(selectedDefender!=null){
                 if(isTileNotPath(mouseXLoc,mouseYLoc)){
-                    defenderHandler.addDefender(selectedDefender, mouseXLoc,mouseYLoc);
-                    selectedDefender = null;
+                    if(getDefenderAt(mouseXLoc, mouseYLoc)==null){
+                        defenderHandler.addDefender(selectedDefender, mouseLocX,mouseLocY);
+                        selectedDefender = null;
+                    }
                 }
+            }
+            else{
+                Defender def = getDefenderAt(mouseXLoc, mouseYLoc);
+                controlBar.displayDefender(def);
             }
         }
         
+    }
+    private Defender getDefenderAt(int x, int y) {
+        return defenderHandler.getDefenderAt(x,y);
     }
     private boolean isTileNotPath(int x, int y) {
         int id = levelData[y/32][x/32];
@@ -191,5 +200,8 @@ public class Play extends SceneParent implements SceneInterface{
     }
     public void setSelectedDefender(Defender selectedDefender) {
         this.selectedDefender = selectedDefender;
+    }
+    public DefenderHandler getDefenderHandler() {
+        return defenderHandler;
     }
 }
