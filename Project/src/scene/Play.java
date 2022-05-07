@@ -127,15 +127,15 @@ public class Play extends SceneParent implements SceneInterface{
         }
         else{
             if(selectedDefender!=null){
-                if(isTileNotPath(mouseXLoc,mouseYLoc)){
-                    if(getDefenderAt(mouseXLoc, mouseYLoc)==null){
-                        defenderHandler.addDefender(selectedDefender, mouseLocX,mouseLocY);
+                if(isTileNotPath(mouseLocX,mouseLocY)){
+                    if(getDefenderAt(mouseLocX, mouseLocY)==null){
+                        defenderHandler.addDefender(selectedDefender, mouseLocX,mouseLocY); // global variables mouseLocX mouseLocY!!!!! not parameter
                         selectedDefender = null;
                     }
                 }
             }
             else{
-                Defender def = getDefenderAt(mouseXLoc, mouseYLoc);
+                Defender def = getDefenderAt(mouseLocX, mouseLocY);
                 controlBar.displayDefender(def);
             }
         }

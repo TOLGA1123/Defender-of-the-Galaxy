@@ -106,14 +106,14 @@ public class Bar extends BarParent{
     private void drawDisplayedDefender(Graphics g) {
         if(displayedDefender != null){
             g.setColor(Color.GRAY);
-            g.fillRect(600,850,220,85);
+            g.fillRect(500,850,220,85);
             g.setColor(Color.BLACK);
-            g.drawRect(600,850,220,85);
-            g.drawRect(610,850,50,50);
-            g.drawImage(playGetHandler.getDefenderHandler().getDefenderImages().get(displayedDefender.getDefenderType()), 610, 850, 50, 50, null);
+            g.drawRect(500,850,220,85);
+            g.drawRect(510,850,50,50);
+            g.drawImage(playGetHandler.getDefenderHandler().getDefenderImages().get(displayedDefender.getDefenderType()), 510, 850, 50, 50, null);
             g.setFont(new Font("LucidaSans",Font.BOLD, 15));
-            g.drawString("" + Defenders.GetName(displayedDefender.getDefenderType()),660, 870 );
-            g.drawString("ID: " + displayedDefender.getId(),660, 885 );
+            g.drawString("" + Defenders.GetName(displayedDefender.getDefenderType()),580, 870 );
+            g.drawString("ID: " + displayedDefender.getId(),580, 885 );
         }
     }
     private void drawWaveInfo(Graphics g) {
