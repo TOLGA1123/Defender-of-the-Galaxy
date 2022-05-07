@@ -2,11 +2,18 @@ package extras;
 
 public class Constant {
 
+    public static class Defenders{
+        public static final int DEFENDER_1 = 0;
+        public static final int DEFENDER_2 = 1;
+        public static final int DEFENDER_3 = 2;
+        public static final int DEFENDER_4 = 3;
+    }
     public static class EnemyConstants{
         public static final int ENEMY_1 = 0;
         public static final int ENEMY_2 = 1;
         public static final int ENEMY_3 = 2;
     }
+
     public static class DirectionOfEnemy{
         public static final int UP = 0;
         public static final int DOWN = 2;

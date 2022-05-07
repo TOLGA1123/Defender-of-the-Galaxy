@@ -16,4 +16,5 @@ public class BarParent {
         this.barSize = new Rectangle(x, y ,w ,h);
        
     }
+    
 }

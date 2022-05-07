@@ -17,8 +17,8 @@ public class Button {
     private int w;
     private int id;
     private Rectangle buttonSize;
-    private boolean isMouseOver;
-    private boolean isPressed;
+    protected boolean isMouseOver;
+    protected boolean isPressed;
 
     public Button(int x, int y, int h, int w, String image, String imageOver, String imagePressed){
         playImageLoad(image);

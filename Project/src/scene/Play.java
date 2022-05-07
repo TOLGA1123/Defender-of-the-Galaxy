@@ -5,15 +5,20 @@ import java.util.ArrayList;
 import buttons.Bar;
 import extras.Data;
 import extras.SaveAndLoad;
+import handlers.DefenderHandler;
 import handlers.EnemyHandler;
 import handlers.WaveHandler;
 import main.MainGame;
+import placeable.Defender;
 import placeable.EnterExitLoc;
+import extras.Constant.TileCheckConstants;
+import extras.Constant.TileCheckConstants.*;
 
 public class Play extends SceneParent implements SceneInterface{
     
     private Bar controlBar = new Bar(0, 800, 160, 960, this);
     private EnemyHandler enemyHandler;
+    private DefenderHandler defenderHandler;
     private EnterExitLoc enter;
     private EnterExitLoc exit;
     private int mouseLocX;
@@ -21,7 +26,7 @@ public class Play extends SceneParent implements SceneInterface{
     private int[][] levelData = Data.data();
 
     private WaveHandler waveHandler;
-
+    private Defender selectedDefender;
     public Play(MainGame mainGame) {
         super(mainGame);
         levelData = SaveAndLoad.levelData("idle");
@@ -29,6 +34,7 @@ public class Play extends SceneParent implements SceneInterface{
         this.enter = enterAndExit.get(0);
         this.exit = enterAndExit.get(1);
         this.enemyHandler = new EnemyHandler(this, enter, exit);
+        this.defenderHandler = new DefenderHandler(this);
 
 
         this.waveHandler = new WaveHandler(this);
@@ -51,6 +57,7 @@ public class Play extends SceneParent implements SceneInterface{
         }
 
         enemyHandler.updateGame();
+        defenderHandler.updateGame();
     }
     private boolean isWaveTimerOver() {
         return waveHandler.isWaveTimerOver();
@@ -101,8 +108,14 @@ public class Play extends SceneParent implements SceneInterface{
         }
         controlBar.paintBar(g);
         enemyHandler.render(g);
-
+        defenderHandler.render(g);
+        drawSelectedDefender(g);
         drawWaveInfo(g);
+    }
+    private void drawSelectedDefender(Graphics g) {
+        if(selectedDefender != null){
+            g.drawImage(defenderHandler.getDefenderImages().get(selectedDefender.getDefenderType()), mouseLocX, mouseLocY, null);
+        }
     }
     private void drawWaveInfo(Graphics g) {
         
@@ -112,9 +125,23 @@ public class Play extends SceneParent implements SceneInterface{
         if (mouseYLoc >= 800){
             controlBar.click(mouseXLoc, mouseYLoc);
         }
-        // else{
-        //     enemyHandler.insertNewEnemy(mouseXLoc, mouseYLoc);
-        // }
+        else{
+            if(selectedDefender!=null){
+                if(isTileNotPath(mouseXLoc,mouseYLoc)){
+                    defenderHandler.addDefender(selectedDefender, mouseXLoc,mouseYLoc);
+                    selectedDefender = null;
+                }
+            }
+        }
+        
+    }
+    private boolean isTileNotPath(int x, int y) {
+        int id = levelData[y/32][x/32];
+        int tileType = mainGame.getTileHandler().getTileWithId(id).getTypeOfTile();
+        if(tileType != TileCheckConstants.PATH ){
+            return true;
+        }
+        return false;
     }
     @Override
     public void move(int mouseXLoc, int mouseYLoc) {
@@ -158,5 +185,11 @@ public class Play extends SceneParent implements SceneInterface{
     }
     public EnemyHandler getEnemyHandler(){
         return enemyHandler;
+    }
+    public DefenderHandler defenderHandler(){
+        return defenderHandler;
+    }
+    public void setSelectedDefender(Defender selectedDefender) {
+        this.selectedDefender = selectedDefender;
     }
 }
