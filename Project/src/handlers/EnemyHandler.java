@@ -10,7 +10,7 @@ import enemy.Enemy_2;
 import enemy.Enemy_3;
 import extras.SaveAndLoad;
 import placeable.EnterExitLoc;
-
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import static extras.Constant.*;
 
@@ -21,6 +21,7 @@ public class EnemyHandler {
     private EnterExitLoc exit;
     private ArrayList<BufferedImage> enemyImages = new ArrayList<>();
     private ArrayList<Enemy> enemies = new ArrayList<>();
+    private int HpBarWidth = 20;
     public EnemyHandler(Play play, EnterExitLoc enter, EnterExitLoc exit){
         this.play = play;
         this.enter = enter;
@@ -128,8 +129,16 @@ public class EnemyHandler {
     }
     public void render(Graphics g){
         for(int i = 0; i < enemies.size(); i++){
-            g.drawImage(enemyImages.get(enemies.get(i).getTypeOfEnemy()), (int)enemies.get(i).getX(), (int)enemies.get(i).getY(), null);     
+            g.drawImage(enemyImages.get(enemies.get(i).getTypeOfEnemy()), (int)enemies.get(i).getX(), (int)enemies.get(i).getY(), null);
+            drawHpBar(enemies.get(i),g);     
         }
+    }
+    private void drawHpBar(Enemy enemy, Graphics g) {
+        g.setColor(Color.RED);
+        g.fillRect((int)enemy.getX()+16-(getNewHpBarWidth(enemy)/2),(int) enemy.getY()-8,getNewHpBarWidth(enemy),3);
+    }
+    private int getNewHpBarWidth(Enemy enemy){
+        return (int) (HpBarWidth * enemy.getHpBar());
     }
     public void spawnEnemy(int nextEnemy){
         insertNewEnemy(nextEnemy);

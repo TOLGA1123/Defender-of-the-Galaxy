@@ -116,7 +116,12 @@ public class Bar extends BarParent{
             g.drawString("ID: " + displayedDefender.getId(),580, 885 );
 
             drawDisplayedDefenderBorder(g);
+            drawDisplayedDefenderRange(g);
         }
+    }
+    private void drawDisplayedDefenderRange(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.drawOval(displayedDefender.getX()+16-(int) displayedDefender.getRange()/2,displayedDefender.getY()+16-(int) displayedDefender.getRange()/2,(int) displayedDefender.getRange(),(int) displayedDefender.getRange());
     }
     private void drawDisplayedDefenderBorder(Graphics g) {
         g.setColor(Color.RED);

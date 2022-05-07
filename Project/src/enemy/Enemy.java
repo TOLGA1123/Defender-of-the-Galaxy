@@ -7,6 +7,7 @@ public class Enemy{
     private double x;
     private double y;
     private int hp;
+    private int maxHp;
     private int typeOfEnemy;
     private int enemyID;
     private int lastDirection;
@@ -19,9 +20,14 @@ public class Enemy{
         this.typeOfEnemy = typeOfEnemy;
         this.enemyID = enemyID;
         this.lastDirection = -1;
+        setStartHp();
     }
-    protected void setStartHp(){
+    private void setStartHp(){
         hp = extras.Constant.EnemyConstants.getStartHp(typeOfEnemy);
+        maxHp = hp;
+    }
+    public double getHpBar(){
+        return hp/(double) maxHp;
     }
     public void initLoc(int x, int y){
         this.x = x;
