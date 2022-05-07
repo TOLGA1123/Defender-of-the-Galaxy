@@ -33,7 +33,9 @@ public class EnemyHandler {
     }
     public void updateGame(){
         for(int i = 0; i < enemies.size(); i++){
+            if(enemies.get(i).isAlive()){
             enemyUpdate(this.enemies.get(i));
+            }
         } 
     }
     private void enemyUpdate(Enemy enemy){
@@ -129,8 +131,10 @@ public class EnemyHandler {
     }
     public void render(Graphics g){
         for(int i = 0; i < enemies.size(); i++){
+            if(enemies.get(i).isAlive()){
             g.drawImage(enemyImages.get(enemies.get(i).getTypeOfEnemy()), (int)enemies.get(i).getX(), (int)enemies.get(i).getY(), null);
             drawHpBar(enemies.get(i),g);     
+            }
         }
     }
     private void drawHpBar(Enemy enemy, Graphics g) {

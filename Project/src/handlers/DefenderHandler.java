@@ -1,6 +1,9 @@
 package handlers;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
+import enemy.Enemy;
+
 import java.awt.Graphics;
 import extras.SaveAndLoad;
 import placeable.Defender;
@@ -28,8 +31,29 @@ public class DefenderHandler {
         }
     }
     public void updateGame(){
-
+        attackEnemyInRange();
     }
+    private void attackEnemyInRange() {
+        for(Defender def: defenders){
+            for(Enemy enemy: play.getEnemyHandler().getEnemies()){
+                if(enemy.isAlive()){
+                    if(isEnemyInRange(def,enemy)){ //defender shoots enemy
+                        enemy.hurt(1);
+                    }
+                    else{}
+                }
+            }
+        }
+    }
+
+    private boolean isEnemyInRange(Defender def, Enemy enemy) {
+        double xDiff = Math.abs(def.getX() - enemy.getX());
+        double yDiff = Math.abs(def.getY() - enemy.getY());
+        int range = (int) Math.hypot(xDiff,yDiff);
+
+        return range < def.getRange();
+    }
+
     public ArrayList<BufferedImage> getDefenderImages(){
         return defenderImages;
     }

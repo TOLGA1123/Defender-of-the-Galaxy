@@ -12,7 +12,7 @@ public class Enemy{
     private int enemyID;
     private int lastDirection;
     private Rectangle size;
-    private boolean alive = true;
+    protected boolean alive = true;
     public Enemy(double x, double y, int typeOfEnemy, int enemyID){
         this.x = x;
         this.y = y;
@@ -52,6 +52,12 @@ public class Enemy{
         // killing the enemies that reach end
         alive = false;
         hp = 0;
+    }
+    public void hurt(int damage){
+        this.hp -= damage;
+        if(hp <= 0){
+            alive = false;
+        }
     }
     public double getX() {
         return x;

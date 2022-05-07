@@ -96,6 +96,30 @@ public class Constant {
             }
         }
     }
+    public static class ProjectileConstants{
+        public static final int PROJECTILE_1 = 0;
+        public static final int PROJECTILE_2 = 0;
+        public static final int PROJECTILE_3 = 0;
+        public static final int PROJECTILE_4 = 0;
+
+        public static double getSpeed(int type){
+            if(type==PROJECTILE_1){
+                return 1.0;
+            }
+            else if(type==PROJECTILE_2){
+                return 2.0;
+            }
+            else if(type==PROJECTILE_3){
+                return 3.0;
+            }
+            else if(type==PROJECTILE_4){
+                return 4.0;
+            }
+            else{
+                return 0;
+            }
+        }
+    }
 
     public static class DirectionOfEnemy{
         public static final int UP = 0;
