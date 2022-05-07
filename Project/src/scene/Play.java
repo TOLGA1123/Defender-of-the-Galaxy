@@ -1,7 +1,8 @@
 package scene;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-
+import java.awt.Color;
 import buttons.Bar;
 import extras.Data;
 import extras.SaveAndLoad;
@@ -111,6 +112,11 @@ public class Play extends SceneParent implements SceneInterface{
         defenderHandler.render(g);
         drawSelectedDefender(g);
         drawWaveInfo(g);
+        drawHighlight(g);
+    }
+    private void drawHighlight(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.drawRect(mouseLocX,mouseLocY,32,32);
     }
     private void drawSelectedDefender(Graphics g) {
         if(selectedDefender != null){
@@ -195,13 +201,15 @@ public class Play extends SceneParent implements SceneInterface{
     public EnemyHandler getEnemyHandler(){
         return enemyHandler;
     }
-    public DefenderHandler defenderHandler(){
-        return defenderHandler;
-    }
     public void setSelectedDefender(Defender selectedDefender) {
         this.selectedDefender = selectedDefender;
     }
     public DefenderHandler getDefenderHandler() {
         return defenderHandler;
+    }
+    public void keyPressed(KeyEvent e) { //press esc to deselect the defender  this one doesnt work idk why?
+        if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+            setSelectedDefender(null);
+        }
     }
 }

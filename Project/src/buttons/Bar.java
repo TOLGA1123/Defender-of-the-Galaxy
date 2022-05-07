@@ -33,10 +33,10 @@ public class Bar extends BarParent{
     }
     public void initButtons(){
         defenderButtons = new ArrayList<Button>();
-        defenderButtons.add(new Button(160, 820, 35, 35,3,SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32)));
-        defenderButtons.add(new Button(210, 820, 35, 35,2,SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32)));
-        defenderButtons.add(new Button(260, 820, 35, 35,1,SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32)));
-        defenderButtons.add(new Button(310, 820, 35, 35,0,SaveAndLoad.getAllSprites().getSubimage(5*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(5*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(5*32,32,32,32)));
+        defenderButtons.add(new Button(160, 820, 35, 35,0,SaveAndLoad.getAllSprites().getSubimage(5*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(5*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(5*32,32,32,32)));
+        defenderButtons.add(new Button(210, 820, 35, 35,1,SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32)));
+        defenderButtons.add(new Button(260, 820, 35, 35,2,SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32)));
+        defenderButtons.add(new Button(310, 820, 35, 35,3,SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32)));
 
     }
     public void click(int mouseXLoc, int mouseYLoc) {
@@ -114,7 +114,17 @@ public class Bar extends BarParent{
             g.setFont(new Font("LucidaSans",Font.BOLD, 15));
             g.drawString("" + Defenders.GetName(displayedDefender.getDefenderType()),580, 870 );
             g.drawString("ID: " + displayedDefender.getId(),580, 885 );
+
+            drawDisplayedDefenderBorder(g);
         }
+    }
+    private void drawDisplayedDefenderBorder(Graphics g) {
+        g.setColor(Color.RED);
+        g.drawRect(displayedDefender.getX(),displayedDefender.getY(),32,32);
+
+    }
+    public void displayDefender(Defender def) {
+        displayedDefender = def;
     }
     private void drawWaveInfo(Graphics g) {
         g.setFont(new Font("LucidaSans", Font.BOLD,20));
@@ -135,8 +145,5 @@ public class Bar extends BarParent{
             String formatted = format.format(timeRemaining);
             g.drawString("Time remaining: " + formatted, 750, 850);
         }
-    }
-    public void displayDefender(Defender def) {
-        displayedDefender = def;
     }
 }

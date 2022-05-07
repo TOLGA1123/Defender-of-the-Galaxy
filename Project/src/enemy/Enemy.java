@@ -20,6 +20,9 @@ public class Enemy{
         this.enemyID = enemyID;
         this.lastDirection = -1;
     }
+    protected void setStartHp(){
+        hp = extras.Constant.EnemyConstants.getStartHp(typeOfEnemy);
+    }
     public void initLoc(int x, int y){
         this.x = x;
         this.y = y;

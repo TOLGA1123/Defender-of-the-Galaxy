@@ -25,11 +25,76 @@ public class Constant {
                 return "";
             }
         }
+        public static double getStartDamage(int defenderType){
+            if(defenderType == DEFENDER_1){
+                return 30;
+            }
+            else if(defenderType == DEFENDER_2){
+                return 15;
+            }
+            else if(defenderType == DEFENDER_3){
+                return 20;
+            }
+            else if(defenderType == DEFENDER_4){
+                return 5;
+            }
+            else{
+                return 0;
+            }
+        }
+        public static double getStartRange(int defenderType){
+            if(defenderType == DEFENDER_1){
+                return 100;
+            }
+            else if(defenderType == DEFENDER_2){
+                return 150;
+            }
+            else if(defenderType == DEFENDER_3){
+                return 50;
+            }
+            else if(defenderType == DEFENDER_4){
+                return 180;
+            }
+            else{
+                return 0;
+            }
+        }
+        public static double getStartCooldown(int defenderType){
+            if(defenderType == DEFENDER_1){
+                return 10;
+            }
+            else if(defenderType == DEFENDER_2){
+                return 15;
+            }
+            else if(defenderType == DEFENDER_3){
+                return 10;
+            }
+            else if(defenderType == DEFENDER_4){
+                return 5;
+            }
+            else{
+                return 0;
+            }
+        }
     }
     public static class EnemyConstants{
         public static final int ENEMY_1 = 0;
         public static final int ENEMY_2 = 1;
         public static final int ENEMY_3 = 2;
+        public static int getStartHp(int typeOfEnemy) {
+            if(typeOfEnemy == ENEMY_1){
+                return 100;
+            }
+            else if(typeOfEnemy == ENEMY_2){
+                return 80;
+            }
+            else if(typeOfEnemy == ENEMY_3){
+                return 300; 
+            }
+            else{
+                return 0;
+            }
+        }
     }
 
     public static class DirectionOfEnemy{
