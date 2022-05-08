@@ -4,9 +4,10 @@ public class Defender {
     private int x , y;
     private int id;
     private int defenderType;
-    private double damage;
+    private int damage;
     private double range;
     private double cooldown;
+    private int cooldownTick;
     public Defender(int x, int y, int id, int defenderType){
         this.x = x;
         this.y = y;
@@ -15,6 +16,16 @@ public class Defender {
         setDefaultDamage();
         setDefaultRange();
         setDefaultCooldown();
+    }
+    public void update(){
+        cooldownTick++;
+    }
+    public boolean isCooldownOver() {
+        return cooldownTick >= cooldown;
+    }
+
+    public void resetCooldown() {
+        cooldownTick = 0;
     }
 
     private void setDefaultCooldown() {
@@ -60,7 +71,7 @@ public class Defender {
     public void setDefenderType(int defenderType) {
         this.defenderType = defenderType;
     }
-    public double getDamage() {
+    public int getDamage() {
         return damage;
     }
     public double getRange() {
@@ -69,4 +80,6 @@ public class Defender {
     public double getCooldown() {
         return cooldown;
     }
+
+    
 }

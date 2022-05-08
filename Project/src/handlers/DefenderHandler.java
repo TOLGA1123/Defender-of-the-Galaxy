@@ -31,19 +31,24 @@ public class DefenderHandler {
         }
     }
     public void updateGame(){
-        attackEnemyInRange();
-    }
-    private void attackEnemyInRange() {
         for(Defender def: defenders){
+            def.update();
+            attackEnemyInRange(def);
+        }
+    }
+    private void attackEnemyInRange(Defender def) {
+        
             for(Enemy enemy: play.getEnemyHandler().getEnemies()){
                 if(enemy.isAlive()){
                     if(isEnemyInRange(def,enemy)){ //defender shoots enemy
-                        enemy.hurt(1);
+                        if(def.isCooldownOver()){
+                            play.shootEnemy(def,enemy);
+                            def.resetCooldown();
+                        }
                     }
                     else{}
                 }
             }
-        }
     }
 
     private boolean isEnemyInRange(Defender def, Enemy enemy) {

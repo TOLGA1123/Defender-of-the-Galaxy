@@ -25,7 +25,7 @@ public class Constant {
                 return "";
             }
         }
-        public static double getStartDamage(int defenderType){
+        public static int getStartDamage(int defenderType){
             if(defenderType == DEFENDER_1){
                 return 30;
             }
@@ -98,9 +98,9 @@ public class Constant {
     }
     public static class ProjectileConstants{
         public static final int PROJECTILE_1 = 0;
-        public static final int PROJECTILE_2 = 0;
-        public static final int PROJECTILE_3 = 0;
-        public static final int PROJECTILE_4 = 0;
+        public static final int PROJECTILE_2 = 1;
+        public static final int PROJECTILE_3 = 2;
+        public static final int PROJECTILE_4 = 3;
 
         public static double getSpeed(int type){
             if(type==PROJECTILE_1){

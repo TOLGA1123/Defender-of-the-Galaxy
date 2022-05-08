@@ -47,6 +47,11 @@ public class Enemy{
         else if (direction == DirectionOfEnemy.LEFT){
             this.x -= changeSpeed;
         }
+        updateHitbox();
+    }
+    private void updateHitbox() {
+        size.x = (int) x;
+        size.y = (int) y;
     }
     public void kill(){
         // killing the enemies that reach end

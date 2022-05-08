@@ -4,10 +4,12 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.awt.Color;
 import buttons.Bar;
+import enemy.Enemy;
 import extras.Data;
 import extras.SaveAndLoad;
 import handlers.DefenderHandler;
 import handlers.EnemyHandler;
+import handlers.ProjectileHandler;
 import handlers.WaveHandler;
 import main.MainGame;
 import placeable.Defender;
@@ -20,6 +22,7 @@ public class Play extends SceneParent implements SceneInterface{
     private Bar controlBar = new Bar(0, 800, 160, 960, this);
     private EnemyHandler enemyHandler;
     private DefenderHandler defenderHandler;
+    private ProjectileHandler projectileHandler;
     private EnterExitLoc enter;
     private EnterExitLoc exit;
     private int mouseLocX;
@@ -36,6 +39,7 @@ public class Play extends SceneParent implements SceneInterface{
         this.exit = enterAndExit.get(1);
         this.enemyHandler = new EnemyHandler(this, enter, exit);
         this.defenderHandler = new DefenderHandler(this);
+        this.projectileHandler = new ProjectileHandler(this);
 
 
         this.waveHandler = new WaveHandler(this);
@@ -59,6 +63,7 @@ public class Play extends SceneParent implements SceneInterface{
 
         enemyHandler.updateGame();
         defenderHandler.updateGame();
+        projectileHandler.updateGame();
     }
     private boolean isWaveTimerOver() {
         return waveHandler.isWaveTimerOver();
@@ -113,6 +118,7 @@ public class Play extends SceneParent implements SceneInterface{
         drawSelectedDefender(g);
         drawWaveInfo(g);
         drawHighlight(g);
+        projectileHandler.render(g);
     }
     private void drawHighlight(Graphics g) {
         g.setColor(Color.WHITE);
@@ -211,5 +217,8 @@ public class Play extends SceneParent implements SceneInterface{
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
             setSelectedDefender(null);
         }
+    }
+    public void shootEnemy(Defender def, Enemy enemy) {
+        projectileHandler.newProjectile(def,enemy);
     }
 }

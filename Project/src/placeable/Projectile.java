@@ -5,15 +5,20 @@ public class Projectile {
     private int id;
     private int projectileType;
     private boolean active = true;
-
-    public Projectile(double x, double y, int id, int projectileType){
+    private double xSpeed;
+    private double ySpeed;
+    private int damage;
+    public Projectile(double x, double y,double xSpeed, double ySpeed, int damage, int id, int projectileType){
         position = new Point2D.Double(x,y);
         this.id = id;
         this.projectileType = projectileType;
+        this.xSpeed = xSpeed;
+        this.ySpeed = ySpeed;
+        this.damage = damage;
     }
-    public void move(double x, double y){
-        position.x += x;
-        position.y += y;
+    public void move(){
+        position.x += xSpeed;
+        position.y += ySpeed;
     }
     public Point2D.Double getPosition() {
         return position;
@@ -33,5 +38,8 @@ public class Projectile {
     }
     public void setActive(boolean isActive) {
         this.active = isActive;
+    }
+    public int getDamage(){
+        return damage;
     }
 }
