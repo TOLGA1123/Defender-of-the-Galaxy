@@ -3,7 +3,7 @@ package handlers;
 import scene.Play;
 import java.awt.Graphics;
 import java.util.ArrayList;
-
+import java.awt.Graphics2D;
 import enemy.Enemy;
 import extras.Constant;
 import extras.SaveAndLoad;
@@ -53,20 +53,25 @@ public class ProjectileHandler {
         return false;
     }
     public void render(Graphics g){
+        Graphics2D g2d = (Graphics2D) g;
         for(Projectile p: projectiles){
             if(p.getActive()){
-                g.drawImage(projectileImages.get(p.getProjectileType()),(int) p.getPosition().x, (int)p.getPosition().y,null);
+                g2d.translate(p.getPosition().x,p.getPosition().y);
+                g2d.rotate(Math.toRadians(p.getRotation()+180));
+                g2d.drawImage(projectileImages.get(p.getProjectileType()),-16, -16,null);
+                g2d.rotate(-Math.toRadians(p.getRotation()+180));
+                g2d.translate(-p.getPosition().x,-p.getPosition().y);
             }
         }
     }
     public void newProjectile(Defender def, Enemy e){
         int type = getProjectileType(def);
 
-        int xDistance = (int) Math.abs(def.getX() - e.getX());
-        int yDistance = (int) Math.abs(def.getY() - e.getY());
-        int totalDistance = xDistance + yDistance;
+        int xDistance = (int) (def.getX() - e.getX());
+        int yDistance = (int) (def.getY() - e.getY());
+        int totalDistance = Math.abs(xDistance) + Math.abs(yDistance);
 
-        double xPer = (double) xDistance/totalDistance;
+        double xPer = (double) Math.abs(xDistance)/totalDistance;
 
         double xSpeed = xPer * extras.Constant.ProjectileConstants.getSpeed(type) ;
         double ySpeed = extras.Constant.ProjectileConstants.getSpeed(type) - xSpeed;
@@ -77,7 +82,12 @@ public class ProjectileHandler {
         if(def.getY() > e.getY()){
             ySpeed = -1 * ySpeed;
         }
-        projectiles.add(new Projectile(def.getX()+16, def.getY()+16, xSpeed, ySpeed, def.getDamage(), projectileId++, type));
+        double arcValue =(double) Math.atan(yDistance/(double) xDistance);
+        double rotate = (double) Math.toDegrees(arcValue);
+        if(xDistance < 0){
+            rotate += 180;
+        }
+        projectiles.add(new Projectile(def.getX()+16, def.getY()+16, xSpeed, ySpeed, def.getDamage(),rotate, projectileId++, type));
     }
     private int getProjectileType(Defender def) {
         if(def.getDefenderType() == Constant.Defenders.DEFENDER_1){

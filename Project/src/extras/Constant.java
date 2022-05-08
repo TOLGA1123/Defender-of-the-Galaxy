@@ -27,16 +27,16 @@ public class Constant {
         }
         public static int getStartDamage(int defenderType){
             if(defenderType == DEFENDER_1){
-                return 30;
+                return 5;
             }
             else if(defenderType == DEFENDER_2){
-                return 15;
+                return 10;
             }
             else if(defenderType == DEFENDER_3){
-                return 20;
+                return 1;
             }
             else if(defenderType == DEFENDER_4){
-                return 5;
+                return 8;
             }
             else{
                 return 0;
@@ -61,16 +61,16 @@ public class Constant {
         }
         public static double getStartCooldown(int defenderType){
             if(defenderType == DEFENDER_1){
-                return 10;
+                return 50;
             }
             else if(defenderType == DEFENDER_2){
-                return 15;
+                return 40;
             }
             else if(defenderType == DEFENDER_3){
-                return 10;
+                return 35;
             }
             else if(defenderType == DEFENDER_4){
-                return 5;
+                return 30;
             }
             else{
                 return 0;
