@@ -13,6 +13,8 @@ public class Enemy{
     private int lastDirection;
     private Rectangle size;
     protected boolean alive = true;
+    protected int slowTickLimit = 180;
+    protected int slowTick = slowTickLimit;
     public Enemy(double x, double y, int typeOfEnemy, int enemyID){
         this.x = x;
         this.y = y;
@@ -35,6 +37,11 @@ public class Enemy{
     }
     public void changeLoc(double changeSpeed, int direction){
         this.lastDirection = direction;
+
+        if(slowTick < slowTickLimit){
+            slowTick++;
+            changeSpeed *= 0.5;
+        }
         if (direction == DirectionOfEnemy.UP){
             this.y -= changeSpeed;
         }
@@ -98,5 +105,11 @@ public class Enemy{
     }
     public boolean isAlive(){
         return alive;
+    }
+    public void slow() {
+        slowTick = 0;
+    }
+    public boolean isSlowed(){
+        return slowTick < slowTickLimit;
     }
 }

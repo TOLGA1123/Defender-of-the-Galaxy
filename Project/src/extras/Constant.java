@@ -27,16 +27,16 @@ public class Constant {
         }
         public static int getStartDamage(int defenderType){
             if(defenderType == DEFENDER_1){
-                return 5;
+                return 15;
             }
             else if(defenderType == DEFENDER_2){
                 return 10;
             }
             else if(defenderType == DEFENDER_3){
-                return 1;
+                return 8;
             }
             else if(defenderType == DEFENDER_4){
-                return 8;
+                return 1;
             }
             else{
                 return 0;

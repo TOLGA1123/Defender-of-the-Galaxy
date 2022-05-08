@@ -22,6 +22,7 @@ public class EnemyHandler {
     private ArrayList<BufferedImage> enemyImages = new ArrayList<>();
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private int HpBarWidth = 20;
+    private BufferedImage slowEffect;
     public EnemyHandler(Play play, EnterExitLoc enter, EnterExitLoc exit){
         this.play = play;
         this.enter = enter;
@@ -30,6 +31,10 @@ public class EnemyHandler {
         //this.insertNewEnemy(EnemyConstants.ENEMY_2);
         //this.insertNewEnemy(EnemyConstants.ENEMY_3);
         loadEnemySprites();
+        loadEffectImage();
+    }
+    private void loadEffectImage() {
+        slowEffect = SaveAndLoad.getAllSprites().getSubimage(8*32, 2*32, 32, 32); // change later with slow effect image maybe
     }
     public void updateGame(){
         for(int i = 0; i < enemies.size(); i++){
@@ -134,7 +139,13 @@ public class EnemyHandler {
             if(enemies.get(i).isAlive()){
             g.drawImage(enemyImages.get(enemies.get(i).getTypeOfEnemy()), (int)enemies.get(i).getX(), (int)enemies.get(i).getY(), null);
             drawHpBar(enemies.get(i),g);     
+            drawSlowEffects(enemies.get(i),g);
             }
+        }
+    }
+    private void drawSlowEffects(Enemy enemy, Graphics g) {
+        if(enemy.isSlowed()){
+            g.drawImage(slowEffect,(int)enemy.getX(),(int)enemy.getY(),null);
         }
     }
     private void drawHpBar(Enemy enemy, Graphics g) {

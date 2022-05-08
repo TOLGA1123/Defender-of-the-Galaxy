@@ -10,14 +10,17 @@ import extras.SaveAndLoad;
 import extras.Constant.Defenders.*;
 import extras.Constant.ProjectileConstants.*;
 import java.awt.image.BufferedImage;
-
+import extras.Constant.ProjectileConstants;
 import placeable.Defender;
 import placeable.Projectile;
+import java.awt.geom.Point2D;
 public class ProjectileHandler {
     private Play play;
     private ArrayList<Projectile> projectiles = new ArrayList<>();
     private ArrayList<BufferedImage> projectileImages = new ArrayList<>();
+    private ArrayList<BufferedImage> explosionImages = new ArrayList<>();
     private int projectileId = 0;
+    private ArrayList<Explosion> explosions = new ArrayList<>();
     public ProjectileHandler(Play play){
         this.play = play;
         loadProjectileImages();
@@ -29,6 +32,17 @@ public class ProjectileHandler {
         projectileImages.add(atlas.getSubimage(1*32, 2*32, 32, 32));
         projectileImages.add(atlas.getSubimage(2*32, 2*32, 32, 32));
         projectileImages.add(atlas.getSubimage(3*32, 2*32, 32, 32));
+
+        loadExplosionImages(atlas);
+    }
+    private void loadExplosionImages(BufferedImage atlas) {
+        explosionImages.add(atlas.getSubimage(4*32,2*32,32,32));
+        explosionImages.add(atlas.getSubimage(5*32,2*32,32,32));
+        explosionImages.add(atlas.getSubimage(6*32,2*32,32,32));
+        explosionImages.add(atlas.getSubimage(7*32,2*32,32,32));
+        explosionImages.add(atlas.getSubimage(8*32,2*32,32,32));
+        explosionImages.add(atlas.getSubimage(9*32,2*32,32,32));
+        explosionImages.add(atlas.getSubimage(0*32,3*32,32,32));
     }
     public void updateGame(){
         for(Projectile p: projectiles){
@@ -36,24 +50,56 @@ public class ProjectileHandler {
                 p.move();
                 if(isProjectileHittingEnemy(p)){
                     p.setActive(false);
+                    if(p.getProjectileType() == Constant.ProjectileConstants.PROJECTILE_1){
+                        explosions.add(new Explosion(p.getPosition()));
+                        explodeOnEnemies(p);
+                    }
                 }
                 else{
                     //nothing
                 }
             }
         }
+        for(Explosion e: explosions){
+            if(e.getIndex()<7){
+                e.update();
+            }
+        }
+    }
+    private void explodeOnEnemies(Projectile p) {
+        for(Enemy enemy: play.getEnemyHandler().getEnemies()){
+            if(enemy.isAlive()){
+                double radius = 40;
+
+                double xDistance = Math.abs(p.getPosition().x - enemy.getX());
+                double yDistance = Math.abs(p.getPosition().y - enemy.getY());
+                double realDistance = (double) Math.hypot(xDistance,yDistance);
+    
+                if(realDistance <= radius){
+                    enemy.hurt(p.getDamage());
+                }
+            }
+           
+        }
     }
     private boolean isProjectileHittingEnemy(Projectile p) {
         for(Enemy enemy: play.getEnemyHandler().getEnemies()){
-            if(enemy.getSize().contains(p.getPosition())){
-                enemy.hurt(p.getDamage());
-                return true;
+            if(enemy.isAlive()){
+                if(enemy.getSize().contains(p.getPosition())){
+                    enemy.hurt(p.getDamage());
+
+                    if(p.getProjectileType() == Constant.ProjectileConstants.PROJECTILE_4){
+                        enemy.slow();
+                    }
+                    return true;
+                }
             }
-        }
+            }
         return false;
     }
     public void render(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
+
         for(Projectile p: projectiles){
             if(p.getActive()){
                 g2d.translate(p.getPosition().x,p.getPosition().y);
@@ -61,6 +107,14 @@ public class ProjectileHandler {
                 g2d.drawImage(projectileImages.get(p.getProjectileType()),-16, -16,null);
                 g2d.rotate(-Math.toRadians(p.getRotation()+180));
                 g2d.translate(-p.getPosition().x,-p.getPosition().y);
+            }
+        }
+        drawExplosions(g2d);
+    }
+    private void drawExplosions(Graphics2D g2d) {
+        for(Explosion e: explosions){
+            if(e.getIndex() <7){
+                g2d.drawImage(explosionImages.get(e.getIndex()), (int) e.getPosition().x-16,(int) e.getPosition().y-16, null);
             }
         }
     }
@@ -104,6 +158,27 @@ public class ProjectileHandler {
         }
         else{
             return -1;
+        }
+    }
+    public class Explosion{
+        private Point2D.Double position;
+        private int explosionTick = 0;
+        private int explosionIndex = 0;
+        public Explosion(Point2D.Double position){
+            this.position = position;
+        }
+        public void update(){
+                explosionTick++;
+                if(explosionTick >= 12){
+                    explosionTick = 0;
+                    explosionIndex++;
+                }
+        }
+        public int getIndex(){
+            return explosionIndex;
+        }
+        public Point2D.Double getPosition(){
+            return position;
         }
     }
 }
