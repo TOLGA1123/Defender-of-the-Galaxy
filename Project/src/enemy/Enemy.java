@@ -7,11 +7,14 @@ public class Enemy{
     private double x;
     private double y;
     private int hp;
+    private int maxHp;
     private int typeOfEnemy;
     private int enemyID;
     private int lastDirection;
     private Rectangle size;
-    private boolean alive = true;
+    protected boolean alive = true;
+    protected int slowTickLimit = 180;
+    protected int slowTick = slowTickLimit;
     public Enemy(double x, double y, int typeOfEnemy, int enemyID){
         this.x = x;
         this.y = y;
@@ -19,6 +22,14 @@ public class Enemy{
         this.typeOfEnemy = typeOfEnemy;
         this.enemyID = enemyID;
         this.lastDirection = -1;
+        setStartHp();
+    }
+    private void setStartHp(){
+        hp = extras.Constant.EnemyConstants.getStartHp(typeOfEnemy);
+        maxHp = hp;
+    }
+    public double getHpBar(){
+        return hp/(double) maxHp;
     }
     public void initLoc(int x, int y){
         this.x = x;
@@ -26,6 +37,11 @@ public class Enemy{
     }
     public void changeLoc(double changeSpeed, int direction){
         this.lastDirection = direction;
+
+        if(slowTick < slowTickLimit){
+            slowTick++;
+            changeSpeed *= 0.5;
+        }
         if (direction == DirectionOfEnemy.UP){
             this.y -= changeSpeed;
         }
@@ -38,11 +54,22 @@ public class Enemy{
         else if (direction == DirectionOfEnemy.LEFT){
             this.x -= changeSpeed;
         }
+        updateHitbox();
+    }
+    private void updateHitbox() {
+        size.x = (int) x;
+        size.y = (int) y;
     }
     public void kill(){
         // killing the enemies that reach end
         alive = false;
         hp = 0;
+    }
+    public void hurt(int damage){
+        this.hp -= damage;
+        if(hp <= 0){
+            alive = false;
+        }
     }
     public double getX() {
         return x;
@@ -78,5 +105,11 @@ public class Enemy{
     }
     public boolean isAlive(){
         return alive;
+    }
+    public void slow() {
+        slowTick = 0;
+    }
+    public boolean isSlowed(){
+        return slowTick < slowTickLimit;
     }
 }
