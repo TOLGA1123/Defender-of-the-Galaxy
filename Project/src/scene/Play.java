@@ -239,4 +239,8 @@ public class Play extends SceneParent implements SceneInterface{
     {
         controlBar.payForDefender(DefenderType);
     }
+	public void rewardPlayer(int enemyType) 
+    {
+        controlBar.addMoney(extras.Constant.EnemyConstants.getEnemyLoot(enemyType));
+	}
 }

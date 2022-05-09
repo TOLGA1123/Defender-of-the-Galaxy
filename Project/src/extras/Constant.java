@@ -112,6 +112,20 @@ public class Constant {
                 return 0;
             }
         }
+        public static int getEnemyLoot(int typeOfEnemy) {
+            if(typeOfEnemy == ENEMY_1){
+                return 10650;
+            }
+            else if(typeOfEnemy == ENEMY_2){
+                return 80;
+            }
+            else if(typeOfEnemy == ENEMY_3){
+                return 300; 
+            }
+            else{
+                return 550;
+            }
+        }
     }
     public static class ProjectileConstants{
         public static final int PROJECTILE_1 = 0;

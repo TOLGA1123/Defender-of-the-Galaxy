@@ -1,5 +1,8 @@
 package enemy;
 import java.awt.Rectangle;
+
+import handlers.EnemyHandler;
+
 import static extras.Constant.*;
 
 public class Enemy{
@@ -15,13 +18,15 @@ public class Enemy{
     protected boolean alive = true;
     protected int slowTickLimit = 180;
     protected int slowTick = slowTickLimit;
-    public Enemy(double x, double y, int typeOfEnemy, int enemyID){
+    protected EnemyHandler enemyHandler;
+    public Enemy(double x, double y, int typeOfEnemy, int enemyID, EnemyHandler enemyHandler){
         this.x = x;
         this.y = y;
         this.size = new Rectangle((int)x, (int)y, 32, 32);
         this.typeOfEnemy = typeOfEnemy;
         this.enemyID = enemyID;
         this.lastDirection = -1;
+        this.enemyHandler = enemyHandler;
         setStartHp();
     }
     private void setStartHp(){
@@ -69,6 +74,7 @@ public class Enemy{
         this.hp -= damage;
         if(hp <= 0){
             alive = false;
+            enemyHandler.rewardPlayer(typeOfEnemy);
         }
     }
     public double getX() {

@@ -211,6 +211,14 @@ public class Bar extends BarParent{
         g.setColor(Color.GREEN);
         g.drawString(getDefenderShopName(), 350, 845);
         g.drawString("Cost: "+ getDefenderShopPrice() + " Gold", 350, 875);
+        //if (!isGoldEnoughForDefender(DefenderCostType))
+        {
+            g.setColor(Color.RED);
+            g.fillRect(350, 880, 140, 30);
+            g.setColor(Color.BLACK);
+            g.drawString("Can't Afford" , 350, 900);
+        }
+
     } 
     private String getDefenderShopName()
     {
@@ -239,4 +247,8 @@ public class Bar extends BarParent{
             playGetHandler.pause(true);
         }
     }
+	public void addMoney(int reward)
+    {
+        this.money += reward;
+	}
 }
