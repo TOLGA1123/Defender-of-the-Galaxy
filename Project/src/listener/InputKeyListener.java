@@ -19,6 +19,9 @@ public class InputKeyListener implements KeyListener{
         if(e.getKeyCode() == KeyEvent.VK_D){ //Trying changing scenes
             ConstantsForScenes.constantsForScenes = ConstantsForScenes.PLAY;
         }
+        if(ConstantsForScenes.constantsForScenes == ConstantsForScenes.PLAY){ //this one doesnt work in play 
+            mainGame.getPlay().keyPressed(e);
+        }
         
     }
     @Override

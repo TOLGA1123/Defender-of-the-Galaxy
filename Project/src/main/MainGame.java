@@ -103,6 +103,9 @@ public class MainGame extends JFrame implements Runnable{
 
         }
     }
+    public TileHandler getTileHandler(){
+        return handler;
+    }
     private void gameStart(){
         thread = new Thread(this){};
         thread.start();
