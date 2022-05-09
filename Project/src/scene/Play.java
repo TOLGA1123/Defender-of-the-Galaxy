@@ -1,6 +1,7 @@
 package scene;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.nio.channels.AcceptPendingException;
 import java.util.ArrayList;
 import java.awt.Color;
 import buttons.Bar;
@@ -30,6 +31,7 @@ public class Play extends SceneParent implements SceneInterface{
     private int[][] levelData = Data.data();
 
     private WaveHandler waveHandler;
+    private boolean pause = false;
     private Defender selectedDefender;
     public Play(MainGame mainGame) {
         super(mainGame);
@@ -45,25 +47,28 @@ public class Play extends SceneParent implements SceneInterface{
         this.waveHandler = new WaveHandler(this);
     }
     public void updateGame(){
-        waveHandler.updateGame();
+        if (!pause)
+        {
+            waveHandler.updateGame();
 
-        if(allEnemiesDead()){
-            if(isThereMoreWaves()){
-                waveHandler.startWaveTimer();
-                if(isWaveTimerOver()){
-                    waveHandler.increaseWaveIndex();
-                    enemyHandler.getEnemies().clear();
-                    waveHandler.resetEnemyIndex();
+            if(allEnemiesDead()){
+                if(isThereMoreWaves()){
+                    waveHandler.startWaveTimer();
+                    if(isWaveTimerOver()){
+                        waveHandler.increaseWaveIndex();
+                        enemyHandler.getEnemies().clear();
+                        waveHandler.resetEnemyIndex();
+                    }
                 }
             }
+            if(isTimeForNewEnemy()){
+                spawnEnemy();
+            }
+    
+            enemyHandler.updateGame();
+            defenderHandler.updateGame();
+            projectileHandler.updateGame();
         }
-        if(isTimeForNewEnemy()){
-            spawnEnemy();
-        }
-
-        enemyHandler.updateGame();
-        defenderHandler.updateGame();
-        projectileHandler.updateGame();
     }
     private boolean isWaveTimerOver() {
         return waveHandler.isWaveTimerOver();
@@ -142,6 +147,7 @@ public class Play extends SceneParent implements SceneInterface{
                 if(isTileNotPath(mouseLocX,mouseLocY)){
                     if(getDefenderAt(mouseLocX, mouseLocY)==null){
                         defenderHandler.addDefender(selectedDefender, mouseLocX,mouseLocY); // global variables mouseLocX mouseLocY!!!!! not parameter
+                        removeGold(selectedDefender.getDefenderType());
                         selectedDefender = null;
                     }
                 }
@@ -220,5 +226,17 @@ public class Play extends SceneParent implements SceneInterface{
     }
     public void shootEnemy(Defender def, Enemy enemy) {
         projectileHandler.newProjectile(def,enemy);
+    }
+    public void pause(boolean pause)
+    {
+        this.pause = pause;
+    }       
+    public boolean getPause()
+    {
+        return pause;
+    }   
+    private void removeGold(int DefenderType) 
+    {
+        controlBar.payForDefender(DefenderType);
     }
 }

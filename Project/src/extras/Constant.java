@@ -24,6 +24,23 @@ public class Constant {
             else{
                 return "";
             }
+        }    
+        public static int GetPrice(int defenderType){
+            if(defenderType == DEFENDER_1){
+                return 15;
+            }
+            else if(defenderType == DEFENDER_2){
+                return 10;
+            }
+            else if(defenderType == DEFENDER_3){
+                return 8;
+            }
+            else if(defenderType == DEFENDER_4){
+                return 1;
+            }
+            else{
+                return 0;
+            }
         }
         public static int getStartDamage(int defenderType){
             if(defenderType == DEFENDER_1){
