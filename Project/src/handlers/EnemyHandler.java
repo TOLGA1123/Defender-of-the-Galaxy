@@ -57,7 +57,7 @@ public class EnemyHandler {
         }
         else if(isEnd(enemy)){
             enemy.kill();
-            System.out.println("-1 lives");
+            //System.out.println("-1 lives");
         }
         else{
             newDirection(enemy);
