@@ -28,11 +28,13 @@ public class Play extends SceneParent implements SceneInterface{
     private EnterExitLoc exit;
     private int mouseLocX;
     private int mouseLocY; 
+    private int moneyTicker;
     private int[][] levelData = Data.data();
 
     private WaveHandler waveHandler;
     private boolean pause = false;
     private Defender selectedDefender;
+
     public Play(MainGame mainGame) {
         super(mainGame);
         levelData = SaveAndLoad.levelData("idle");
@@ -49,6 +51,7 @@ public class Play extends SceneParent implements SceneInterface{
     public void updateGame(){
         if (!pause)
         {
+            
             waveHandler.updateGame();
 
             if(allEnemiesDead()){
