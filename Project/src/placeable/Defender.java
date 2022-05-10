@@ -10,7 +10,7 @@ public class Defender {
     private double range;
     private double cooldown;
     private int cooldownTick;
-    private int level;
+    private int level = 1;
     public Defender(int x, int y, int id, int defenderType){
         this.x = x;
         this.y = y;

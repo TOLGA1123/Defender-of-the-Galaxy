@@ -28,6 +28,7 @@ public class Bar extends BarParent{
     private Defender selectedDefender;
     private Defender displayedDefender;
     private int money = 100;
+    private int MAX_DEFENDER_LEVEL = 3;
     private boolean showDefenderPrice = false;
     private int DefenderCostType;
     private boolean paused =  false;
@@ -65,7 +66,7 @@ public class Bar extends BarParent{
                     sellSelectedDefender();
                     return;
                 }  
-                    else if(upgradeButton.getButtonSize().contains(mouseXLoc, mouseYLoc))
+                    else if(upgradeButton.getButtonSize().contains(mouseXLoc, mouseYLoc) && displayedDefender.getLevel() < MAX_DEFENDER_LEVEL)
                     {
                         upgradeSelectedDefender();
                         return;
@@ -86,11 +87,16 @@ public class Bar extends BarParent{
         }   
     }
     private void upgradeSelectedDefender() {
-        playGetHandler.upgradeDefender(displayedDefender);
+        if (displayedDefender.getLevel() < MAX_DEFENDER_LEVEL)
+        {
+            playGetHandler.upgradeDefender(displayedDefender);
+            money -= getDefenderUpgradePrice();
+        }
+
     }
     private void sellSelectedDefender() {
         playGetHandler.removeDefender(displayedDefender);
-        money+= extras.Constant.Defenders.GetPrice(displayedDefender.getDefenderType())/2;
+        money+= getDefenderSellPrice();
         displayedDefender = null;
     }
 
@@ -109,9 +115,9 @@ public class Bar extends BarParent{
             return;
         }
         else{
-                if ( displayedDefender != null)
+                if ( displayedDefender != null )
                 {
-                    if(sellButton.getButtonSize().contains(mouseXLoc, mouseYLoc))
+                    if(sellButton.getButtonSize().contains(mouseXLoc, mouseYLoc ))
                 {
                     sellButton.setMouseOver(true);
                     return;
@@ -148,7 +154,7 @@ public class Bar extends BarParent{
                 sellButton.setPressed(true);
                 return;
             }  
-                else if(upgradeButton.getButtonSize().contains(mouseXLoc, mouseYLoc))
+                else if(upgradeButton.getButtonSize().contains(mouseXLoc, mouseYLoc) && displayedDefender.getLevel() < MAX_DEFENDER_LEVEL)
                 {
                     upgradeButton.setPressed(true);
                     return;
@@ -201,9 +207,13 @@ public class Bar extends BarParent{
         }
         else if (upgradeButton.isMouseOver)
         {
-            g.setFont(new Font("LucidaSans",Font.BOLD, 15));
-            g.setColor(Color.BLACK);
-            g.drawString("Upgrade for " + getDefenderUpgradePrice() + " gold", 580, 898);
+            if (displayedDefender.getLevel() < MAX_DEFENDER_LEVEL)
+            {
+                g.setFont(new Font("LucidaSans",Font.BOLD, 15));
+                g.setColor(Color.BLACK);
+                g.drawString("Upgrade for " + getDefenderUpgradePrice() + " gold", 580, 898);
+            }
+
         }
         
     }
@@ -218,12 +228,20 @@ public class Bar extends BarParent{
             g.setFont(new Font("LucidaSans",Font.BOLD, 15));
             g.drawString("" + Defenders.GetName(displayedDefender.getDefenderType()),580, 870 );
             g.drawString("ID: " + displayedDefender.getId(),580, 885 );
+            g.drawString("Level: " + displayedDefender.getLevel(),650, 885 );
             drawDisplayedDefenderBorder(g);
             drawDisplayedDefenderRange(g);
             //sell
             sellButton.paintButton(g, sellButton.getButtonImage());
           //  draw
-            upgradeButton.paintButton(g, upgradeButton.getButtonImage());
+            if (displayedDefender.getLevel() < MAX_DEFENDER_LEVEL)
+            {
+                upgradeButton.paintButton(g, upgradeButton.getButtonImage());
+            }
+            else
+            {
+
+            }
         }
     }
     private void drawDisplayedDefenderRange(Graphics g) {
@@ -306,10 +324,16 @@ public class Bar extends BarParent{
     }
     private int getDefenderShopPrice()
     {
+
         return extras.Constant.Defenders.GetPrice(DefenderCostType);
     }
     private int getDefenderSellPrice()
     {
+        if (displayedDefender!= null)
+        {
+            int upgradeCostIncrease = (int) ((displayedDefender.getLevel() -1) *getDefenderUpgradePrice()*0.5f);
+            return upgradeCostIncrease + extras.Constant.Defenders.GetPrice(DefenderCostType)/2;
+        }
         return extras.Constant.Defenders.GetPrice(DefenderCostType)/2;
     }
     private int getDefenderUpgradePrice()
