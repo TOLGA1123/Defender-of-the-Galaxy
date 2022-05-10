@@ -36,7 +36,7 @@ public class Bar extends BarParent{
         super(x, y, h, w);
         this.barSize = new Rectangle(x, y ,w ,h*2 + 20);
         this.menu = new Button(10, 810, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png");
-        this.pause = new Button(10, 890, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png"); //PAUSE RESMI DEGISTIR
+        this.pause = new Button(10, 890, 64, 128, "/pause.png", "/pause_over.png", "/pause_pressed.png"); //PAUSE RESMI DEGISTIR
         this.playGetHandler = play;
         this.format = new DecimalFormat("0.00");
         initButtons();
