@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import extras.Constant;
 import extras.SaveAndLoad;
 import extras.Constant.Defenders;
+import handlers.DefenderHandler;
 import placeable.Defender;
 import scene.Play;
 import java.awt.Point;
@@ -18,6 +19,8 @@ public class Bar extends BarParent{
     
     private Button menu;
     private Button pause;
+    private Button sellButton;
+    private Button upgradeButton;
     private Play playGetHandler;
     private Rectangle barSize;
     private ArrayList<Button> defenderButtons;
@@ -36,6 +39,7 @@ public class Bar extends BarParent{
         this.playGetHandler = play;
         this.format = new DecimalFormat("0.00");
         initButtons();
+
     }
     public void initButtons(){
         defenderButtons = new ArrayList<Button>();
@@ -43,7 +47,8 @@ public class Bar extends BarParent{
         defenderButtons.add(new Button(210, 820, 35, 35,1,SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32)));
         defenderButtons.add(new Button(260, 820, 35, 35,2,SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32)));
         defenderButtons.add(new Button(310, 820, 35, 35,3,SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32)));
-
+        upgradeButton = new Button(580, 900, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png");
+        sellButton = new Button(500, 900, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png");
     }
     public void click(int mouseXLoc, int mouseYLoc) {
         if(menu.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
@@ -53,6 +58,20 @@ public class Bar extends BarParent{
             pauseGame();;
         }   
         else{
+            if (displayedDefender != null)
+            {
+                if(sellButton.getButtonSize().contains(mouseXLoc, mouseYLoc))
+                {
+                    sellSelectedDefender();
+                    return;
+                }  
+                    else if(upgradeButton.getButtonSize().contains(mouseXLoc, mouseYLoc))
+                    {
+                        upgradeSelectedDefender();
+                        return;
+                    }   
+            }
+
             for(Button button: defenderButtons){
                 if(button.getButtonSize().contains(mouseXLoc,mouseYLoc)){
                     if (!isGoldEnoughForDefender(DefenderCostType))
@@ -66,17 +85,44 @@ public class Bar extends BarParent{
             }
         }   
     }
+    private void upgradeSelectedDefender() {
+        playGetHandler.upgradeDefender(displayedDefender);
+    }
+    private void sellSelectedDefender() {
+        playGetHandler.removeDefender(displayedDefender);
+        money+= extras.Constant.Defenders.GetPrice(displayedDefender.getDefenderType())/2;
+        displayedDefender = null;
+    }
+
     public void move(int mouseXLoc, int mouseYLoc) {
         menu.setMouseOver(false);
         pause.setMouseOver(false);
+        sellButton.setMouseOver(false);
+        upgradeButton.setMouseOver(false);
         showDefenderPrice = false;
         if(menu.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
             menu.setMouseOver(true);
+            return;
         }
         else if(pause.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
             pause.setMouseOver(true);
+            return;
         }
         else{
+                if ( displayedDefender != null)
+                {
+                    if(sellButton.getButtonSize().contains(mouseXLoc, mouseYLoc))
+                {
+                    sellButton.setMouseOver(true);
+                    return;
+                }  
+                    else if(upgradeButton.getButtonSize().contains(mouseXLoc, mouseYLoc))
+                    {
+                        upgradeButton.setMouseOver(true);
+                        return;
+                    }                 
+                }
+
             for(Button button: defenderButtons){
                 if(button.getButtonSize().contains(mouseXLoc,mouseYLoc)){
                     button.setMouseOver(true);
@@ -95,6 +141,19 @@ public class Bar extends BarParent{
             pause.setPressed(true);
         }
         else{
+            if ( displayedDefender != null)
+            {
+                if(sellButton.getButtonSize().contains(mouseXLoc, mouseYLoc))
+            {
+                sellButton.setPressed(true);
+                return;
+            }  
+                else if(upgradeButton.getButtonSize().contains(mouseXLoc, mouseYLoc))
+                {
+                    upgradeButton.setPressed(true);
+                    return;
+                }                 
+            }
             for(Button button: defenderButtons){
                 if(button.getButtonSize().contains(mouseXLoc,mouseYLoc)){
                     button.setPressed(true);
@@ -108,6 +167,10 @@ public class Bar extends BarParent{
         menu.setMouseOver(false);
         pause.setPressed(false);
         pause.setMouseOver(false); 
+        sellButton.setPressed(false);
+        sellButton.setMouseOver(false); 
+        upgradeButton.setPressed(false);
+        upgradeButton.setMouseOver(false); 
         for(Button button: defenderButtons){
             button.isMouseOver = false;
             button.isPressed = false;
@@ -129,6 +192,20 @@ public class Bar extends BarParent{
         //wave information
         drawWaveInfo(g);
         drawEconomy(g);
+        // show sell cost
+        if (sellButton.isMouseOver)
+        {
+            g.setFont(new Font("LucidaSans",Font.BOLD, 15));
+            g.setColor(Color.BLACK);
+            g.drawString("Sell for " + getDefenderSellPrice() + " gold", 580, 898);
+        }
+        else if (upgradeButton.isMouseOver)
+        {
+            g.setFont(new Font("LucidaSans",Font.BOLD, 15));
+            g.setColor(Color.BLACK);
+            g.drawString("Upgrade for " + getDefenderUpgradePrice() + " gold", 580, 898);
+        }
+        
     }
     private void drawDisplayedDefender(Graphics g) {
         if(displayedDefender != null){
@@ -141,9 +218,12 @@ public class Bar extends BarParent{
             g.setFont(new Font("LucidaSans",Font.BOLD, 15));
             g.drawString("" + Defenders.GetName(displayedDefender.getDefenderType()),580, 870 );
             g.drawString("ID: " + displayedDefender.getId(),580, 885 );
-
             drawDisplayedDefenderBorder(g);
             drawDisplayedDefenderRange(g);
+            //sell
+            sellButton.paintButton(g, sellButton.getButtonImage());
+          //  draw
+            upgradeButton.paintButton(g, upgradeButton.getButtonImage());
         }
     }
     private void drawDisplayedDefenderRange(Graphics g) {
@@ -227,6 +307,14 @@ public class Bar extends BarParent{
     private int getDefenderShopPrice()
     {
         return extras.Constant.Defenders.GetPrice(DefenderCostType);
+    }
+    private int getDefenderSellPrice()
+    {
+        return extras.Constant.Defenders.GetPrice(DefenderCostType)/2;
+    }
+    private int getDefenderUpgradePrice()
+    {
+        return (int )(extras.Constant.Defenders.GetPrice(DefenderCostType)*0.5); // 0.5 kule normal fiyatının 0.5 katı = upgrade fiyatı
     }
     public void payForDefender(int DefenderCostType)
     {

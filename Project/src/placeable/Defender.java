@@ -1,5 +1,7 @@
 package placeable;
 
+import extras.Constant;
+
 public class Defender {
     private int x , y;
     private int id;
@@ -8,10 +10,12 @@ public class Defender {
     private double range;
     private double cooldown;
     private int cooldownTick;
+    private int level;
     public Defender(int x, int y, int id, int defenderType){
         this.x = x;
         this.y = y;
         this.id = id;
+        this.level = 1;
         this.defenderType = defenderType;
         setDefaultDamage();
         setDefaultRange();
@@ -19,6 +23,38 @@ public class Defender {
     }
     public void update(){
         cooldownTick++;
+    }
+    public void upgrade(){
+        level++;
+        if (this.defenderType == Constant.Defenders.DEFENDER_1) //cok dmg 1 canno 2 sniper 3 normal 4 noob
+        {
+            damage+= 20;
+            range+= 10;
+            cooldown-= 0; //bunu azaltınca güçleniyo daha hızxlı  tarıyo çünkü
+
+        }
+        else if (this.defenderType == Constant.Defenders.DEFENDER_2)
+        {
+            damage+= 10;
+            range+= 30;
+            cooldown-= 5;  
+        }
+        else if (this.defenderType == Constant.Defenders.DEFENDER_3)
+        {
+            damage+= 5;
+            range+= 5;
+            cooldown-= 15;  
+        }
+        else if (this.defenderType == Constant.Defenders.DEFENDER_4)
+        {
+            damage+= 2;
+            range+= 5;
+            cooldown-= 5;  
+        }
+    }
+    public int getLevel()
+    {
+        return level;
     }
     public boolean isCooldownOver() {
         return cooldownTick >= cooldown;

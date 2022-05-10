@@ -257,15 +257,12 @@ public class Play extends SceneParent implements SceneInterface{
            controlBar.addMoney(1);; 
         }
     }
-     class StopWatch
-{  
-   private long elapsedTime;
-   private long startTime;
-   private boolean isRunning;
+    public void removeDefender(Defender displayedDefender)
+    {
+        defenderHandler.removeDefender(displayedDefender);
+    }
+	public void upgradeDefender(Defender displayedDefender) {
+        defenderHandler.upgradeDefender(displayedDefender);
+	}
 
-   /**
-      Constructs a stopwatch that is in the stopped state
-      and has no time accumulated.
-   */
-}
 }
