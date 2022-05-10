@@ -3,6 +3,8 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.nio.channels.AcceptPendingException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.awt.Color;
 import buttons.Bar;
 import enemy.Enemy;
@@ -28,7 +30,7 @@ public class Play extends SceneParent implements SceneInterface{
     private EnterExitLoc exit;
     private int mouseLocX;
     private int mouseLocY; 
-    private int moneyTicker;
+    private int tick;
     private int[][] levelData = Data.data();
 
     private WaveHandler waveHandler;
@@ -45,13 +47,17 @@ public class Play extends SceneParent implements SceneInterface{
         this.defenderHandler = new DefenderHandler(this);
         this.projectileHandler = new ProjectileHandler(this);
 
-
         this.waveHandler = new WaveHandler(this);
     }
     public void updateGame(){
         if (!pause)
         {
-            
+            tick++;
+            if (tick % (60*3) == 0) // 3 mean every 3 second in 60*3 60 çarpı üçteki üç 3 sn demek
+            {
+                controlBar.addMoney(1); // 1 mean add 1 money
+            }
+
             waveHandler.updateGame();
 
             if(allEnemiesDead()){
@@ -246,4 +252,20 @@ public class Play extends SceneParent implements SceneInterface{
     {
         controlBar.addMoney(extras.Constant.EnemyConstants.getEnemyLoot(enemyType));
 	}
+    class GoldTicker extends TimerTask {
+        public void run() {
+           controlBar.addMoney(1);; 
+        }
+    }
+     class StopWatch
+{  
+   private long elapsedTime;
+   private long startTime;
+   private boolean isRunning;
+
+   /**
+      Constructs a stopwatch that is in the stopped state
+      and has no time accumulated.
+   */
+}
 }
