@@ -1,32 +1,27 @@
 package scene;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.awt.Point;
 import java.util.Random;
 import javax.imageio.ImageIO;
+import buttons.Button;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import main.MainGame;
+import static main.ConstantsForScenes.*;
 
 public class Settings extends SceneParent implements SceneInterface{
     Random rand = new Random();
     BufferedImage image;
-    private ArrayList<BufferedImage> sprites = new ArrayList<>();
+    Button menu;
 
     public Settings(MainGame mainGame) {
         super(mainGame);
         this.imageLoad();
-        this.addSpritestoArray();
-    }
-    private void addSpritestoArray(){//Change for 32 * 32 sprites
-        for (int i = 0; i < 10; i++){
-            for (int q = 0; q < 15; q++){
-                sprites.add(image.getSubimage(64 * q, 54 * i, 64, 54)); //adds sprites to the array with measurements: 54 pixels heigth, 64 pixels width
-            }
-        }
+        this.menu = new Button(20, 20, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png");
     }
     public void imageLoad(){
-        InputStream inputStream = getClass().getResourceAsStream("/background_02.png");
+        InputStream inputStream = getClass().getResourceAsStream("/space_background.png");
         try {
             image = ImageIO.read(inputStream);
         } catch (IOException e) {
@@ -34,32 +29,33 @@ public class Settings extends SceneParent implements SceneInterface{
         }
     }
     @Override
-    public void render(Graphics g) {
-        for (int i = 0; i < 10; i++){
-            for (int q = 0; q < 15; q++){
-                g.drawImage(sprites.get(rand.nextInt(149)), 64 * q, 54 * i, null);
-            }
+    public void click(int mouseXLoc, int mouseYLoc) {
+        if(menu.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
+            set(MAIN_MENU);
         }
     }
     @Override
-    public void click(int mouseXLoc, int mouseYLoc) {
-        // TODO Auto-generated method stub
-        
-    }
-    @Override
     public void move(int mouseXLoc, int mouseYLoc) {
-        // TODO Auto-generated method stub
-        
+        menu.setMouseOver(false);
+        if(menu.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
+            menu.setMouseOver(true);
+        }
     }
     @Override
     public void press(int mouseXLoc, int mouseYLoc) {
-        // TODO Auto-generated method stub
-        
+        if(menu.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
+            menu.setPressed(true);
+        }
     }
     @Override
     public void release(int mouseXLoc, int mouseYLoc) {
-        // TODO Auto-generated method stub
-        
+        menu.setPressed(false);
+        menu.setMouseOver(false);
+    }
+    @Override
+    public void render(Graphics g) {
+        g.drawImage(image, 0, 0, null);
+        menu.paintButton(g, menu.getButtonImage());        
     }
     @Override
     public void drag(int mouseXLoc, int mouseYLoc) {
