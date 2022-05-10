@@ -75,5 +75,26 @@ public class DefenderHandler {
         }
         return null;
     }
+
+    public void removeDefender(Defender displayedDefender) {
+        for (int i = 0; i < defenders.size(); i++)
+        {
+            if (defenders.get(i).getId() == displayedDefender.getId())
+            {
+                defenders.remove(i);
+            }
+        }
+    }
+    public void upgradeDefender(Defender displayedDefender) {
+        for (int i = 0; i < defenders.size(); i++)
+        {
+            if (defenders.get(i).getId() == displayedDefender.getId())
+            {
+                defenders.get(i).upgrade();
+            }
+        }
+	}
+
+
 }
 

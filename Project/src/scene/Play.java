@@ -1,7 +1,10 @@
 package scene;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.nio.channels.AcceptPendingException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.awt.Color;
 import buttons.Bar;
 import enemy.Enemy;
@@ -27,10 +30,13 @@ public class Play extends SceneParent implements SceneInterface{
     private EnterExitLoc exit;
     private int mouseLocX;
     private int mouseLocY; 
+    private int tick;
     private int[][] levelData = Data.data();
 
     private WaveHandler waveHandler;
+    private boolean pause = false;
     private Defender selectedDefender;
+
     public Play(MainGame mainGame) {
         super(mainGame);
         levelData = SaveAndLoad.levelData("idle");
@@ -41,29 +47,37 @@ public class Play extends SceneParent implements SceneInterface{
         this.defenderHandler = new DefenderHandler(this);
         this.projectileHandler = new ProjectileHandler(this);
 
-
         this.waveHandler = new WaveHandler(this);
     }
     public void updateGame(){
-        waveHandler.updateGame();
+        if (!pause)
+        {
+            tick++;
+            if (tick % (60*3) == 0) // 3 mean every 3 second in 60*3 60 çarpı üçteki üç 3 sn demek
+            {
+                controlBar.addMoney(1); // 1 mean add 1 money
+            }
 
-        if(allEnemiesDead()){
-            if(isThereMoreWaves()){
-                waveHandler.startWaveTimer();
-                if(isWaveTimerOver()){
-                    waveHandler.increaseWaveIndex();
-                    enemyHandler.getEnemies().clear();
-                    waveHandler.resetEnemyIndex();
+            waveHandler.updateGame();
+
+            if(allEnemiesDead()){
+                if(isThereMoreWaves()){
+                    waveHandler.startWaveTimer();
+                    if(isWaveTimerOver()){
+                        waveHandler.increaseWaveIndex();
+                        enemyHandler.getEnemies().clear();
+                        waveHandler.resetEnemyIndex();
+                    }
                 }
             }
+            if(isTimeForNewEnemy()){
+                spawnEnemy();
+            }
+    
+            enemyHandler.updateGame();
+            defenderHandler.updateGame();
+            projectileHandler.updateGame();
         }
-        if(isTimeForNewEnemy()){
-            spawnEnemy();
-        }
-
-        enemyHandler.updateGame();
-        defenderHandler.updateGame();
-        projectileHandler.updateGame();
     }
     private boolean isWaveTimerOver() {
         return waveHandler.isWaveTimerOver();
@@ -142,6 +156,7 @@ public class Play extends SceneParent implements SceneInterface{
                 if(isTileNotPath(mouseLocX,mouseLocY)){
                     if(getDefenderAt(mouseLocX, mouseLocY)==null){
                         defenderHandler.addDefender(selectedDefender, mouseLocX,mouseLocY); // global variables mouseLocX mouseLocY!!!!! not parameter
+                        removeGold(selectedDefender.getDefenderType());
                         selectedDefender = null;
                     }
                 }
@@ -221,4 +236,33 @@ public class Play extends SceneParent implements SceneInterface{
     public void shootEnemy(Defender def, Enemy enemy) {
         projectileHandler.newProjectile(def,enemy);
     }
+    public void pause(boolean pause)
+    {
+        this.pause = pause;
+    }       
+    public boolean getPause()
+    {
+        return pause;
+    }   
+    private void removeGold(int DefenderType) 
+    {
+        controlBar.payForDefender(DefenderType);
+    }
+	public void rewardPlayer(int enemyType) 
+    {
+        controlBar.addMoney(extras.Constant.EnemyConstants.getEnemyLoot(enemyType));
+	}
+    class GoldTicker extends TimerTask {
+        public void run() {
+           controlBar.addMoney(1);; 
+        }
+    }
+    public void removeDefender(Defender displayedDefender)
+    {
+        defenderHandler.removeDefender(displayedDefender);
+    }
+	public void upgradeDefender(Defender displayedDefender) {
+        defenderHandler.upgradeDefender(displayedDefender);
+	}
+
 }

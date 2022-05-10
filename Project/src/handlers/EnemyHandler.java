@@ -162,13 +162,13 @@ public class EnemyHandler {
         int x = 32 * enter.getLocX();
         int y = 32 * enter.getLocY();
         if(type == EnemyConstants.ENEMY_1){
-            this.enemies.add(new Enemy_1(x, y, 0));
+            this.enemies.add(new Enemy_1(x, y, 0, this));
         }
         else if(type == EnemyConstants.ENEMY_2){
-            this.enemies.add(new Enemy_2(x, y, 0));
+            this.enemies.add(new Enemy_2(x, y, 0, this));
         }
         else if(type == EnemyConstants.ENEMY_3){
-            this.enemies.add(new Enemy_3(x, y, 0));
+            this.enemies.add(new Enemy_3(x, y, 0, this));
         }
     }
     public ArrayList<Enemy> getEnemies() {
@@ -182,5 +182,9 @@ public class EnemyHandler {
             }
         }
         return size;
+    }
+    public void rewardPlayer(int enemyType)
+    {
+        play.rewardPlayer(enemyType);
     }
 }
