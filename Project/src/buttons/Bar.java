@@ -79,9 +79,16 @@ public class Bar extends BarParent{
                     {
                         return;
                     }
-                    selectedDefender = new Defender(0,0,-1,button.getId());
-                    playGetHandler.setSelectedDefender(selectedDefender);
-                    return;
+                    if(selectedDefender == null || button.getId() != selectedDefender.getDefenderType()){
+                        selectedDefender = new Defender(0,0,-1,button.getId());
+                        playGetHandler.setSelectedDefender(selectedDefender);
+                        return;
+                    }
+                    else if(selectedDefender != null && button.getId() == selectedDefender.getDefenderType()){
+                        selectedDefender = null;
+                        playGetHandler.setSelectedDefender(selectedDefender);
+                        return;
+                    }
                 }
             }
         }   

@@ -228,11 +228,6 @@ public class Play extends SceneParent implements SceneInterface{
     public DefenderHandler getDefenderHandler() {
         return defenderHandler;
     }
-    public void keyPressed(KeyEvent e) { //press esc to deselect the defender  this one doesnt work idk why?
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-            setSelectedDefender(null);
-        }
-    }
     public void shootEnemy(Defender def, Enemy enemy) {
         projectileHandler.newProjectile(def,enemy);
     }
