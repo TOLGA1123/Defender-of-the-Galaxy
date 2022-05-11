@@ -26,6 +26,9 @@ public class InputMouseListener implements MouseMotionListener, MouseListener{
             else if (ConstantsForScenes.constantsForScenes == ConstantsForScenes.SETTINGS){
                 mainGame.getSettings().click(e.getX(), e.getY());
             }
+            else if (ConstantsForScenes.constantsForScenes == ConstantsForScenes.FINISH){
+                mainGame.getFinish().click(e.getX(), e.getY());
+            }
         }
     }
     @Override
@@ -41,6 +44,9 @@ public class InputMouseListener implements MouseMotionListener, MouseListener{
         }
         else if (ConstantsForScenes.constantsForScenes == ConstantsForScenes.SETTINGS){
             mainGame.getSettings().press(e.getX(), e.getY());
+        }
+        else if (ConstantsForScenes.constantsForScenes == ConstantsForScenes.FINISH){
+            mainGame.getFinish().press(e.getX(), e.getY());
         }
     }
     @Override
@@ -96,6 +102,9 @@ public class InputMouseListener implements MouseMotionListener, MouseListener{
         }
         else if (ConstantsForScenes.constantsForScenes == ConstantsForScenes.SETTINGS){
             mainGame.getSettings().move(e.getX(), e.getY());
+        }
+        else if (ConstantsForScenes.constantsForScenes == ConstantsForScenes.FINISH){
+            mainGame.getFinish().move(e.getX(), e.getY());
         }
     }
 }

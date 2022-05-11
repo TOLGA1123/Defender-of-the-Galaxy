@@ -119,6 +119,9 @@ public class Play extends SceneParent implements SceneInterface{
             mouseLocY = mouseLocY * 32;
         }        
     }
+    public void enemyPassedDefenders(){
+        controlBar.enemyPassedDefenders();
+    }
     @Override
     public void render(Graphics g) {
         for (int i = 0; i < levelData.length; i++){

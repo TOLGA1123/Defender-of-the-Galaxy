@@ -55,8 +55,8 @@ public class ProjectileHandler {
                         explodeOnEnemies(p);
                     }
                 }
-                else{
-                    //nothing
+                else if(outOfGameField(p)){
+                    p.setActive(false);
                 }
             }
         }
@@ -65,6 +65,18 @@ public class ProjectileHandler {
                 e.update();
             }
         }
+    }
+    private boolean outOfGameField(Projectile projectile) {
+        if(projectile.getPosition().x >= 0){
+            if(projectile.getPosition().x <= 960){
+                if(projectile.getPosition().y >= 0){
+                    if(projectile.getPosition().y <= 800){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
     private void explodeOnEnemies(Projectile p) {
         for(Enemy enemy: play.getEnemyHandler().getEnemies()){

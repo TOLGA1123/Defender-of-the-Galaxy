@@ -20,5 +20,8 @@ public class Render {
         else if(ConstantsForScenes.constantsForScenes == ConstantsForScenes.MAIN_MENU){
             mainGame.mainMenu.render(g);
         }
+        else if(ConstantsForScenes.constantsForScenes == ConstantsForScenes.FINISH){
+            mainGame.finish.render(g);
+        }
     }
 }

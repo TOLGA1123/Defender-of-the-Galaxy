@@ -44,9 +44,6 @@ public class EnemyHandler {
         } 
     }
     private void enemyUpdate(Enemy enemy){
-
-        
-
         if(enemy.getLastDirection() == -1){
             newDirection(enemy);
         }
@@ -57,7 +54,7 @@ public class EnemyHandler {
         }
         else if(isEnd(enemy)){
             enemy.kill();
-            //System.out.println("-1 lives");
+            play.enemyPassedDefenders();
         }
         else{
             newDirection(enemy);

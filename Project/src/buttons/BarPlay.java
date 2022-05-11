@@ -7,10 +7,12 @@ import java.awt.Color;
 import handlers.TileHandler;
 import placeable.Tile;
 import scene.Edit;
+import java.awt.image.BufferedImage;
 import static main.ConstantsForScenes.*;
 
 public class BarPlay extends BarParent{
 
+    private BufferedImage barDesign = initBarPlayDesign();
     private Button menu;
     private Button save;
     private Button enter;
@@ -34,22 +36,22 @@ public class BarPlay extends BarParent{
     private ArrayList<Button> buttonTiles = new ArrayList<>();
     public BarPlay(int x, int y, int h, int w, Edit edit) {
         super(x, y, h, w);
-        this.menu = new Button(10, 810, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png");
-        this.save = new Button(10, 888, 64, 128, "/save.png", "/save_over.png", "/save_pressed.png");
-        this.enter = new Button(190 + 6 * 96, 830, 32, 32, 12, handler.getAllSprites().getSubimage(32, 96, 32, 32), handler.getAllSprites().getSubimage(32, 96, 30, 30), handler.getAllSprites().getSubimage(32, 96, 28, 28));
-        this.exit = new Button(190 + 6 * 96, 894, 32, 32, 13, handler.getAllSprites().getSubimage(64, 96, 32, 32), handler.getAllSprites().getSubimage(64, 96, 30, 30), handler.getAllSprites().getSubimage(64, 96, 28, 28));
-        this.tile1 = new Button(190, 830, 32, 32, 0, handler.getTileWithId(0).getImage(), handler.getTileWithId(0).getImageOver(), handler.getTileWithId(0).getImagePressed());
-        this.tile2 = new Button(190, 894, 32, 32, 1, handler.getTileWithId(1).getImage(), handler.getTileWithId(1).getImageOver(), handler.getTileWithId(1).getImagePressed());
-        this.tile3 = new Button(190 + 1 * 96, 894, 32, 32, 2, handler.getTileWithId(2).getImage(), handler.getTileWithId(2).getImageOver(), handler.getTileWithId(2).getImagePressed());
-        this.tile4 = new Button(190 + 2 * 96, 830, 32, 32, 3, handler.getTileWithId(3).getImage(), handler.getTileWithId(3).getImageOver(), handler.getTileWithId(3).getImagePressed());
-        this.tile5 = new Button(190 + 3 * 96, 830, 32, 32, 4, handler.getTileWithId(4).getImage(), handler.getTileWithId(4).getImageOver(), handler.getTileWithId(4).getImagePressed());
-        this.tile6 = new Button(190 + 4 * 96, 830, 32, 32, 5, handler.getTileWithId(5).getImage(), handler.getTileWithId(5).getImageOver(), handler.getTileWithId(5).getImagePressed());
-        this.tile7 = new Button(190 + 5 * 96, 830, 32, 32, 6, handler.getTileWithId(6).getImage(), handler.getTileWithId(6).getImageOver(), handler.getTileWithId(6).getImagePressed());
-        this.tile8 = new Button(190 + 5 * 96, 894, 32, 32, 7, handler.getTileWithId(7).getImage(), handler.getTileWithId(7).getImageOver(), handler.getTileWithId(7).getImagePressed());
-        this.tile9 = new Button(190 + 2 * 96, 894, 32, 32, 8, handler.getTileWithId(8).getImage(), handler.getTileWithId(8).getImageOver(), handler.getTileWithId(8).getImagePressed());
-        this.tile10 = new Button(190 + 3 * 96, 894, 32, 32, 9, handler.getTileWithId(9).getImage(), handler.getTileWithId(9).getImageOver(), handler.getTileWithId(9).getImagePressed());
-        this.tile11 = new Button(190 + 4 * 96, 894, 32, 32, 10, handler.getTileWithId(10).getImage(), handler.getTileWithId(10).getImageOver(), handler.getTileWithId(10).getImagePressed());
-        this.tile12 = new Button(190 + 1 * 96, 830, 32, 32, 11, handler.getTileWithId(11).getImage(), handler.getTileWithId(11).getImageOver(), handler.getTileWithId(11).getImagePressed());
+        this.menu = new Button(36, 810, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png");
+        this.save = new Button(36, 888, 64, 128, "/save.png", "/save_over.png", "/save_pressed.png");
+        this.enter = new Button(220 + 6 * 96, 830, 32, 32, 12, handler.getAllSprites().getSubimage(32, 96, 32, 32), handler.getAllSprites().getSubimage(32, 96, 30, 30), handler.getAllSprites().getSubimage(32, 96, 28, 28));
+        this.exit = new Button(220 + 6 * 96, 894, 32, 32, 13, handler.getAllSprites().getSubimage(64, 96, 32, 32), handler.getAllSprites().getSubimage(64, 96, 30, 30), handler.getAllSprites().getSubimage(64, 96, 28, 28));
+        this.tile1 = new Button(220, 830, 32, 32, 0, handler.getTileWithId(0).getImage(), handler.getTileWithId(0).getImageOver(), handler.getTileWithId(0).getImagePressed());
+        this.tile2 = new Button(220, 894, 32, 32, 1, handler.getTileWithId(1).getImage(), handler.getTileWithId(1).getImageOver(), handler.getTileWithId(1).getImagePressed());
+        this.tile3 = new Button(220 + 1 * 96, 894, 32, 32, 2, handler.getTileWithId(2).getImage(), handler.getTileWithId(2).getImageOver(), handler.getTileWithId(2).getImagePressed());
+        this.tile4 = new Button(220 + 2 * 96, 830, 32, 32, 3, handler.getTileWithId(3).getImage(), handler.getTileWithId(3).getImageOver(), handler.getTileWithId(3).getImagePressed());
+        this.tile5 = new Button(220 + 3 * 96, 830, 32, 32, 4, handler.getTileWithId(4).getImage(), handler.getTileWithId(4).getImageOver(), handler.getTileWithId(4).getImagePressed());
+        this.tile6 = new Button(220 + 4 * 96, 830, 32, 32, 5, handler.getTileWithId(5).getImage(), handler.getTileWithId(5).getImageOver(), handler.getTileWithId(5).getImagePressed());
+        this.tile7 = new Button(220 + 5 * 96, 830, 32, 32, 6, handler.getTileWithId(6).getImage(), handler.getTileWithId(6).getImageOver(), handler.getTileWithId(6).getImagePressed());
+        this.tile8 = new Button(220 + 5 * 96, 894, 32, 32, 7, handler.getTileWithId(7).getImage(), handler.getTileWithId(7).getImageOver(), handler.getTileWithId(7).getImagePressed());
+        this.tile9 = new Button(220 + 2 * 96, 894, 32, 32, 8, handler.getTileWithId(8).getImage(), handler.getTileWithId(8).getImageOver(), handler.getTileWithId(8).getImagePressed());
+        this.tile10 = new Button(220 + 3 * 96, 894, 32, 32, 9, handler.getTileWithId(9).getImage(), handler.getTileWithId(9).getImageOver(), handler.getTileWithId(9).getImagePressed());
+        this.tile11 = new Button(220 + 4 * 96, 894, 32, 32, 10, handler.getTileWithId(10).getImage(), handler.getTileWithId(10).getImageOver(), handler.getTileWithId(10).getImagePressed());
+        this.tile12 = new Button(220 + 1 * 96, 830, 32, 32, 11, handler.getTileWithId(11).getImage(), handler.getTileWithId(11).getImageOver(), handler.getTileWithId(11).getImagePressed());
         this.editGetHandler = edit;
         initTileButtons();
     }
@@ -82,7 +84,7 @@ public class BarPlay extends BarParent{
     }
     private void drawSelectedTile(Graphics g){
         if (selected != null){
-            g.drawImage(selected.getImage(), 158 + 11 * 64, 825, 32, 32,null);
+            g.drawImage(selected.getImage(), 202 + 7 * 96, 862, 32, 32,null);
         }
     }
     public void click(int mouseXLoc, int mouseYLoc) {
@@ -176,8 +178,9 @@ public class BarPlay extends BarParent{
         }
     }
     public void paintBar(Graphics g){
-        g.setColor(Color.ORANGE);
-        g.fillRect(x, y, w, h);
+        // g.setColor(Color.ORANGE);
+        // g.fillRect(x, y, w, h);
+        g.drawImage(barDesign, 0, 800, null);
 
         paintAllButtons(g);
     }

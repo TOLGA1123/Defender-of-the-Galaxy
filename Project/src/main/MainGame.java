@@ -5,6 +5,7 @@ import handlers.TileHandler;
 import listener.InputKeyListener;
 import listener.InputMouseListener;
 import scene.Edit;
+import scene.Finish;
 import scene.MainMenu;
 import scene.Play;
 import scene.Settings;
@@ -15,6 +16,7 @@ public class MainGame extends JFrame implements Runnable{
     public Settings settings = new Settings(this);
     public Play play = new Play(this);
     public Edit edit = new Edit(this);
+    public Finish finish = new Finish(this);
     public static TileHandler handler = new TileHandler();
     private MainGamePanel panel;
     private double frameTime = 1000000000.0 / 120.0; //FPS is set to 120
@@ -63,6 +65,9 @@ public class MainGame extends JFrame implements Runnable{
     }
     public Play getPlay() {
         return play;
+    }
+    public Finish getFinish() {
+        return finish;
     }
     @Override
     public void run() {

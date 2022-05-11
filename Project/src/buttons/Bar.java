@@ -2,7 +2,6 @@ package buttons;
 import java.awt.Rectangle;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-
 import extras.Constant;
 import extras.SaveAndLoad;
 import extras.Constant.Defenders;
@@ -17,6 +16,7 @@ import static main.ConstantsForScenes.*;
 import java.awt.image.BufferedImage;
 public class Bar extends BarParent{
     
+    private BufferedImage barDesign = initBarDesign();
     private Button menu;
     private Button pause;
     private Button sellButton;
@@ -31,16 +31,16 @@ public class Bar extends BarParent{
     private int MAX_DEFENDER_LEVEL = 3;
     private boolean showDefenderPrice = false;
     private int DefenderCostType;
+    public int leftLives = 10; 
     private boolean paused =  false;
     public Bar(int x, int  y, int h, int w, Play play){
         super(x, y, h, w);
         this.barSize = new Rectangle(x, y ,w ,h*2 + 20);
-        this.menu = new Button(10, 810, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png");
-        this.pause = new Button(10, 890, 64, 128, "/pause.png", "/pause_over.png", "/pause_pressed.png"); //PAUSE RESMI DEGISTIR
+        this.menu = new Button(26, 810, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png");
+        this.pause = new Button(26, 890, 64, 128, "/pause.png", "/pause_over.png", "/pause_pressed.png"); //PAUSE RESMI DEGISTIR
         this.playGetHandler = play;
         this.format = new DecimalFormat("0.00");
         initButtons();
-
     }
     public void initButtons(){
         defenderButtons = new ArrayList<Button>();
@@ -190,8 +190,9 @@ public class Bar extends BarParent{
         }
     }
     public void paintBar(Graphics g){
-        g.setColor(Color.ORANGE);
-        g.fillRect(x, y, w, h);
+        // g.setColor(Color.ORANGE);
+        // g.fillRect(x, y, w, h);
+        g.drawImage(barDesign, 0, 800, null);
 
         menu.paintButton(g, menu.getButtonImage());
         pause.paintButton(g, pause.getButtonImage());
@@ -286,16 +287,17 @@ public class Bar extends BarParent{
         }
     }
     private void drawWavesRemaining(Graphics g) {
-        g.drawString("Wave: " + (playGetHandler.getWaveHandler().getWaveIndex()+1) + "/" + playGetHandler.getWaveHandler().getWaves().size(), 750, 880);
+        g.drawString("Wave: " + (playGetHandler.getWaveHandler().getWaveIndex()+1) + "/" + playGetHandler.getWaveHandler().getWaves().size(), 750, 935);
     }
     private void drawEnemiesRemaining(Graphics g) {
-        g.drawString("Enemies: " + playGetHandler.getEnemyHandler().getAliveEnemies(),750,920);
+        g.drawString("Lives Left: " + leftLives, 750, 865);
+        g.drawString("Enemies: " + playGetHandler.getEnemyHandler().getAliveEnemies(),750,900);
     }
     private void drawWaveTimer(Graphics g){
         if(playGetHandler.getWaveHandler().isWaveTimerStarted()){
             double timeRemaining = playGetHandler.getWaveHandler().getRemainingTime();
             String formatted = format.format(timeRemaining);
-            g.drawString("Time remaining: " + formatted, 750, 850);
+            g.drawString("Time remaining: " + formatted, 750, 830);
         }
     }
     private void drawMoneyAmount(Graphics   g)
@@ -370,4 +372,10 @@ public class Bar extends BarParent{
     {
         this.money += reward;
 	}
+    public void enemyPassedDefenders(){
+        leftLives--;
+        if(leftLives <= 0){
+            System.out.println("GAME OVER");
+        }
+    }
 }
