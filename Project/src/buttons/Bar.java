@@ -46,12 +46,12 @@ public class Bar extends BarParent{
     }
     public void initButtons(){
         defenderButtons = new ArrayList<Button>();
-        defenderButtons.add(new Button(160, 820, 35, 35,0,SaveAndLoad.getAllSprites().getSubimage(5*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(5*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(5*32,32,32,32)));
-        defenderButtons.add(new Button(210, 820, 35, 35,1,SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32)));
-        defenderButtons.add(new Button(260, 820, 35, 35,2,SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32)));
-        defenderButtons.add(new Button(310, 820, 35, 35,3,SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32)));
-        upgradeButton = new Button(580, 900, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png");
-        sellButton = new Button(500, 900, 64, 128, "/menu.png", "/menu_over.png", "/menu_pressed.png");
+        defenderButtons.add(new Button(218, 857, 35, 35,0,SaveAndLoad.getAllSprites().getSubimage(5*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(5*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(5*32,32,32,32)));
+        defenderButtons.add(new Button(282, 857, 35, 35,1,SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(4*32,32,32,32)));
+        defenderButtons.add(new Button(218, 914, 35, 35,2,SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(3*32,32,32,32)));
+        defenderButtons.add(new Button(282, 914, 35, 35,3,SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32),SaveAndLoad.getAllSprites().getSubimage(2*32,32,32,32)));
+        upgradeButton = new Button(616, 912, 32, 95, "/upgrade.png", "/upgrade.png", "/upgrade.png");
+        sellButton = new Button(500, 912, 32, 95, "/sell.png", "/sell.png", "/sell.png");
     }
     public void click(int mouseXLoc, int mouseYLoc) {
         if(menu.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
@@ -199,8 +199,6 @@ public class Bar extends BarParent{
         menu.paintButton(g, menu.getButtonImage());
         pause.paintButton(g, pause.getButtonImage());
         for(Button button: defenderButtons){
-            g.setColor(Color.GRAY);
-            g.fillRect(button.getX(),button.getY(),button.getW(),button.getH());
             button.paintButton(g,button.getButtonImage());
         }
         //displayedDefender
@@ -212,16 +210,16 @@ public class Bar extends BarParent{
         if (sellButton.isMouseOver)
         {
             g.setFont(new Font("LucidaSans",Font.BOLD, 15));
-            g.setColor(Color.BLACK);
-            g.drawString("Sell for " + getDefenderSellPrice() + " gold", 580, 898);
+            g.setColor(Color.WHITE);
+            g.drawString(""+getDefenderSellPrice(), 573, 933);
         }
         else if (upgradeButton.isMouseOver)
         {
             if (displayedDefender.getLevel() < MAX_DEFENDER_LEVEL)
             {
                 g.setFont(new Font("LucidaSans",Font.BOLD, 15));
-                g.setColor(Color.BLACK);
-                g.drawString("Upgrade for " + getDefenderUpgradePrice() + " gold", 580, 898);
+                g.setColor(Color.WHITE);
+                g.drawString(""+getDefenderUpgradePrice(), 688, 933);
             }
 
         }
@@ -229,16 +227,12 @@ public class Bar extends BarParent{
     }
     private void drawDisplayedDefender(Graphics g) {
         if(displayedDefender != null){
-            g.setColor(Color.GRAY);
-            g.fillRect(500,850,220,85);
-            g.setColor(Color.BLACK);
-            g.drawRect(500,850,220,85);
-            g.drawRect(510,850,50,50);
-            g.drawImage(playGetHandler.getDefenderHandler().getDefenderImages().get(displayedDefender.getDefenderType()), 510, 850, 50, 50, null);
+            g.drawImage(playGetHandler.getDefenderHandler().getDefenderImages().get(displayedDefender.getDefenderType()), 475, 845, 50, 50, null);
             g.setFont(new Font("LucidaSans",Font.BOLD, 15));
-            g.drawString("" + Defenders.GetName(displayedDefender.getDefenderType()),580, 870 );
-            g.drawString("ID: " + displayedDefender.getId(),580, 885 );
-            g.drawString("Level: " + displayedDefender.getLevel(),650, 885 );
+            g.setColor(Color.WHITE);
+            g.drawString("" + Defenders.GetName(displayedDefender.getDefenderType()),630, 862);
+            g.drawString("" + displayedDefender.getId(),605, 892 );
+            g.drawString("" + displayedDefender.getLevel(),713, 892 );
             drawDisplayedDefenderBorder(g);
             drawDisplayedDefenderRange(g);
             //sell
@@ -268,15 +262,15 @@ public class Bar extends BarParent{
     }
     private void drawWaveInfo(Graphics g) {
         g.setFont(new Font("LucidaSans", Font.BOLD,20));
-        g.setColor(Color.black);
+        g.setColor(Color.WHITE);
         drawWaveTimer(g);
         drawEnemiesRemaining(g);
         drawWavesRemaining(g);
     }
     private void drawEconomy(Graphics g)
     {
-        g.setFont(new Font("LucidaSans", Font.BOLD,20));
-        g.setColor(Color.black);
+        g.setFont(new Font("LucidaSans", Font.BOLD,22));
+        g.setColor(Color.WHITE);
         drawMoneyAmount(g);
         if (showDefenderPrice)
         {
@@ -284,42 +278,35 @@ public class Bar extends BarParent{
         }
         if (playGetHandler.getPause() == true)
         {
-            g.setColor(Color.black);
-            g.drawString("Game is paused",150,940);
+            g.setColor(Color.WHITE);
+            g.drawString("Game is paused",380,790);
         }
     }
     private void drawWavesRemaining(Graphics g) {
-        g.drawString("Wave: " + (playGetHandler.getWaveHandler().getWaveIndex()+1) + "/" + playGetHandler.getWaveHandler().getWaves().size(), 750, 935);
+        g.drawString("" + (playGetHandler.getWaveHandler().getWaveIndex()+1) + "/" + playGetHandler.getWaveHandler().getWaves().size(), 896, 945);
     }
     private void drawEnemiesRemaining(Graphics g) {
-        g.drawString("Lives Left: " + leftLives, 750, 865);
-        g.drawString("Enemies: " + playGetHandler.getEnemyHandler().getAliveEnemies(),750,900);
+        g.drawString("" + leftLives, 928, 869);
+        g.drawString("" + playGetHandler.getEnemyHandler().getAliveEnemies(),913,907);
     }
     private void drawWaveTimer(Graphics g){
         if(playGetHandler.getWaveHandler().isWaveTimerStarted()){
             double timeRemaining = playGetHandler.getWaveHandler().getRemainingTime();
             String formatted = format.format(timeRemaining);
-            g.drawString("Time remaining: " + formatted, 750, 830);
+            g.drawString("" + formatted, 912, 832);
         }
     }
     private void drawMoneyAmount(Graphics   g)
     {
-        g.setColor(Color.GREEN);
-        g.drawRect(160, 870, 110, 30);
-        g.setColor(Color.BLACK);
-        g.fillRect(160, 870, 110, 30);
-        g.setColor(Color.GREEN);
-        g.drawString("Gold: " +money, 160, 890);
+        g.drawString(""+money, 248, 832);
     }     
     private void drawDefenderCost(Graphics   g) 
     {
-        g.setColor(Color.GREEN);
-        g.drawRect(350, 820, 140, 60);
-        g.setColor(Color.BLACK);
-        g.fillRect(350, 820, 140, 60);
-        g.setColor(Color.GREEN);
-        g.drawString(getDefenderShopName(), 350, 845);
-        g.drawString("Cost: "+ getDefenderShopPrice() + " Gold", 350, 875);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("LucidaSans", Font.BOLD,16));
+        g.drawString(getDefenderShopName(), 363, 893);
+        g.setFont(new Font("LucidaSans", Font.BOLD,22));
+        g.drawString(getDefenderShopPrice() + "$", 392, 952);
         if (!isGoldEnoughForDefender(DefenderCostType))
         {
             g.setColor(Color.RED);
