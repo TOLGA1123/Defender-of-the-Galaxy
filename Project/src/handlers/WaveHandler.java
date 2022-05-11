@@ -65,6 +65,7 @@ public class WaveHandler {
     }
     public void increaseWaveIndex(){
         waveIndex++;
+        waveTick = 0;
         waveTickTimerOver = false;
         startWaveTimer = false;
     }
