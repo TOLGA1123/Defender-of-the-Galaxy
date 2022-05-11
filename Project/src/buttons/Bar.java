@@ -28,11 +28,12 @@ public class Bar extends BarParent{
     private DecimalFormat format;
     private Defender selectedDefender;
     private Defender displayedDefender;
-    private int money = 100;
+    public int money = 100;
     private int MAX_DEFENDER_LEVEL = 3;
     private boolean showDefenderPrice = false;
     private int DefenderCostType;
-    public int leftLives = 10; 
+    public final int LIVES = 8;
+    public int leftLives = LIVES; 
     private boolean paused =  false;
     public Bar(int x, int  y, int h, int w, Play play){
         super(x, y, h, w);
@@ -95,7 +96,7 @@ public class Bar extends BarParent{
         }   
     }
     private void upgradeSelectedDefender() {
-        if (displayedDefender.getLevel() < MAX_DEFENDER_LEVEL)
+        if (displayedDefender.getLevel() < MAX_DEFENDER_LEVEL && money > 0)
         {
             playGetHandler.upgradeDefender(displayedDefender);
             money -= getDefenderUpgradePrice();
@@ -378,5 +379,13 @@ public class Bar extends BarParent{
         if(leftLives <= 0){
             ConstantsForScenes.constantsForScenes = FINISH;
         }
+    }
+    public void resetGameState() {
+        DefenderCostType = 0;
+        showDefenderPrice = false;
+        displayedDefender = null;
+        selectedDefender = null;
+        leftLives = LIVES;
+        money = 100;
     }
 }

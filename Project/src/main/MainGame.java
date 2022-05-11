@@ -19,7 +19,7 @@ public class MainGame extends JFrame implements Runnable{
     public Finish finish = new Finish(this);
     public static TileHandler handler = new TileHandler();
     private MainGamePanel panel;
-    private double frameTime = 1000000000.0 / 120.0; //FPS is set to 120
+    private double frameTime = 1000000000.0 / 144.0; //FPS is set to 144
     private double updateTime = 1000000000.0 / 60.0; //UPS is set to 60
     private double lastDisplayTime;
     private double lastUpdateTime;

@@ -1,5 +1,6 @@
 package placeable;
 
+import buttons.Bar;
 import extras.Constant;
 
 public class Defender {
@@ -31,7 +32,6 @@ public class Defender {
             damage+= 20;
             range+= 10;
             cooldown-= 0; //bunu azaltınca güçleniyo daha hızxlı  tarıyo çünkü
-
         }
         else if (this.defenderType == Constant.Defenders.DEFENDER_2)
         {

@@ -40,6 +40,7 @@ public class Finish extends SceneParent implements SceneInterface{
     public void click(int mouseXLoc, int mouseYLoc) {
         if(menuButton.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
             ConstantsForScenes.constantsForScenes = ConstantsForScenes.MAIN_MENU;
+            mainGame.getPlay().resetGameState();
         }
         else if(quitButton.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
             System.exit(0);
@@ -49,6 +50,8 @@ public class Finish extends SceneParent implements SceneInterface{
         }
     }
     private void resetGameState() {
+        mainGame.getPlay().resetGameState();
+        ConstantsForScenes.constantsForScenes = ConstantsForScenes.PLAY;
     }
     @Override
     public void move(int mouseXLoc, int mouseYLoc) {
