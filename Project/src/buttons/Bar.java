@@ -6,6 +6,7 @@ import extras.Constant;
 import extras.SaveAndLoad;
 import extras.Constant.Defenders;
 import handlers.DefenderHandler;
+import main.ConstantsForScenes;
 import placeable.Defender;
 import scene.Play;
 import java.awt.Point;
@@ -375,7 +376,7 @@ public class Bar extends BarParent{
     public void enemyPassedDefenders(){
         leftLives--;
         if(leftLives <= 0){
-            System.out.println("GAME OVER");
+            ConstantsForScenes.constantsForScenes = FINISH;
         }
     }
 }
