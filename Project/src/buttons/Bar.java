@@ -348,7 +348,7 @@ public class Bar extends BarParent{
     }
     private int getDefenderUpgradePrice()
     {
-        return (int )(extras.Constant.Defenders.GetPrice(DefenderCostType)*0.5); // 0.5 kule normal fiyatının 0.5 katı = upgrade fiyatı
+        return (int )(extras.Constant.Defenders.GetPrice(DefenderCostType)*1.2); // 0.5 kule normal fiyatının 1.2 katı = upgrade fiyatı
     }
     public void payForDefender(int DefenderCostType)
     {

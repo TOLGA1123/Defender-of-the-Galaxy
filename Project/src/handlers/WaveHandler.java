@@ -40,7 +40,11 @@ public class WaveHandler {
         waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,1,1,1,1))));
         waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1,1,1,1,2,2,2,2))));
         waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,1,1,0,0,2,2))));
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(2,2,2,2,0,0,1,1))));  //these should be enemy types
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(2,2,2,2,0,0,1,1,0,0,1,1))));
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(2,2,2,2,1,1,1,1,0,0,0,0)))); 
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(2,2,2,2,0,0,0,0,1,1,1,1,2,2,1,1)))); 
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1,1,1,1,1,1,2,2,2,2,2,2,0,0,0,0)))); 
+        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0))));   //these should be enemy types
     }
 
     public ArrayList<Wave> getWaves(){
