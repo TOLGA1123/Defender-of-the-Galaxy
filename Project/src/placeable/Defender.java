@@ -28,22 +28,22 @@ public class Defender {
         level++;
         if (this.defenderType == Constant.Defenders.DEFENDER_1) //cok dmg 1 canno 2 sniper 3 normal 4 noob
         {
-            damage+= 3;
-            range+= 5;
-            cooldown-= 2; //bunu azaltınca güçleniyo daha hızxlı  tarıyo çünkü
+            damage+= 20;
+            range+= 10;
+            cooldown-= 0; //bunu azaltınca güçleniyo daha hızxlı  tarıyo çünkü
 
         }
         else if (this.defenderType == Constant.Defenders.DEFENDER_2)
         {
-            damage+= 5;
-            range+= 10;
+            damage+= 10;
+            range+= 30;
             cooldown-= 5;  
         }
         else if (this.defenderType == Constant.Defenders.DEFENDER_3)
         {
             damage+= 5;
             range+= 5;
-            cooldown-= 0;  
+            cooldown-= 15;  
         }
         else if (this.defenderType == Constant.Defenders.DEFENDER_4)
         {
