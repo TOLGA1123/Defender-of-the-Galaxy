@@ -12,6 +12,7 @@ import static main.ConstantsForScenes.*;
 
 public class Settings extends SceneParent implements SceneInterface{
     Random rand = new Random();
+    MainGame mainGame;
     BufferedImage image;
     BufferedImage imageMuted;
     BufferedImage imagePlaying;
@@ -22,6 +23,7 @@ public class Settings extends SceneParent implements SceneInterface{
 
     public Settings(MainGame mainGame) {
         super(mainGame);
+        this.mainGame = mainGame;
         this.imageLoad();
         this.imagePlayLoad();
         this.imageMuteLoad();
@@ -61,11 +63,11 @@ public class Settings extends SceneParent implements SceneInterface{
             count++;
             if(count%2 == 0){
                 muteOrPlayImage = imagePlaying;
-                MainGame.clip.start();
+                mainGame.current.play();
             }
             else{
                 muteOrPlayImage = imageMuted;
-                MainGame.clip.stop();
+                mainGame.current.stop();
             } 
         }
     }

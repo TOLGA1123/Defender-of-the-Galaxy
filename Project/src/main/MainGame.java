@@ -10,9 +10,15 @@ import scene.Finish;
 import scene.MainMenu;
 import scene.Play;
 import scene.Settings;
+import java.net.URL;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.JApplet;
+import javax.swing.JPanel;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.io.File;
 public class MainGame extends JFrame implements Runnable{
 
@@ -34,15 +40,23 @@ public class MainGame extends JFrame implements Runnable{
     private int ups;
     private boolean loopRunner = true;
     private Thread thread;
-    public static Clip clip;
+    public static AudioClip current;
     public MainGame(){
+        File musicFile = new File("music.wav");
+        URL url1 = null;
+        // try 
+        // {
+        //     String soundName = "music.wav";    
+        //     AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+        //     Clip clip = AudioSystem.getClip();
+        //     clip.open(audioInputStream);
+        //     clip.start();
+        // } catch (Exception e) {}
         try {
-            String soundName = "music.wav";    
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-            clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.loop(10);
+            if(musicFile.canRead()){url1 = musicFile.toURI().toURL();}
         } catch (Exception e) {}
+        current = Applet.newAudioClip(url1);
+        current.loop();
         startingLevel();
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
