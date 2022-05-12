@@ -27,16 +27,16 @@ public class Constant {
         }    
         public static int GetPrice(int defenderType){
             if(defenderType == DEFENDER_1){
-                return 15;
+                return 50;
             }
             else if(defenderType == DEFENDER_2){
-                return 10;
+                return 30;
             }
             else if(defenderType == DEFENDER_3){
-                return 8;
+                return 20;
             }
             else if(defenderType == DEFENDER_4){
-                return 1;
+                return 25;
             }
             else{
                 return 0;
@@ -120,10 +120,10 @@ public class Constant {
                 return 80;
             }
             else if(typeOfEnemy == ENEMY_3){
-                return 300; 
+                return 50; 
             }
             else{
-                return 550;
+                return 80;
             }
         }
     }
