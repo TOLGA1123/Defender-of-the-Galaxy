@@ -12,8 +12,8 @@ import static extras.Constant.Defenders.*;
 public class DefenderHandler {
     private Play play;
     private ArrayList<BufferedImage> defenderImages = new ArrayList<>();
-    private ArrayList<Defender> defenders = new ArrayList<>();
-    private int towerAmount = 0;
+    public ArrayList<Defender> defenders = new ArrayList<>();
+    public int defenderCount = 0;
     public DefenderHandler(Play play){
         this.play = play;
         loadDefenderSprites();
@@ -63,7 +63,7 @@ public class DefenderHandler {
         return defenderImages;
     }
     public void addDefender(Defender selectedDefender, int xPos, int yPos) {
-        defenders.add(new Defender(xPos,yPos,towerAmount++,selectedDefender.getDefenderType()));
+        defenders.add(new Defender(xPos,yPos,defenderCount++,selectedDefender.getDefenderType()));
     }
     public Defender getDefenderAt(int x, int y) {
         for(Defender def: defenders){

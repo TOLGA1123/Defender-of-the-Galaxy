@@ -62,7 +62,7 @@ public class Play extends SceneParent implements SceneInterface{
 
             if(allEnemiesDead()){
                 if(isThereMoreWaves()){
-                    waveHandler.startWaveTimer();
+                    waveHandler.initWaveTimer();
                     if(isWaveTimerOver()){
                         waveHandler.increaseWaveIndex();
                         enemyHandler.getEnemies().clear();
@@ -260,7 +260,29 @@ public class Play extends SceneParent implements SceneInterface{
         defenderHandler.removeDefender(displayedDefender);
     }
 	public void upgradeDefender(Defender displayedDefender) {
-        defenderHandler.upgradeDefender(displayedDefender);
+        if(controlBar.money > 0){
+            defenderHandler.upgradeDefender(displayedDefender);    
+        }
 	}
+    public void resetGameState() {
+        controlBar.resetGameState();
+        mouseLocX = 0; mouseLocY = 0; tick = 0;
+        pause = false;
+        selectedDefender = null;
+        enemyHandler.enemies.clear();
+        defenderHandler.defenders.clear();
+        defenderHandler.defenderCount = 0;
+        projectileHandler.projectiles.clear();
+        projectileHandler.explosions.clear();
+        projectileHandler.projectileId = 0;
+        waveHandler.waves.clear();
+        waveHandler.createWaves();
+        waveHandler.waveIndex = 0;
+        waveHandler.enemyIndex = 0;
+        waveHandler.initWaveTimer = false;
+        waveHandler.isTimerOverWave = false;
+        waveHandler.waveInit = 0;
+        waveHandler.enemyInit = waveHandler.enemyInitLimit;
+    }
 
 }

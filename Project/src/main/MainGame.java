@@ -1,4 +1,5 @@
 package main;
+
 import javax.swing.JFrame;
 import extras.SaveAndLoad;
 import handlers.TileHandler;
@@ -9,6 +10,15 @@ import scene.Finish;
 import scene.MainMenu;
 import scene.Play;
 import scene.Settings;
+import java.net.URL;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.JApplet;
+import javax.swing.JPanel;
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.io.File;
 public class MainGame extends JFrame implements Runnable{
 
     public Render render = new Render(this);
@@ -19,7 +29,7 @@ public class MainGame extends JFrame implements Runnable{
     public Finish finish = new Finish(this);
     public static TileHandler handler = new TileHandler();
     private MainGamePanel panel;
-    private double frameTime = 1000000000.0 / 120.0; //FPS is set to 120
+    private double frameTime = 1000000000.0 / 144.0; //FPS is set to 144
     private double updateTime = 1000000000.0 / 60.0; //UPS is set to 60
     private double lastDisplayTime;
     private double lastUpdateTime;
@@ -29,8 +39,23 @@ public class MainGame extends JFrame implements Runnable{
     private int ups;
     private boolean loopRunner = true;
     private Thread thread;
-
+    public static AudioClip current;
     public MainGame(){
+        File musicFile = new File("music.wav");
+        URL url1 = null;
+        // try 
+        // {
+        //     String soundName = "music.wav";    
+        //     AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+        //     Clip clip = AudioSystem.getClip();
+        //     clip.open(audioInputStream);
+        //     clip.start();
+        // } catch (Exception e) {}
+        try {
+            if(musicFile.canRead()){url1 = musicFile.toURI().toURL();}
+        } catch (Exception e) {}
+        current = Applet.newAudioClip(url1);
+        current.loop();
         startingLevel();
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -42,6 +67,7 @@ public class MainGame extends JFrame implements Runnable{
         InputMouseListener inputMouseListener = new InputMouseListener(this);
         panel.addMouseMotionListener(inputMouseListener);
         panel.addMouseListener(inputMouseListener);
+        this.setVisible(true);
         panel.requestFocus();
         this.add(panel);
         pack();
@@ -54,6 +80,7 @@ public class MainGame extends JFrame implements Runnable{
         }
         SaveAndLoad.initLevel(res, "idle");
     }
+    
     public MainMenu getMainMenu() {
         return mainMenu;
     }
@@ -116,7 +143,6 @@ public class MainGame extends JFrame implements Runnable{
         thread.start();
     }
     public static void main(String[] args) {
-        
         MainGame gameStart = new MainGame();
         gameStart.gameStart();
     }

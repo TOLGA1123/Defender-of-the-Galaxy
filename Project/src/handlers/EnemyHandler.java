@@ -20,7 +20,7 @@ public class EnemyHandler {
     private EnterExitLoc enter;
     private EnterExitLoc exit;
     private ArrayList<BufferedImage> enemyImages = new ArrayList<>();
-    private ArrayList<Enemy> enemies = new ArrayList<>();
+    public ArrayList<Enemy> enemies = new ArrayList<>();
     private int HpBarWidth = 20;
     private BufferedImage slowEffect;
     public EnemyHandler(Play play, EnterExitLoc enter, EnterExitLoc exit){

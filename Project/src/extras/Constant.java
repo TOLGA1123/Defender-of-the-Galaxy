@@ -27,16 +27,16 @@ public class Constant {
         }    
         public static int GetPrice(int defenderType){
             if(defenderType == DEFENDER_1){
-                return 15;
+                return 50;
             }
             else if(defenderType == DEFENDER_2){
-                return 10;
+                return 30;
             }
             else if(defenderType == DEFENDER_3){
-                return 8;
+                return 20;
             }
             else if(defenderType == DEFENDER_4){
-                return 1;
+                return 25;
             }
             else{
                 return 0;
@@ -44,13 +44,13 @@ public class Constant {
         }
         public static int getStartDamage(int defenderType){
             if(defenderType == DEFENDER_1){ // cok dmg 1 canno 2 sniper 3 normal 4 noob
-                return 15;
-            }
-            else if(defenderType == DEFENDER_2){ // sniper
                 return 10;
             }
-            else if(defenderType == DEFENDER_3){ // ortalama
+            else if(defenderType == DEFENDER_2){ // sniper
                 return 8;
+            }
+            else if(defenderType == DEFENDER_3){ // ortalama
+                return 6;
             }
             else if(defenderType == DEFENDER_4){ // noob defender 1 damage
                 return 1;
@@ -114,16 +114,16 @@ public class Constant {
         }
         public static int getEnemyLoot(int typeOfEnemy) {
             if(typeOfEnemy == ENEMY_1){
-                return 10;
+                return 8;
             }
             else if(typeOfEnemy == ENEMY_2){
-                return 80;
+                return 5;
             }
             else if(typeOfEnemy == ENEMY_3){
-                return 300; 
+                return 15; 
             }
             else{
-                return 550;
+                return 0;
             }
         }
     }

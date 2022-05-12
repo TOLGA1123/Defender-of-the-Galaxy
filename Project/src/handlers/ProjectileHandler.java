@@ -16,33 +16,32 @@ import placeable.Projectile;
 import java.awt.geom.Point2D;
 public class ProjectileHandler {
     private Play play;
-    private ArrayList<Projectile> projectiles = new ArrayList<>();
+    public ArrayList<Projectile> projectiles = new ArrayList<>();
     private ArrayList<BufferedImage> projectileImages = new ArrayList<>();
     private ArrayList<BufferedImage> explosionImages = new ArrayList<>();
-    private int projectileId = 0;
-    private ArrayList<Explosion> explosions = new ArrayList<>();
+    public int projectileId = 0;
+    public ArrayList<Explosion> explosions = new ArrayList<>();
     public ProjectileHandler(Play play){
         this.play = play;
         loadProjectileImages();
     }
     private void loadProjectileImages(){
-        BufferedImage atlas = SaveAndLoad.getAllSprites();
-        projectileImages.add(atlas.getSubimage(9*32, 1*32, 32, 32));
-        projectileImages.add(atlas.getSubimage(0*32, 2*32, 32, 32));
-        projectileImages.add(atlas.getSubimage(1*32, 2*32, 32, 32));
-        projectileImages.add(atlas.getSubimage(2*32, 2*32, 32, 32));
-        projectileImages.add(atlas.getSubimage(3*32, 2*32, 32, 32));
-
-        loadExplosionImages(atlas);
+        BufferedImage spriteSheet = SaveAndLoad.getAllSprites();
+        projectileImages.add(spriteSheet.getSubimage(9*32, 1*32, 32, 32));
+        projectileImages.add(spriteSheet.getSubimage(0*32, 2*32, 32, 32));
+        projectileImages.add(spriteSheet.getSubimage(1*32, 2*32, 32, 32));
+        projectileImages.add(spriteSheet.getSubimage(2*32, 2*32, 32, 32));
+        projectileImages.add(spriteSheet.getSubimage(3*32, 2*32, 32, 32));
+        loadExplosionImages(spriteSheet);
     }
-    private void loadExplosionImages(BufferedImage atlas) {
-        explosionImages.add(atlas.getSubimage(4*32,2*32,32,32));
-        explosionImages.add(atlas.getSubimage(5*32,2*32,32,32));
-        explosionImages.add(atlas.getSubimage(6*32,2*32,32,32));
-        explosionImages.add(atlas.getSubimage(7*32,2*32,32,32));
-        explosionImages.add(atlas.getSubimage(8*32,2*32,32,32));
-        explosionImages.add(atlas.getSubimage(9*32,2*32,32,32));
-        explosionImages.add(atlas.getSubimage(0*32,3*32,32,32));
+    private void loadExplosionImages(BufferedImage spriteSheet) {
+        explosionImages.add(spriteSheet.getSubimage(4*32,2*32,32,32));
+        explosionImages.add(spriteSheet.getSubimage(5*32,2*32,32,32));
+        explosionImages.add(spriteSheet.getSubimage(6*32,2*32,32,32));
+        explosionImages.add(spriteSheet.getSubimage(7*32,2*32,32,32));
+        explosionImages.add(spriteSheet.getSubimage(8*32,2*32,32,32));
+        explosionImages.add(spriteSheet.getSubimage(9*32,2*32,32,32));
+        explosionImages.add(spriteSheet.getSubimage(0*32,3*32,32,32));
     }
     public void updateGame(){
         for(Projectile p: projectiles){
