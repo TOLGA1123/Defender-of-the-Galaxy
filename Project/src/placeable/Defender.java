@@ -10,7 +10,7 @@ public class Defender {
     private int damage = extras.Constant.Defenders.getInitDamageDefender(defenderType);
     private double range = extras.Constant.Defenders.getInitRangeDefender(defenderType);
     private double cooldown = extras.Constant.Defenders.getInitCooldownDefender(defenderType);
-    private int cooldownTick;
+    private int cooldownChange;
     private int level = 1;
     public Defender(int x, int y, int id, int defenderType){
         this.x = x;
@@ -20,7 +20,7 @@ public class Defender {
         this.defenderType = defenderType;
     }
     public void update(){
-        cooldownTick++;
+        cooldownChange++;
     }
     public void upgradeDefender(){
         level++;
@@ -54,11 +54,11 @@ public class Defender {
         return level;
     }
     public boolean cooldownFinished() {
-        return cooldownTick >= cooldown;
+        return cooldownChange >= cooldown;
     }
 
     public void initCooldown() {
-        cooldownTick = 0;
+        cooldownChange = 0;
     }
     public int getX() {
         return x;
