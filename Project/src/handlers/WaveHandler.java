@@ -9,7 +9,7 @@ import scene.Play;
 public class WaveHandler {
     
     private Play play;
-    public ArrayList<Wave> waves = new ArrayList<Wave>();
+    public ArrayList<Wave> allWaves = new ArrayList<Wave>();
     public int enemyInitLimit = 60;
     public int enemyInit = enemyInitLimit;
     public int enemyIndex;
@@ -34,52 +34,52 @@ public class WaveHandler {
     }
     public int getNextEnemy(){
         enemyInit = 0;
-        return waves.get(waveIndex).getCurrentEnemies().get(enemyIndex++);
+        return allWaves.get(waveIndex).getCurrentEnemies().get(enemyIndex++);
     }
     public void initWaves() {
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,1,1,1,1))));
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1,1,1,1,2,2,2,2))));
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,1,1,0,0,2,2))));
-        waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(2,2,2,2,0,0,1,1))));  //these should be enemy types
+        allWaves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,1,1,1,1))));
+        allWaves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1,1,1,1,2,2,2,2))));
+        allWaves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,1,1,0,0,2,2))));
+        allWaves.add(new Wave(new ArrayList<Integer>(Arrays.asList(2,2,2,2,0,0,1,1))));  //these should be enemy types
     }
 
     public ArrayList<Wave> getWaves(){
-        return waves;
+        return allWaves;
     }
 
     public boolean newEnemyTime() {
         
         return enemyInit >= enemyInitLimit;
     }
-    public boolean isThereMoreEnemiesInWave(){
-        return enemyIndex < waves.get(waveIndex).getCurrentEnemies().size();
+    public boolean enemiesFinished(){
+        return enemyIndex < allWaves.get(waveIndex).getCurrentEnemies().size();
     }
-    public boolean isThereMoreWaves() {
-        return waveIndex +1 < waves.size();
+    public boolean allWavesFinished() {
+        return waveIndex +1 < allWaves.size();
     }
     public void initWaveTimer() {
         initWaveTimer = true;
     }
-    public boolean isWaveTimerOver() {
+    public boolean waveFinished() {
         return isTimerOverWave;
     }
-    public void increaseWaveIndex(){
+    public void increase(){
         waveIndex++;
         waveInit = 0;
         isTimerOverWave = false;
         initWaveTimer = false;
     }
-    public void resetEnemyIndex() {
+    public void enemyPlaceInit() {
         enemyIndex = 0;
     }
-    public int getWaveIndex(){
+    public int returnIndex(){
         return waveIndex;
     }
-    public double getRemainingTime(){
+    public double remainingTime(){
         double ticksRemaining = waveInitLimit - waveInit;
         return ticksRemaining/60.0;
     }
-    public boolean isWaveTimerStarted(){
+    public boolean waveStart(){
         return initWaveTimer;
     }
 

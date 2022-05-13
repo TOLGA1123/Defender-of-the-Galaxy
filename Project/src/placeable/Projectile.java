@@ -1,32 +1,32 @@
 package placeable;
 import java.awt.geom.Point2D;
 public class Projectile {
-    private Point2D.Double position;
+    private Point2D.Double projectilePosition;
     private int id;
     private int projectileType;
-    private boolean active = true;
-    private double xSpeed;
-    private double ySpeed;
-    private int damage;
-    private double rotation;
-    public Projectile(double x, double y,double xSpeed, double ySpeed, int damage, double rotation, int id, int projectileType){
-        position = new Point2D.Double(x,y);
+    private boolean projectileActive = true;
+    private double xChange;
+    private double yChange;
+    private int projectileDamage;
+    private double projectileRotation;
+    public Projectile(double x, double y,double xSpeed, double ySpeed, int projectileDamage, double projectileRotation, int id, int projectileType){
         this.id = id;
         this.projectileType = projectileType;
-        this.xSpeed = xSpeed;
-        this.ySpeed = ySpeed;
-        this.damage = damage;
-        this.rotation = rotation;
+        this.xChange = xSpeed;
+        this.yChange = ySpeed;
+        this.projectileRotation = projectileRotation;
+        this.projectileDamage = projectileDamage;
+        projectilePosition = new Point2D.Double(x,y);
     }
     public void move(){
-        position.x += xSpeed;
-        position.y += ySpeed;
+        projectilePosition.x += xChange;
+        projectilePosition.y += yChange;
     }
     public Point2D.Double getPosition() {
-        return position;
+        return projectilePosition;
     }
-    public void setPosition(Point2D.Double position) {
-        this.position = position;
+    public void setPosition(Point2D.Double projectilePosition) {
+        this.projectilePosition = projectilePosition;
     }
     public int getId() {
         return id;
@@ -36,15 +36,15 @@ public class Projectile {
     }
     
     public boolean getActive() {
-        return active;
+        return projectileActive;
     }
     public void setActive(boolean isActive) {
-        this.active = isActive;
+        this.projectileActive = isActive;
     }
-    public int getDamage(){
-        return damage;
+    public int getProjectileDamage(){
+        return projectileDamage;
     }
-    public double getRotation(){
-        return rotation;
+    public double getProjectileRotation(){
+        return projectileRotation;
     }
 }

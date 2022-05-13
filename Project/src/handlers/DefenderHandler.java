@@ -31,19 +31,19 @@ public class DefenderHandler {
         }
     }
     public void updateGame(){
-        for(Defender def: defenders){
-            def.update();
-            attackEnemyInRange(def);
+        for(int i = 0; i < defenders.size(); i++){
+            defenders.get(i).update();
+            attackEnemyInRange(defenders.get(i));
         }
     }
     private void attackEnemyInRange(Defender def) {
         
-            for(Enemy enemy: play.getEnemyHandler().getEnemies()){
-                if(enemy.isAlive()){
-                    if(isEnemyInRange(def,enemy)){ //defender shoots enemy
-                        if(def.isCooldownOver()){
-                            play.shootEnemy(def,enemy);
-                            def.resetCooldown();
+            for(int i = 0; i < play.getEnemyHandler().getEnemies().size(); i++){
+                if(play.getEnemyHandler().getEnemies().get(i).isEnemyAlive()){
+                    if(isEnemyInRangeOfDefender(def,play.getEnemyHandler().getEnemies().get(i))){ //defender shoots enemy
+                        if(def.cooldownFinished()){
+                            play.shootEnemy(def,play.getEnemyHandler().getEnemies().get(i));
+                            def.initCooldown();
                         }
                     }
                     else{}
@@ -51,12 +51,12 @@ public class DefenderHandler {
             }
     }
 
-    private boolean isEnemyInRange(Defender def, Enemy enemy) {
+    private boolean isEnemyInRangeOfDefender(Defender def, Enemy enemy) {
         double xDiff = Math.abs(def.getX() - enemy.getX());
         double yDiff = Math.abs(def.getY() - enemy.getY());
         int range = (int) Math.hypot(xDiff,yDiff);
 
-        return range < def.getRange();
+        return range < def.defenderRange();
     }
 
     public ArrayList<BufferedImage> getDefenderImages(){
@@ -65,7 +65,7 @@ public class DefenderHandler {
     public void addDefender(Defender selectedDefender, int xPos, int yPos) {
         defenders.add(new Defender(xPos,yPos,defenderCount++,selectedDefender.getDefenderType()));
     }
-    public Defender getDefenderAt(int x, int y) {
+    public Defender getDefenderAtLocation(int x, int y) {
         for(Defender def: defenders){
             if(def.getX() == x){
                 if(def.getY() == y){
@@ -90,7 +90,7 @@ public class DefenderHandler {
         {
             if (defenders.get(i).getId() == displayedDefender.getId())
             {
-                defenders.get(i).upgrade();
+                defenders.get(i).upgradeDefender();
             }
         }
 	}

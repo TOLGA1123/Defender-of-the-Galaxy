@@ -7,7 +7,6 @@ public class Wave{
     private ArrayList<Integer> currentEnemies;
     public Wave(ArrayList<Integer> currentEnemies){
         this.currentEnemies = currentEnemies;
-
     }
 
     public ArrayList<Integer> getCurrentEnemies(){

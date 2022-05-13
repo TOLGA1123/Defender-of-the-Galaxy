@@ -22,7 +22,7 @@ public class EnemyHandler {
     private ArrayList<BufferedImage> enemyImages = new ArrayList<>();
     public ArrayList<Enemy> enemies = new ArrayList<>();
     private int HpBarWidth = 20;
-    private BufferedImage slowEffect;
+    private BufferedImage slowImage = SaveAndLoad.getAllSprites().getSubimage(8*32, 2*32, 32, 32);;
     public EnemyHandler(Play play, EnterExitLoc enter, EnterExitLoc exit){
         this.play = play;
         this.enter = enter;
@@ -31,14 +31,11 @@ public class EnemyHandler {
         //this.insertNewEnemy(EnemyConstants.ENEMY_2);
         //this.insertNewEnemy(EnemyConstants.ENEMY_3);
         loadEnemySprites();
-        loadEffectImage();
     }
-    private void loadEffectImage() {
-        slowEffect = SaveAndLoad.getAllSprites().getSubimage(8*32, 2*32, 32, 32); // change later with slow effect image maybe
-    }
+    
     public void updateGame(){
         for(int i = 0; i < enemies.size(); i++){
-            if(enemies.get(i).isAlive()){
+            if(enemies.get(i).isEnemyAlive()){
             enemyUpdate(this.enemies.get(i));
             }
         } 
@@ -53,7 +50,7 @@ public class EnemyHandler {
             enemy.changeLoc(enemy.getEnemyChangeSpeed(), enemy.getLastDirection());
         }
         else if(isEnd(enemy)){
-            enemy.kill();
+            enemy.killEnemy();
             play.enemyPassedDefenders();
         }
         else{
@@ -133,7 +130,7 @@ public class EnemyHandler {
     }
     public void render(Graphics g){
         for(int i = 0; i < enemies.size(); i++){
-            if(enemies.get(i).isAlive()){
+            if(enemies.get(i).isEnemyAlive()){
             g.drawImage(enemyImages.get(enemies.get(i).getTypeOfEnemy()), (int)enemies.get(i).getX(), (int)enemies.get(i).getY(), null);
             drawHpBar(enemies.get(i),g);     
             drawSlowEffects(enemies.get(i),g);
@@ -141,8 +138,8 @@ public class EnemyHandler {
         }
     }
     private void drawSlowEffects(Enemy enemy, Graphics g) {
-        if(enemy.isSlowed()){
-            g.drawImage(slowEffect,(int)enemy.getX(),(int)enemy.getY(),null);
+        if(enemy.isEnemySlowed()){
+            g.drawImage(slowImage,(int)enemy.getX(),(int)enemy.getY(),null);
         }
     }
     private void drawHpBar(Enemy enemy, Graphics g) {
@@ -171,17 +168,17 @@ public class EnemyHandler {
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
-    public int getAliveEnemies() {
+    public int aliveEnemies() {
         int size = 0;
-        for(Enemy e: enemies){
-            if(e.isAlive()){
+        for(int i = 0; i < enemies.size(); i++){
+            if(enemies.get(i).isEnemyAlive()){
                 size++;
             }
         }
         return size;
     }
-    public void rewardPlayer(int enemyType)
+    public void giveMoney(int enemyType)
     {
-        play.rewardPlayer(enemyType);
+        play.giveMoney(enemyType);
     }
 }
