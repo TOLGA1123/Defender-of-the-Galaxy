@@ -310,9 +310,10 @@ public class Bar extends BarParent{
         if (!isGoldEnoughForDefender(DefenderCostType))
         {
             g.setColor(Color.RED);
-            g.fillRect(350, 880, 140, 30);
-            g.setColor(Color.BLACK);
-            g.drawString("Can't Afford" , 350, 900);
+            g.fillRect(350, 930, 115, 25);
+            g.setFont(new Font("LucidaSans", Font.BOLD,16));
+            g.setColor(Color.WHITE);
+            g.drawString("Can't Afford" , 355, 950);
         }
 
     } 
