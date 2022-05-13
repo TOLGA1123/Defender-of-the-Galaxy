@@ -104,14 +104,7 @@ public class SaveAndLoad{
             e.printStackTrace();
         }
     }
-    public static void initFile(){
-        File text = new File("test.txt");
-        try{
-            text.createNewFile();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    
     public static BufferedImage getAllSprites(){
         BufferedImage image = null;
         InputStream inputStream = SaveAndLoad.class.getClassLoader().getResourceAsStream("sprite_sheet.png");

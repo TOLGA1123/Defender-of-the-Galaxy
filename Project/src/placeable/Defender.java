@@ -7,9 +7,9 @@ public class Defender {
     private int x , y;
     private int id;
     private int defenderType;
-    private int damage = extras.Constant.Defenders.getStartDamage(defenderType);
-    private double range = extras.Constant.Defenders.getStartRange(defenderType);
-    private double cooldown = extras.Constant.Defenders.getStartCooldown(defenderType);;
+    private int damage = extras.Constant.Defenders.getInitDamageDefender(defenderType);
+    private double range = extras.Constant.Defenders.getInitRangeDefender(defenderType);
+    private double cooldown = extras.Constant.Defenders.getInitCooldownDefender(defenderType);
     private int cooldownTick;
     private int level = 1;
     public Defender(int x, int y, int id, int defenderType){
