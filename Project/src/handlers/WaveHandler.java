@@ -19,7 +19,7 @@ public class WaveHandler {
     public int waveInit = 0;
     public WaveHandler(Play play){
         this.play = play;
-        createWaves();
+        initWaves();
     }
     public void updateGame(){
         if(enemyInit<enemyInitLimit){
@@ -34,9 +34,9 @@ public class WaveHandler {
     }
     public int getNextEnemy(){
         enemyInit = 0;
-        return waves.get(waveIndex).getEnemyList().get(enemyIndex++);
+        return waves.get(waveIndex).getCurrentEnemies().get(enemyIndex++);
     }
-    public void createWaves() {
+    public void initWaves() {
         waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,0,0,1,1,1,1))));
         waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1,1,1,1,2,2,2,2))));
         waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0,0,1,1,0,0,2,2))));
@@ -47,12 +47,12 @@ public class WaveHandler {
         return waves;
     }
 
-    public boolean isTimeForNewEnemy() {
+    public boolean newEnemyTime() {
         
         return enemyInit >= enemyInitLimit;
     }
     public boolean isThereMoreEnemiesInWave(){
-        return enemyIndex < waves.get(waveIndex).getEnemyList().size();
+        return enemyIndex < waves.get(waveIndex).getCurrentEnemies().size();
     }
     public boolean isThereMoreWaves() {
         return waveIndex +1 < waves.size();
