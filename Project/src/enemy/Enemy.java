@@ -27,9 +27,6 @@ public class Enemy{
         this.enemyID = enemyID;
         this.lastDirection = -1;
         this.enemyHandler = enemyHandler;
-        setStartHp();
-    }
-    private void setStartHp(){
         hp = extras.Constant.EnemyConstants.getStartHp(typeOfEnemy);
         maxHp = hp;
     }
@@ -59,22 +56,22 @@ public class Enemy{
         else if (direction == DirectionOfEnemy.LEFT){
             this.x -= changeSpeed;
         }
-        updateHitbox();
+        updateEnemyBoundary();
     }
-    private void updateHitbox() {
+    private void updateEnemyBoundary(){
         size.x = (int) x;
         size.y = (int) y;
     }
-    public void kill(){
+    public void killEnemy(){
         // killing the enemies that reach end
         alive = false;
         hp = 0;
     }
-    public void hurt(int damage){
+    public void hurtEnemy(int damage){
         this.hp -= damage;
         if(hp <= 0){
             alive = false;
-            enemyHandler.rewardPlayer(typeOfEnemy);
+            enemyHandler.giveMoney(typeOfEnemy);
         }
     }
     public double getX() {
@@ -109,13 +106,13 @@ public class Enemy{
             return 0.5;
         }
     }
-    public boolean isAlive(){
+    public boolean isEnemyAlive(){
         return alive;
     }
     public void slow() {
         slowTick = 0;
     }
-    public boolean isSlowed(){
+    public boolean isEnemySlowed(){
         return slowTick < slowTickLimit;
     }
 }

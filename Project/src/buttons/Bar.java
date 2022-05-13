@@ -58,7 +58,7 @@ public class Bar extends BarParent{
             set(MAIN_MENU);
         }
         else if(pause.getButtonSize().contains(new Point(mouseXLoc, mouseYLoc))){
-            pauseGame();;
+            pauseGame();
         }   
         else{
             if (displayedDefender != null)
@@ -75,18 +75,18 @@ public class Bar extends BarParent{
                     }   
             }
 
-            for(Button button: defenderButtons){
-                if(button.getButtonSize().contains(mouseXLoc,mouseYLoc)){
+            for(int i = 0; i < defenderButtons.size(); i++){
+                if(defenderButtons.get(i).getButtonSize().contains(mouseXLoc,mouseYLoc)){
                     if (!isGoldEnoughForDefender(DefenderCostType))
                     {
                         return;
                     }
-                    if(selectedDefender == null || button.getId() != selectedDefender.getDefenderType()){
-                        selectedDefender = new Defender(0,0,-1,button.getId());
+                    if(selectedDefender == null || defenderButtons.get(i).getId() != selectedDefender.getDefenderType()){
+                        selectedDefender = new Defender(0,0,-1,defenderButtons.get(i).getId());
                         playGetHandler.setSelectedDefender(selectedDefender);
                         return;
                     }
-                    else if(selectedDefender != null && button.getId() == selectedDefender.getDefenderType()){
+                    else if(selectedDefender != null && defenderButtons.get(i).getId() == selectedDefender.getDefenderType()){
                         selectedDefender = null;
                         playGetHandler.setSelectedDefender(selectedDefender);
                         return;
@@ -204,8 +204,8 @@ public class Bar extends BarParent{
         //displayedDefender
         drawDisplayedDefender(g);
         //wave information
-        drawWaveInfo(g);
-        drawEconomy(g);
+        renderWavesAndEnemyInfo(g);
+        renderEconomyState(g);
         // show sell cost
         if (sellButton.isMouseOver)
         {
@@ -221,7 +221,6 @@ public class Bar extends BarParent{
                 g.setColor(Color.WHITE);
                 g.drawString(""+getDefenderUpgradePrice(), 688, 933);
             }
-
         }
         
     }
@@ -250,7 +249,7 @@ public class Bar extends BarParent{
     }
     private void drawDisplayedDefenderRange(Graphics g) {
         g.setColor(Color.WHITE);
-        g.drawOval(displayedDefender.getX()+16-((int) displayedDefender.getRange()*2)/2,displayedDefender.getY()+16-((int) displayedDefender.getRange()*2)/2,(int) displayedDefender.getRange()*2,(int) displayedDefender.getRange()*2);
+        g.drawOval(displayedDefender.getX()+16-((int) displayedDefender.defenderRange()*2)/2,displayedDefender.getY()+16-((int) displayedDefender.defenderRange()*2)/2,(int) displayedDefender.defenderRange()*2,(int) displayedDefender.defenderRange()*2);
     }
     private void drawDisplayedDefenderBorder(Graphics g) {
         g.setColor(Color.RED);
@@ -260,14 +259,14 @@ public class Bar extends BarParent{
     public void displayDefender(Defender def) {
         displayedDefender = def;
     }
-    private void drawWaveInfo(Graphics g) {
+    private void renderWavesAndEnemyInfo(Graphics g) {
         g.setFont(new Font("LucidaSans", Font.BOLD,20));
         g.setColor(Color.WHITE);
         drawWaveTimer(g);
-        drawEnemiesRemaining(g);
-        drawWavesRemaining(g);
+        renderEnemiesLeft(g);
+        renderWavesLeft(g);
     }
-    private void drawEconomy(Graphics g)
+    private void renderEconomyState(Graphics g)
     {
         g.setFont(new Font("LucidaSans", Font.BOLD,22));
         g.setColor(Color.WHITE);
@@ -282,16 +281,16 @@ public class Bar extends BarParent{
             g.drawString("Game is paused",380,790);
         }
     }
-    private void drawWavesRemaining(Graphics g) {
-        g.drawString("" + (playGetHandler.getWaveHandler().getWaveIndex()+1) + "/" + playGetHandler.getWaveHandler().getWaves().size(), 896, 945);
+    private void renderWavesLeft(Graphics g) {
+        g.drawString("" + (playGetHandler.getWaveHandler().returnIndex()+1) + "/" + playGetHandler.getWaveHandler().getWaves().size(), 896, 945);
     }
-    private void drawEnemiesRemaining(Graphics g) {
+    private void renderEnemiesLeft(Graphics g) {
         g.drawString("" + leftLives, 928, 869);
-        g.drawString("" + playGetHandler.getEnemyHandler().getAliveEnemies(),913,907);
+        g.drawString("" + playGetHandler.getEnemyHandler().aliveEnemies(),913,907);
     }
     private void drawWaveTimer(Graphics g){
-        if(playGetHandler.getWaveHandler().isWaveTimerStarted()){
-            double timeRemaining = playGetHandler.getWaveHandler().getRemainingTime();
+        if(playGetHandler.getWaveHandler().waveStart()){
+            double timeRemaining = playGetHandler.getWaveHandler().remainingTime();
             String formatted = format.format(timeRemaining);
             g.drawString("" + formatted, 912, 832);
         }

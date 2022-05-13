@@ -61,12 +61,12 @@ public class Play extends SceneParent implements SceneInterface{
             waveHandler.updateGame();
 
             if(allEnemiesDead()){
-                if(isThereMoreWaves()){
+                if(allWavesFinished()){
                     waveHandler.initWaveTimer();
-                    if(isWaveTimerOver()){
-                        waveHandler.increaseWaveIndex();
+                    if(waveFinished()){
+                        waveHandler.increase();
                         enemyHandler.getEnemies().clear();
-                        waveHandler.resetEnemyIndex();
+                        waveHandler.enemyPlaceInit();
                     }
                 }
             }
@@ -79,16 +79,16 @@ public class Play extends SceneParent implements SceneInterface{
             projectileHandler.updateGame();
         }
     }
-    private boolean isWaveTimerOver() {
-        return waveHandler.isWaveTimerOver();
+    private boolean waveFinished() {
+        return waveHandler.waveFinished();
     }
-    private boolean isThereMoreWaves() {
-        return waveHandler.isThereMoreWaves();
+    private boolean allWavesFinished() {
+        return waveHandler.allWavesFinished();
     }
     private boolean allEnemiesDead() {
-        if(waveHandler.isThereMoreEnemiesInWave()){ return false; }
+        if(waveHandler.enemiesFinished()){ return false; }
         for(int i = 0; i< enemyHandler.getEnemies().size(); i++ ){
-            if(enemyHandler.getEnemies().get(i).isAlive()){
+            if(enemyHandler.getEnemies().get(i).isEnemyAlive()){
                 return false;
             }
         }
@@ -99,7 +99,7 @@ public class Play extends SceneParent implements SceneInterface{
     }
     private boolean isTimeForNewEnemy() {
         if(this.waveHandler.newEnemyTime()){
-            if(this.waveHandler.isThereMoreEnemiesInWave()){
+            if(this.waveHandler.enemiesFinished()){
                 return true;
             }
         }
@@ -172,7 +172,7 @@ public class Play extends SceneParent implements SceneInterface{
         
     }
     private Defender getDefenderAt(int x, int y) {
-        return defenderHandler.getDefenderAt(x,y);
+        return defenderHandler.getDefenderAtLocation(x,y);
     }
     private boolean isTileNotPath(int x, int y) {
         int id = levelData[y/32][x/32];
@@ -232,7 +232,7 @@ public class Play extends SceneParent implements SceneInterface{
         return defenderHandler;
     }
     public void shootEnemy(Defender def, Enemy enemy) {
-        projectileHandler.newProjectile(def,enemy);
+        projectileHandler.createProjectile(def,enemy);
     }
     public void pause(boolean pause)
     {
@@ -246,7 +246,7 @@ public class Play extends SceneParent implements SceneInterface{
     {
         controlBar.payForDefender(DefenderType);
     }
-	public void rewardPlayer(int enemyType) 
+	public void giveMoney(int enemyType) 
     {
         controlBar.addMoney(extras.Constant.EnemyConstants.getEnemyLoot(enemyType));
 	}
@@ -275,7 +275,7 @@ public class Play extends SceneParent implements SceneInterface{
         projectileHandler.projectiles.clear();
         projectileHandler.explosions.clear();
         projectileHandler.projectileId = 0;
-        waveHandler.waves.clear();
+        waveHandler.allWaves.clear();
         waveHandler.initWaves();
         waveHandler.waveIndex = 0;
         waveHandler.enemyIndex = 0;

@@ -21,6 +21,27 @@ public class ProjectileHandler {
     private ArrayList<BufferedImage> explosionImages = new ArrayList<>();
     public int projectileId = 0;
     public ArrayList<Explosion> explosions = new ArrayList<>();
+    public class Explosion{
+        private Point2D.Double position;
+        private int explosionCountTick = 0;
+        private int explosionIndexCount = 0;
+        public Explosion(Point2D.Double position){
+            this.position = position;
+        }
+        public void update(){
+                explosionCountTick++;
+                if(explosionCountTick >= 12){
+                    explosionCountTick = 0;
+                    explosionIndexCount++;
+                }
+        }
+        public int getIndexOfExplosion(){
+            return explosionIndexCount;
+        }
+        public Point2D.Double getPosition(){
+            return position;
+        }
+    }
     public ProjectileHandler(Play play){
         this.play = play;
         loadProjectileImages();
@@ -44,24 +65,24 @@ public class ProjectileHandler {
         explosionImages.add(spriteSheet.getSubimage(0*32,3*32,32,32));
     }
     public void updateGame(){
-        for(Projectile p: projectiles){
-            if(p.getActive()){
-                p.move();
-                if(isProjectileHittingEnemy(p)){
-                    p.setActive(false);
-                    if(p.getProjectileType() == Constant.ProjectileConstants.PROJECTILE_1){
-                        explosions.add(new Explosion(p.getPosition()));
-                        explodeOnEnemies(p);
+        for(int i = 0; i < projectiles.size(); i++){
+            if(projectiles.get(i).getActive()){
+                projectiles.get(i).move();
+                if(hittingEnemy(projectiles.get(i))){
+                    projectiles.get(i).setActive(false);
+                    if(projectiles.get(i).getProjectileType() == Constant.ProjectileConstants.PROJECTILE_1){
+                        explosions.add(new Explosion(projectiles.get(i).getPosition()));
+                        explode(projectiles.get(i));
                     }
                 }
-                else if(outOfGameField(p)){
-                    p.setActive(false);
+                else if(outOfGameField(projectiles.get(i))){
+                    projectiles.get(i).setActive(false);
                 }
             }
         }
-        for(Explosion e: explosions){
-            if(e.getIndex()<7){
-                e.update();
+        for(int i = 0; i < explosions.size(); i++){
+            if(explosions.get(i).getIndexOfExplosion()<7){
+                explosions.get(i).update();
             }
         }
     }
@@ -77,30 +98,28 @@ public class ProjectileHandler {
         }
         return true;
     }
-    private void explodeOnEnemies(Projectile p) {
-        for(Enemy enemy: play.getEnemyHandler().getEnemies()){
-            if(enemy.isAlive()){
+    private void explode(Projectile projectile) {
+        for(int i = 0; i < play.getEnemyHandler().getEnemies().size(); i++){
+            if(play.getEnemyHandler().getEnemies().get(i).isEnemyAlive()){
                 double radius = 40;
-
-                double xDistance = Math.abs(p.getPosition().x - enemy.getX());
-                double yDistance = Math.abs(p.getPosition().y - enemy.getY());
+                double xDistance = Math.abs(projectile.getPosition().x - play.getEnemyHandler().getEnemies().get(i).getX());
+                double yDistance = Math.abs(projectile.getPosition().y - play.getEnemyHandler().getEnemies().get(i).getY());
                 double realDistance = (double) Math.hypot(xDistance,yDistance);
-    
                 if(realDistance <= radius){
-                    enemy.hurt(p.getDamage());
+                    play.getEnemyHandler().getEnemies().get(i).hurtEnemy(projectile.getProjectileDamage());
                 }
             }
            
         }
     }
-    private boolean isProjectileHittingEnemy(Projectile p) {
-        for(Enemy enemy: play.getEnemyHandler().getEnemies()){
-            if(enemy.isAlive()){
-                if(enemy.getSize().contains(p.getPosition())){
-                    enemy.hurt(p.getDamage());
+    private boolean hittingEnemy(Projectile projectile) {
+        for(int i = 0; i < play.getEnemyHandler().getEnemies().size(); i++){
+            if(play.getEnemyHandler().getEnemies().get(i).isEnemyAlive()){
+                if(play.getEnemyHandler().getEnemies().get(i).getSize().contains(projectile.getPosition())){
+                    play.getEnemyHandler().getEnemies().get(i).hurtEnemy(projectile.getProjectileDamage());
 
-                    if(p.getProjectileType() == Constant.ProjectileConstants.PROJECTILE_4){
-                        enemy.slow();
+                    if(projectile.getProjectileType() == Constant.ProjectileConstants.PROJECTILE_4){
+                        play.getEnemyHandler().getEnemies().get(i).slow();
                     }
                     return true;
                 }
@@ -110,49 +129,44 @@ public class ProjectileHandler {
     }
     public void render(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
-
-        for(Projectile p: projectiles){
-            if(p.getActive()){
-                g2d.translate(p.getPosition().x,p.getPosition().y);
-                g2d.rotate(Math.toRadians(p.getRotation()+180));
-                g2d.drawImage(projectileImages.get(p.getProjectileType()),-16, -16,null);
-                g2d.rotate(-Math.toRadians(p.getRotation()+180));
-                g2d.translate(-p.getPosition().x,-p.getPosition().y);
+        for(int i = 0; i < projectiles.size(); i++){
+            if(projectiles.get(i).getActive()){
+                g2d.translate(projectiles.get(i).getPosition().x,projectiles.get(i).getPosition().y);
+                g2d.rotate(Math.toRadians(projectiles.get(i).getProjectileRotation()+180));
+                g2d.drawImage(projectileImages.get(projectiles.get(i).getProjectileType()),-16, -16,null);
+                g2d.rotate(-Math.toRadians(projectiles.get(i).getProjectileRotation()+180));
+                g2d.translate(-projectiles.get(i).getPosition().x,-projectiles.get(i).getPosition().y);
             }
         }
         drawExplosions(g2d);
     }
     private void drawExplosions(Graphics2D g2d) {
         for(Explosion e: explosions){
-            if(e.getIndex() <7){
-                g2d.drawImage(explosionImages.get(e.getIndex()), (int) e.getPosition().x-16,(int) e.getPosition().y-16, null);
+            if(e.getIndexOfExplosion() <7){
+                g2d.drawImage(explosionImages.get(e.getIndexOfExplosion()), (int) e.getPosition().x-16,(int) e.getPosition().y-16, null);
             }
         }
     }
-    public void newProjectile(Defender def, Enemy e){
-        int type = getProjectileType(def);
-
+    public void createProjectile(Defender def, Enemy e){
+        int typeOfProjectile = getProjectileType(def);
         int xDistance = (int) (def.getX() - e.getX());
         int yDistance = (int) (def.getY() - e.getY());
         int totalDistance = Math.abs(xDistance) + Math.abs(yDistance);
-
         double xPer = (double) Math.abs(xDistance)/totalDistance;
-
-        double xSpeed = xPer * extras.Constant.ProjectileConstants.getSpeed(type) ;
-        double ySpeed = extras.Constant.ProjectileConstants.getSpeed(type) - xSpeed;
-
-        if(def.getX() > e.getX()){
-            xSpeed = -1 * xSpeed;
-        }
+        double xSpeed = xPer * extras.Constant.ProjectileConstants.getSpeed(typeOfProjectile) ;
+        double ySpeed = extras.Constant.ProjectileConstants.getSpeed(typeOfProjectile) - xSpeed;
         if(def.getY() > e.getY()){
             ySpeed = -1 * ySpeed;
         }
-        double arcValue =(double) Math.atan(yDistance/(double) xDistance);
-        double rotate = (double) Math.toDegrees(arcValue);
-        if(xDistance < 0){
-            rotate += 180;
+        if(def.getX() > e.getX()){
+            xSpeed = -1 * xSpeed;
         }
-        projectiles.add(new Projectile(def.getX()+16, def.getY()+16, xSpeed, ySpeed, def.getDamage(),rotate, projectileId++, type));
+        double temp =(double) Math.atan(yDistance/(double) xDistance);
+        double change = (double) Math.toDegrees(temp);
+        if(xDistance < 0){
+            change += 180;
+        }
+        projectiles.add(new Projectile(def.getX()+16, def.getY()+16, xSpeed, ySpeed, def.defenderDamage(),change, projectileId++, typeOfProjectile));
     }
     private int getProjectileType(Defender def) {
         if(def.getDefenderType() == Constant.Defenders.DEFENDER_1){
@@ -169,27 +183,6 @@ public class ProjectileHandler {
         }
         else{
             return -1;
-        }
-    }
-    public class Explosion{
-        private Point2D.Double position;
-        private int explosionTick = 0;
-        private int explosionIndex = 0;
-        public Explosion(Point2D.Double position){
-            this.position = position;
-        }
-        public void update(){
-                explosionTick++;
-                if(explosionTick >= 12){
-                    explosionTick = 0;
-                    explosionIndex++;
-                }
-        }
-        public int getIndex(){
-            return explosionIndex;
-        }
-        public Point2D.Double getPosition(){
-            return position;
         }
     }
 }
