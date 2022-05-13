@@ -98,7 +98,7 @@ public class Play extends SceneParent implements SceneInterface{
         enemyHandler.spawnEnemy(this.waveHandler.getNextEnemy());
     }
     private boolean isTimeForNewEnemy() {
-        if(this.waveHandler.isTimeForNewEnemy()){
+        if(this.waveHandler.newEnemyTime()){
             if(this.waveHandler.isThereMoreEnemiesInWave()){
                 return true;
             }
@@ -276,7 +276,7 @@ public class Play extends SceneParent implements SceneInterface{
         projectileHandler.explosions.clear();
         projectileHandler.projectileId = 0;
         waveHandler.waves.clear();
-        waveHandler.createWaves();
+        waveHandler.initWaves();
         waveHandler.waveIndex = 0;
         waveHandler.enemyIndex = 0;
         waveHandler.initWaveTimer = false;
