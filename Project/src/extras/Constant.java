@@ -42,7 +42,7 @@ public class Constant {
                 return 0;
             }
         }
-        public static int getStartDamage(int defenderType){
+        public static int getInitDamageDefender(int defenderType){
             if(defenderType == DEFENDER_1){ // cok dmg 1 canno 2 sniper 3 normal 4 noob
                 return 10;
             }
@@ -59,7 +59,7 @@ public class Constant {
                 return 0;
             }
         }
-        public static double getStartRange(int defenderType){
+        public static double getInitRangeDefender(int defenderType){
             if(defenderType == DEFENDER_1){
                 return 100;
             }
@@ -76,7 +76,7 @@ public class Constant {
                 return 0;
             }
         }
-        public static double getStartCooldown(int defenderType){
+        public static double getInitCooldownDefender(int defenderType){
             if(defenderType == DEFENDER_1){
                 return 50;
             }
